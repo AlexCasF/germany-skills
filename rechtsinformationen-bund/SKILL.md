@@ -28,12 +28,12 @@ The service currently covers:
 
 ## Preferred tool
 
-Prefer the 2.0 CLI contract.
+Prefer the CLI contract.
 
 Use the local executable when available:
 
 ```powershell
-skills\rechtsinformationen-bund\bin\rechtsinformationen-bund-2.0.exe doctor
+skills\rechtsinformationen-bund\bin\rechtsinformationen-bund.exe doctor
 ```
 
 Portable fallbacks:
@@ -81,9 +81,9 @@ rechtsinformationen-bund doctor
 Search:
 
 ```powershell
-rechtsinformationen-bund documents search --search-term "Bürgergeld" --limit 3
+rechtsinformationen-bund documents search --search-term "Suchbegriff" --limit 3
 rechtsinformationen-bund documents search-case-law --search-term "Revision" --limit 3
-rechtsinformationen-bund legislation list --search-term "Bürgergeld" --limit 3
+rechtsinformationen-bund legislation list --search-term "Suchbegriff" --limit 3
 ```
 
 Source expansion:
@@ -103,7 +103,7 @@ Evidence bundle:
 
 ```powershell
 rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision
-rechtsinformationen-bund documents dossier --search-term "Bürgergeld" --grep Bürgergeld
+rechtsinformationen-bund documents dossier --search-term "Suchbegriff" --grep Suchbegriff
 ```
 
 Raw endpoint access remains available:
@@ -118,7 +118,7 @@ rechtsinformationen-bund legislation get --jurisdiction bund --agent bgbl-1 --ye
 
 ## Output expectations
 
-The 2.0 research commands return JSON envelopes with:
+Research commands return JSON envelopes with:
 
 - `tool`
 - `command`
@@ -132,7 +132,7 @@ The 2.0 research commands return JSON envelopes with:
 
 Compact search also returns normalized top-level `items` with identifiers, text-match hints, and source links.
 
-Raw legacy endpoint commands return the upstream API response directly unless the command is an HTML/XML source command.
+Raw raw endpoint commands return the upstream API response directly unless the command is an HTML/XML source command.
 
 ## Good habits
 
@@ -147,7 +147,7 @@ Raw legacy endpoint commands return the upstream API response directly unless th
 ## Known documentation mismatches
 
 - Some prose docs mention `/v1/search`; the live OpenAPI currently uses `/v1/document/lucene-search`.
-- Some examples use `limit`; live endpoints use `size`, while the 2.0 CLI accepts `--limit` and maps it safely.
+- Some examples use `limit`; live endpoints use `size`, while the CLI accepts `--limit` and maps it safely.
 - Detail lookup uses document-number paths for case law in the current OpenAPI.
 - Always trust live OpenAPI and tested CLI behavior over older prose examples when they disagree.
 
@@ -158,4 +158,3 @@ Raw legacy endpoint commands return the upstream API response directly unless th
 - `references/notes.md`
 - `references/research.md`
 - `references/rate-limits-and-terms.md`
-- `tests/test-plan.md`

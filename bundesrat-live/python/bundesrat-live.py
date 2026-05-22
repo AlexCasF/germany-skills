@@ -115,7 +115,7 @@ Purpose
 Fast paths
   bundesrat-live doctor
   bundesrat-live news --limit 5
-  bundesrat-live news search --term "Bovenschulte" --limit 3
+  bundesrat-live news search --term "Suchbegriff" --limit 3
   bundesrat-live members search --name "Ã–zdemir" --limit 3
   bundesrat-live members dossier --name "Ã–zdemir" --grep "Bundesrat"
   bundesrat-live plenum compact --limit 1 --top-limit 3
@@ -139,7 +139,7 @@ Endpoint-compatible commands
 def print_help(path):
     joined = " ".join(path)
     if joined in {"news search", "dates search"}:
-        print('bundesrat-live news search --term "Bovenschulte" --limit 3')
+        print('bundesrat-live news search --term "Suchbegriff" --limit 3')
     elif joined == "members search":
         print('bundesrat-live members search --name "Ã–zdemir" --limit 3')
     elif joined == "members dossier":
@@ -156,7 +156,7 @@ def print_examples():
 1. bundesrat-live doctor
 2. bundesrat-live startlist --limit 12
 3. bundesrat-live news --limit 5
-4. bundesrat-live news search --term "Bovenschulte" --limit 3
+4. bundesrat-live news search --term "Suchbegriff" --limit 3
 5. bundesrat-live dates --limit 5
 6. bundesrat-live members search --name "Ã–zdemir" --limit 3
 7. bundesrat-live members dossier --name "Ã–zdemir" --grep "Bundesrat"
@@ -364,7 +364,7 @@ def fetch_endpoint(key, params):
 
 
 def fetch_raw(request_url):
-    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/bundesrat-live-python-2.0"})
+    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/bundesrat-live-python"})
     try:
         with urllib.request.urlopen(req, timeout=45) as response:
             return response.status, response.headers.get("Content-Type", ""), response.read().decode("utf-8", "replace")
@@ -513,7 +513,7 @@ def next_actions_from_items(items, key):
         if len(actions) >= 4:
             return actions
     if key == "news":
-        return ['bundesrat-live news search --term "Bovenschulte" --limit 3']
+        return ['bundesrat-live news search --term "Suchbegriff" --limit 3']
     if key == "dates":
         return ['bundesrat-live dates search --term "Ausschuss" --limit 5']
     return ["bundesrat-live plenum compact --limit 1 --top-limit 3"]

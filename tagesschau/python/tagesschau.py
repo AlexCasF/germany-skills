@@ -24,7 +24,7 @@ API_DOCS_URL = "https://github.com/bundesAPI/tagesschau-api"
 OPENAPI_URL = "https://github.com/bundesAPI/tagesschau-api/raw/refs/heads/main/openapi.yaml"
 CC_URL = "https://www.tagesschau.de/multimedia/video/creative-commons-index-100.html"
 RSS_INFO_URL = "https://www.tagesschau.de/infoservices/rssfeeds"
-USER_AGENT = "germany-skills/tagesschau-python-2.0"
+USER_AGENT = "germany-skills/tagesschau-python"
 DEFAULT_LIMIT = 10
 MAX_LIMIT = 30
 
@@ -80,15 +80,15 @@ def main(argv: list[str]) -> int:
 
 def print_root_help() -> None:
     print(
-        """tagesschau 2.0 - Tagesschau public JSON feed research CLI
+        """tagesschau - Tagesschau public JSON feed research CLI
 
 Usage:
   tagesschau doctor
   tagesschau homepage --limit 5
   tagesschau news --ressort inland --limit 5
   tagesschau channels --limit 5
-  tagesschau search --text "Bundestag" --limit 5
-  tagesschau article get --url "https://www.tagesschau.de/...-100.html" --grep "Bundestag"
+  tagesschau search --text "Suchbegriff" --limit 5
+  tagesschau article get --url "https://www.tagesschau.de/...-100.html" --grep "Suchbegriff"
   tagesschau article dossier --url "https://www.tagesschau.de/...-100.html"
 
 Tagesschau is a current-news context source, not the sole official evidence for parliamentary, legal, fiscal, or statistical claims.
@@ -121,9 +121,9 @@ def print_examples() -> None:
   tagesschau doctor
   tagesschau homepage --limit 5
   tagesschau news --ressort inland --limit 5
-  tagesschau search --text "Bundestag" --limit 5
-  tagesschau search --param searchText=Bundestag --param pageSize=5
-  tagesschau article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Bundestag"
+  tagesschau search --text "Suchbegriff" --limit 5
+  tagesschau search --param searchText=Suchbegriff --param pageSize=5
+  tagesschau article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Suchbegriff"
 """
     )
 
@@ -154,7 +154,7 @@ def run_doctor(argv: list[str]) -> None:
     }
     payload["sources"] = default_sources()
     payload["warnings"] = default_warnings()
-    payload["nextActions"] = ['tagesschau search --text "Bundestag" --limit 5', "tagesschau homepage --limit 5", "tagesschau source"]
+    payload["nextActions"] = ['tagesschau search --text "Suchbegriff" --limit 5', "tagesschau homepage --limit 5", "tagesschau source"]
     emit(payload)
 
 
@@ -170,7 +170,7 @@ def run_source(argv: list[str]) -> None:
     }
     payload["sources"] = default_sources()
     payload["warnings"] = default_warnings()
-    payload["nextActions"] = ["tagesschau fields", 'tagesschau search --text "Bundestag" --limit 5']
+    payload["nextActions"] = ["tagesschau fields", 'tagesschau search --text "Suchbegriff" --limit 5']
     emit(payload)
 
 
@@ -192,7 +192,7 @@ def run_fields(argv: list[str]) -> None:
     }
     payload["sources"] = default_sources()
     payload["warnings"] = default_warnings()
-    payload["nextActions"] = ['tagesschau search --text "Bundestag" --limit 5', "tagesschau homepage --limit 5"]
+    payload["nextActions"] = ['tagesschau search --text "Suchbegriff" --limit 5', "tagesschau homepage --limit 5"]
     emit(payload)
 
 

@@ -22,7 +22,7 @@ The useful research objects are:
 - contracts and code-of-conduct metadata
 - register-wide statistics
 
-## V2 endpoint surface
+## Current endpoint surface
 
 The current OpenAPI document exposes:
 

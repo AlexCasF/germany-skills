@@ -36,13 +36,13 @@ type apiResponse struct {
 	requestURL  string
 }
 
-type legacyCommand struct {
+type rawCommand struct {
 	path      string
 	kind      string
 	rawFormat string
 }
 
-var legacyCommands = map[string]legacyCommand{
+var rawCommands = map[string]rawCommand{
 	"statistics":                                      {path: "/statistics", kind: "singleton"},
 	"documents list":                                  {path: "/document", kind: "list"},
 	"documents search":                                {path: "/document/lucene-search", kind: "list"},
@@ -99,7 +99,7 @@ func main() {
 	case len(args) >= 2 && args[0] == "legislation" && args[1] == "dossier":
 		runDossier("legislation", args[2:])
 	default:
-		if runLegacy(args) {
+		if runRaw(args) {
 			return
 		}
 		fail(2, "unknown_command", "unknown command path: "+strings.Join(args, " "))
@@ -129,12 +129,12 @@ Fast paths
     rechtsinformationen-bund doctor
 
   Search all indexed documents:
-    rechtsinformationen-bund documents search --search-term "Bürgergeld" --limit 3
+    rechtsinformationen-bund documents search --search-term "Suchbegriff" --limit 3
 
   Build an evidence bundle:
     rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision
 
-Legacy endpoint commands
+Raw endpoint commands
   statistics
   documents list|search|search-case-law|search-legislation
   administrative-directive list|get|html|xml
@@ -152,7 +152,7 @@ Research commands
   cite
 
 Output
-  Legacy commands return upstream output unless new helper flags such as
+  Raw endpoint commands return upstream output unless new helper flags such as
   --search-term or --limit request a compact research envelope.
 `)
 }
@@ -179,7 +179,7 @@ Inputs
 
 Examples
   rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision
-  rechtsinformationen-bund documents dossier --search-term "Bürgergeld" --grep Bürgergeld`)
+  rechtsinformationen-bund documents dossier --search-term "Suchbegriff" --grep Suchbegriff`)
 	case "documents text":
 		fmt.Println("rechtsinformationen-bund documents text\n\nFetches HTML/XML source text and optionally returns --grep snippets.")
 	case "source", "documents source":
@@ -220,16 +220,16 @@ func runDoctor(args []string) {
 			"Use small size/pageIndex values during discovery.",
 		},
 		"nextActions": []string{
-			"rechtsinformationen-bund documents search --search-term \"Bürgergeld\" --limit 3",
+			"rechtsinformationen-bund documents search --search-term \"Suchbegriff\" --limit 3",
 			"rechtsinformationen-bund case-law courts",
 		},
 	})
 }
 
-func runLegacy(args []string) bool {
+func runRaw(args []string) bool {
 	for width := minInt(3, len(args)); width >= 1; width-- {
 		key := strings.Join(args[:width], " ")
-		cmd, ok := legacyCommands[key]
+		cmd, ok := rawCommands[key]
 		if !ok {
 			continue
 		}
@@ -239,7 +239,7 @@ func runLegacy(args []string) bool {
 			runCompactList(key, cmd.path, pa)
 			return true
 		}
-		path, err := resolveLegacyPath(cmd, pa.flags)
+		path, err := resolveRawPath(cmd, pa.flags)
 		if err != nil {
 			fail(2, "invalid_arguments", err.Error())
 		}
@@ -530,7 +530,7 @@ func recordPath(docType string, id string) (string, error) {
 	}
 }
 
-func resolveLegacyPath(cmd legacyCommand, flags map[string]string) (string, error) {
+func resolveRawPath(cmd rawCommand, flags map[string]string) (string, error) {
 	path := cmd.path
 	if strings.Contains(path, "{documentNumber}") {
 		value := flags["document-number"]

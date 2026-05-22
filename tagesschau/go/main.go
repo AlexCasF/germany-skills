@@ -26,7 +26,7 @@ const (
 	openAPIURL       = "https://github.com/bundesAPI/tagesschau-api/raw/refs/heads/main/openapi.yaml"
 	ccURL            = "https://www.tagesschau.de/multimedia/video/creative-commons-index-100.html"
 	rssInfoURL       = "https://www.tagesschau.de/infoservices/rssfeeds"
-	defaultUserAgent = "germany-skills/tagesschau-2.0"
+	defaultUserAgent = "germany-skills/tagesschau"
 	defaultLimit     = 10
 	maxLimit         = 30
 	defaultTimeout   = 35 * time.Second
@@ -134,8 +134,8 @@ Usage:
   tagesschau homepage --limit 5
   tagesschau news --ressort inland --limit 5
   tagesschau channels --limit 5
-  tagesschau search --text "Bundestag" --limit 5
-  tagesschau article get --url "https://www.tagesschau.de/...-100.html" --grep "Bundestag"
+  tagesschau search --text "Suchbegriff" --limit 5
+  tagesschau article get --url "https://www.tagesschau.de/...-100.html" --grep "Suchbegriff"
   tagesschau article dossier --url "https://www.tagesschau.de/...-100.html"
 
 Research commands:
@@ -179,9 +179,9 @@ func printExamples() {
   tagesschau doctor
   tagesschau homepage --limit 5
   tagesschau news --ressort inland --limit 5
-  tagesschau search --text "Bundestag" --limit 5
-  tagesschau search --param searchText=Bundestag --param pageSize=5
-  tagesschau article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Bundestag"
+  tagesschau search --text "Suchbegriff" --limit 5
+  tagesschau search --param searchText=Suchbegriff --param pageSize=5
+  tagesschau article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Suchbegriff"
   tagesschau article dossier --url "https://www.tagesschau.de/api2u/inland/example-100.json"`)
 }
 
@@ -194,7 +194,7 @@ func runDoctor(argv []string) error {
 		{"homepage", homepageURL},
 		{"news", withParams(newsURL, url.Values{"ressort": {"inland"}})},
 		{"channels", channelsURL},
-		{"search", withParams(searchURL, url.Values{"searchText": {"Bundestag"}, "pageSize": {"1"}})},
+		{"search", withParams(searchURL, url.Values{"searchText": {"Suchbegriff"}, "pageSize": {"1"}})},
 	} {
 		status, contentType, raw, err := fetchRaw(check.url, "application/json")
 		item := map[string]any{"name": check.name, "url": check.url}

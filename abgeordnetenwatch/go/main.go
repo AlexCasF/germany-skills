@@ -35,7 +35,7 @@ type apiResponse struct {
 	requestURL  string
 }
 
-var legacyEntities = map[string]string{
+var rawEntities = map[string]string{
 	"parliaments":             "Parliaments",
 	"parliament-periods":      "Parliament periods, legislatures, and elections",
 	"politicians":             "Politicians and candidate/person profile data",
@@ -88,7 +88,7 @@ func main() {
 	case args[0] == "source":
 		err = runPoliticianSource(args[1:])
 	default:
-		err = runLegacy(args)
+		err = runRaw(args)
 	}
 	if err != nil {
 		var cliErr cliError
@@ -130,15 +130,15 @@ Fast paths
     abgeordnetenwatch doctor
 
   Search for a politician:
-    abgeordnetenwatch politicians search --name "Alice Weidel" --limit 3
+    abgeordnetenwatch politicians search --name "Mustername" --limit 3
 
   Build a source-backed person bundle:
-    abgeordnetenwatch politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
+    abgeordnetenwatch politicians dossier --name "Mustername" --grep Suchbegriff
 
-Legacy endpoint commands
+Raw endpoint commands
   <entity> list|get
 
-  Legacy entities include:
+  Raw entities include:
     parliaments, parliament-periods, politicians, candidacies-mandates, polls,
     sidejobs, sidejob-organizations, votes, parties, committees,
     committee-memberships, fractions, electoral-lists, constituencies,
@@ -155,7 +155,7 @@ Research commands
 
 Output guarantees
   Research commands emit JSON with status, request, retrievedAt, sources,
-  warnings, and nextActions. Legacy endpoint commands return upstream JSON.`)
+  warnings, and nextActions. Raw endpoint commands return upstream JSON.`)
 }
 
 func printHelp(path []string) {
@@ -169,15 +169,15 @@ What it does
   snippets, warnings, and next actions.
 
 Inputs
-  --id       Politician ID, e.g. 108379
-  --name     Search name, e.g. "Alice Weidel"
-  --url      Public profile URL, e.g. https://www.abgeordnetenwatch.de/profile/alice-weidel
+  --id       Politician ID, e.g. <politician-id>
+  --name     Search name, e.g. "Mustername"
+  --url      Public profile URL, e.g. https://www.abgeordnetenwatch.de/profile/example
   --grep     Optional page-text snippet term
   --limit    Max records per related collection, default 10
 
 Examples
-  abgeordnetenwatch politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
-  abgeordnetenwatch politicians dossier --id 108379 --limit 5
+  abgeordnetenwatch politicians dossier --name "Mustername" --grep Suchbegriff
+  abgeordnetenwatch politicians dossier --id <politician-id> --limit 5
 
 Next action
   Cross-check official parliamentary claims with DIP/Bundestag tools when needed.`)
@@ -195,7 +195,7 @@ Inputs
   --grep     Optional snippet term
 
 Example
-  abgeordnetenwatch politicians page --name "Alice Weidel" --grep NebentÃ¤tigkeiten`)
+  abgeordnetenwatch politicians page --name "Mustername" --grep Suchbegriff`)
 	case "politicians search":
 		fmt.Println(`abgeordnetenwatch politicians search
 
@@ -210,7 +210,7 @@ Inputs
   --limit       Default 5
 
 Example
-  abgeordnetenwatch politicians search --name "Gauweiler" --limit 3`)
+  abgeordnetenwatch politicians search --name "Mustername" --limit 3`)
 	default:
 		printRootHelp()
 	}
@@ -251,20 +251,20 @@ func runDoctor() error {
 		"Side-job data is evidence of disclosures, not proof of misconduct by itself.",
 	}
 	payload["nextActions"] = []string{
-		`abgeordnetenwatch politicians search --name "Alice Weidel" --limit 3`,
-		`abgeordnetenwatch politicians dossier --id 108379 --grep NebentÃ¤tigkeiten`,
+		`abgeordnetenwatch politicians search --name "Mustername" --limit 3`,
+		`abgeordnetenwatch politicians dossier --id <politician-id> --grep Suchbegriff`,
 	}
 	emit(payload)
 	return nil
 }
 
-func runLegacy(args []string) error {
+func runRaw(args []string) error {
 	if len(args) < 2 {
 		return cliError{2, "unknown_command", "expected <entity> list|get"}
 	}
 	entity := args[0]
 	action := args[1]
-	if _, ok := legacyEntities[entity]; !ok {
+	if _, ok := rawEntities[entity]; !ok {
 		return cliError{2, "unknown_entity", "unknown entity: " + entity}
 	}
 	parsed := parseArgs(args[2:])
@@ -421,7 +421,7 @@ func runPoliticianDossier(args []string) error {
 		"Do not equate outside income or mandates with corruption without independent evidence.")
 	payload["nextActions"] = []string{
 		fmt.Sprintf(`abgeordnetenwatch sidejobs for-politician --id %s --limit %d`, id, limit),
-		fmt.Sprintf(`abgeordnetenwatch politicians page --id %s --grep NebentÃ¤tigkeiten`, id),
+		fmt.Sprintf(`abgeordnetenwatch politicians page --id %s --grep Suchbegriff`, id),
 	}
 	emit(payload)
 	return nil
@@ -485,7 +485,7 @@ func runSidejobsForPolitician(args []string) error {
 	payload["items"] = summarizeRecords(sidejobs, limit)
 	payload["sources"] = []map[string]string{{"kind": "api", "title": "Sidejobs endpoint", "url": baseURL + "/sidejobs"}}
 	payload["warnings"] = append(standardWarnings(), "Side-job data is disclosure data; interpret categories and income fields cautiously.")
-	payload["nextActions"] = []string{fmt.Sprintf(`abgeordnetenwatch politicians dossier --id %s --grep NebentÃ¤tigkeiten`, id)}
+	payload["nextActions"] = []string{fmt.Sprintf(`abgeordnetenwatch politicians dossier --id %s --grep Suchbegriff`, id)}
 	emit(payload)
 	return nil
 }
@@ -651,7 +651,7 @@ func httpGet(rawURL string, accept string) (*apiResponse, error) {
 		return nil, cliError{2, "bad_url", err.Error()}
 	}
 	req.Header.Set("Accept", accept)
-	req.Header.Set("User-Agent", appName+"/2.0 (+https://github.com/AlexCasF/germany-skills)")
+	req.Header.Set("User-Agent", appName+" (+https://github.com/AlexCasF/germany-skills)")
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, cliError{1, "request_failed", err.Error()}
@@ -863,7 +863,7 @@ func nextForPoliticianItems(items []map[string]any) []string {
 		}
 		out = append(out,
 			fmt.Sprintf("abgeordnetenwatch politicians dossier --id %s", id),
-			fmt.Sprintf("abgeordnetenwatch politicians page --id %s --grep NebentÃ¤tigkeiten", id),
+			fmt.Sprintf("abgeordnetenwatch politicians page --id %s --grep Suchbegriff", id),
 		)
 		if len(out) >= 4 {
 			break

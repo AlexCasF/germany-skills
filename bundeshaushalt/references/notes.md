@@ -39,7 +39,7 @@ The response usually contains:
 - Actual/Ist values were reachable through 2024 during testing.
 - The old OpenAPI enum stops at 2021 and should not be treated as authoritative for live year availability.
 - Missing required query params return HTTP 400.
-- Transient HTTP 503 responses can happen under quick repeated node-level requests; the 2.0 CLIs retry briefly.
+- Transient HTTP 503 responses can happen under quick repeated node-level requests; the CLIs retry briefly.
 
 ## Agent-Friendly Workflow
 

@@ -52,10 +52,10 @@ async function main(argv) {
             await runPlenarySpeechSearch(argv.slice(3));
         }
         else if (argv.length >= 2 && ENTITIES.has(argv[0]) && argv[1] === "list") {
-            await runLegacyList(argv[0], argv.slice(2));
+            await runRawList(argv[0], argv.slice(2));
         }
         else if (argv.length >= 2 && ENTITIES.has(argv[0]) && argv[1] === "get") {
-            await runLegacyGet(argv[0], argv.slice(2));
+            await runRawGet(argv[0], argv.slice(2));
         }
         else {
             fail(2, "unknown_command", "unknown command path: " + argv.join(" "));
@@ -90,12 +90,12 @@ Fast paths
     dip-bundestag doctor
 
   Find a person:
-    dip-bundestag person search --name "Gauweiler" --limit 3
+    dip-bundestag person search --name "Mustername" --limit 3
 
   Build an evidence bundle:
-    dip-bundestag person dossier --name "Gauweiler"
+    dip-bundestag person dossier --name "Mustername"
 
-Legacy endpoint commands
+Raw endpoint commands
   dip-bundestag vorgang list|get
   dip-bundestag drucksache list|get
   dip-bundestag plenarprotokoll list|get
@@ -130,7 +130,7 @@ Inputs
 
 Examples
   dip-bundestag person dossier --id 760
-  dip-bundestag person dossier --name "Gauweiler"
+  dip-bundestag person dossier --name "Mustername"
 `);
     }
     else if (path[0] === "doctor") {
@@ -164,8 +164,8 @@ async function runDoctor(args) {
             "Use source attribution: Deutscher Bundestag/Bundesrat - DIP.",
         ],
         nextActions: [
-            'dip-bundestag person search --name "Gauweiler"',
-            'dip-bundestag plenarprotokoll text --document-number "20/139" --grep "Bürgergeld"',
+            'dip-bundestag person search --name "Mustername"',
+            'dip-bundestag plenarprotokoll text --document-number "20/139" --grep "Suchbegriff"',
         ],
     };
     if (!key) {
@@ -179,7 +179,7 @@ async function runDoctor(args) {
     out.summary.healthStatusCode = 200;
     writeJson(out);
 }
-async function runLegacyList(entity, args) {
+async function runRawList(entity, args) {
     const { flags, params } = parseArgs(args);
     const key = mustKey(flags);
     if (!params.format)
@@ -197,7 +197,7 @@ async function runLegacyList(entity, args) {
     }
     console.log(body);
 }
-async function runLegacyGet(entity, args) {
+async function runRawGet(entity, args) {
     const { flags, params } = parseArgs(args);
     const id = flags.id;
     if (!id)

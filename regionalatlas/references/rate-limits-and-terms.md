@@ -15,7 +15,7 @@ No authentication was required for the public endpoints tested:
 
 No exact public request-per-second or request-per-day limit was found in the reviewed official/API materials.
 
-The ArcGIS service advertises `maxRecordCount: 2000000`, which is not a fair-use invitation. It means accidental broad queries can become enormous. One earlier live test showed how easily large outputs can happen, so the 2.0 CLI defaults to small samples and refuses limits above 100 unless `--allow-large-output` is explicitly passed.
+The ArcGIS service advertises `maxRecordCount: 2000000`, which is not a fair-use invitation. It means accidental broad queries can become enormous. One earlier live test showed how easily large outputs can happen, so the CLI defaults to small samples and refuses limits above 100 unless `--allow-large-output` is explicitly passed.
 
 ## Fair-Use Hints Implemented In The CLI
 

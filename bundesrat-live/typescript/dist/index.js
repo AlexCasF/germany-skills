@@ -108,7 +108,7 @@ Purpose
 Fast paths
   bundesrat-live doctor
   bundesrat-live news --limit 5
-  bundesrat-live news search --term "Bovenschulte" --limit 3
+  bundesrat-live news search --term "Suchbegriff" --limit 3
   bundesrat-live members search --name "Ã–zdemir" --limit 3
   bundesrat-live members dossier --name "Ã–zdemir" --grep "Bundesrat"
   bundesrat-live plenum compact --limit 1 --top-limit 3
@@ -131,7 +131,7 @@ Endpoint-compatible commands
 function printHelp(path) {
     const joined = path.join(" ");
     if (joined === "news search" || joined === "dates search")
-        console.log('bundesrat-live news search --term "Bovenschulte" --limit 3');
+        console.log('bundesrat-live news search --term "Suchbegriff" --limit 3');
     else if (joined === "members search")
         console.log('bundesrat-live members search --name "Ã–zdemir" --limit 3');
     else if (joined === "members dossier")
@@ -147,7 +147,7 @@ function printExamples() {
 1. bundesrat-live doctor
 2. bundesrat-live startlist --limit 12
 3. bundesrat-live news --limit 5
-4. bundesrat-live news search --term "Bovenschulte" --limit 3
+4. bundesrat-live news search --term "Suchbegriff" --limit 3
 5. bundesrat-live dates --limit 5
 6. bundesrat-live members search --name "Ã–zdemir" --limit 3
 7. bundesrat-live members dossier --name "Ã–zdemir" --grep "Bundesrat"
@@ -336,7 +336,7 @@ async function fetchEndpoint(key, params) {
     return { body: raw.body, requestUrl };
 }
 async function fetchRaw(requestUrl) {
-    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/bundesrat-live-node-2.0" }, signal: AbortSignal.timeout(45000) });
+    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/bundesrat-live-node" }, signal: AbortSignal.timeout(45000) });
     return { status: response.status, contentType: response.headers.get("content-type") ?? "", body: await response.text() };
 }
 function withDefaultView(base, params) {
@@ -455,7 +455,7 @@ function nextActionsFromItems(items, key) {
             return actions;
     }
     if (key === "news")
-        return ['bundesrat-live news search --term "Bovenschulte" --limit 3'];
+        return ['bundesrat-live news search --term "Suchbegriff" --limit 3'];
     if (key === "dates")
         return ['bundesrat-live dates search --term "Ausschuss" --limit 5'];
     return ["bundesrat-live plenum compact --limit 1 --top-limit 3"];

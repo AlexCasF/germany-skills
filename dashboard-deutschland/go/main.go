@@ -125,14 +125,14 @@ Do not use this when
 Fast paths
   dashboard-deutschland doctor
   dashboard-deutschland dashboards list --limit 5
-  dashboard-deutschland indicator search --term "Arbeitslosigkeit" --limit 5
-  dashboard-deutschland indicator get --id tile_1666958835081
-  dashboard-deutschland indicator data --id tile_1666958835081 --limit 5
+  dashboard-deutschland indicator search --term "Indikator" --limit 5
+  dashboard-deutschland indicator get --id <indicator-id>
+  dashboard-deutschland indicator data --id <indicator-id> --limit 5
   dashboard-deutschland dashboard dossier --id arbeitsmarkt --indicator-limit 3
 
-Legacy-compatible commands
+Raw endpoint commands
   dashboard get [--param key=value]
-  indicators --param ids=tile_1666958835081
+  indicators --param ids=<indicator-id>
   geo
 
 Research commands
@@ -147,7 +147,7 @@ Research commands
 
 Output guarantees
   Research commands emit JSON envelopes with status, request, summary/items,
-  sources, warnings, and nextActions. Legacy commands return upstream JSON.`)
+  sources, warnings, and nextActions. Raw endpoint commands return upstream JSON.`)
 }
 
 func printHelp(path []string) {
@@ -158,8 +158,8 @@ func printHelp(path []string) {
 Extract chart-ready series from a Dashboard Deutschland indicator tile.
 
 Examples
-  dashboard-deutschland indicator data --id tile_1666958835081 --limit 5
-  dashboard-deutschland indicator data --id tile_1666958835081 --series "Arbeitslose" --limit 10
+  dashboard-deutschland indicator data --id <indicator-id> --limit 5
+  dashboard-deutschland indicator data --id <indicator-id> --series "Indikator" --limit 10
 
 Flags
   --id <indicator-id>       Required indicator ID
@@ -178,7 +178,7 @@ Examples
 	case "geo":
 		fmt.Println(`dashboard-deutschland geo
 
-Legacy GeoJSON endpoint wrapper. The documented endpoint currently returned
+Raw GeoJSON endpoint wrapper. The documented endpoint currently returned
 403 AccessDenied in live tests; doctor reports this as degraded.`)
 	default:
 		printRootHelp()
@@ -225,7 +225,7 @@ func runDoctor(argv []string) error {
 		geoSummary["ok"] = false
 		geoSummary["error"] = geoErr.Error()
 		geoSummary["bodyPreview"] = truncate(stripSpace(string(body)), 180)
-		warnings = append(warnings, "The documented GeoJSON endpoint currently returns 403 AccessDenied; use geo as a legacy diagnostic command.")
+		warnings = append(warnings, "The documented GeoJSON endpoint currently returns 403 AccessDenied; use geo as a diagnostic command.")
 	} else {
 		geoSummary["ok"] = status >= 200 && status < 300
 	}
@@ -241,7 +241,7 @@ func runDoctor(argv []string) error {
 	payload["sources"] = defaultSources()
 	payload["warnings"] = warnings
 	payload["nextActions"] = []string{
-		`dashboard-deutschland indicator search --term "Arbeitslosigkeit" --limit 5`,
+		`dashboard-deutschland indicator search --term "Indikator" --limit 5`,
 		"dashboard-deutschland dashboards list --limit 5",
 	}
 	emit(payload)
@@ -533,7 +533,7 @@ func fetchRaw(requestURL string) (int, string, []byte, error) {
 	if err != nil {
 		return 0, "", nil, err
 	}
-	req.Header.Set("User-Agent", "germany-skills/dashboard-deutschland-2.0")
+	req.Header.Set("User-Agent", "germany-skills/dashboard-deutschland")
 	resp, err := client.Do(req)
 	if err != nil {
 		return 0, "", nil, err

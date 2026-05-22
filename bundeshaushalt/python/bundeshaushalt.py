@@ -22,7 +22,7 @@ ROBOTS_URL = "https://www.bundeshaushalt.de/robots.txt"
 BMF_BUDGET_URL = "https://www.bundesfinanzministerium.de/Web/DE/Themen/Oeffentliche_Finanzen/Bundeshaushalt/bundeshaushalt.html"
 BMF_DATA_USE_URL = "https://www.bundesfinanzministerium.de/Datenportal/Nutzungshinweise/nutzungshinweise.html"
 OPENAPI_WRAPPER_URL = "https://github.com/anetz89/bundeshaushalt-api"
-USER_AGENT = "germany-skills/bundeshaushalt-python-2.0"
+USER_AGENT = "germany-skills/bundeshaushalt-python"
 
 KNOWN_YEARS = list(range(2012, 2027))
 EARLIEST_KNOWN_YEAR = 2012
@@ -85,13 +85,13 @@ def main(argv: list[str]) -> int:
 
 def print_root_help() -> None:
     print(
-        """bundeshaushalt 2.0 - Bundeshaushalt Digital research CLI
+        """bundeshaushalt - Bundeshaushalt Digital research CLI
 
 Usage:
   bundeshaushalt doctor
   bundeshaushalt years list
   bundeshaushalt budget tree --year 2026 --account expenses --quota target --unit single --limit 8
-  bundeshaushalt search --year 2025 --account expenses --term "Buergergeld" --limit 5
+  bundeshaushalt search --year 2025 --account expenses --term "Suchbegriff" --limit 5
   bundeshaushalt title get --year 2025 --account expenses --id 110168112
   bundeshaushalt compare --years 2024,2025 --account expenses --id 110168112
   bundeshaushalt budget-data --year 2025 --account expenses --quota target --unit single --raw

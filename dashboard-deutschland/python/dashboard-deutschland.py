@@ -79,14 +79,14 @@ Purpose
 Fast paths
   dashboard-deutschland doctor
   dashboard-deutschland dashboards list --limit 5
-  dashboard-deutschland indicator search --term "Arbeitslosigkeit" --limit 5
-  dashboard-deutschland indicator get --id tile_1666958835081
-  dashboard-deutschland indicator data --id tile_1666958835081 --limit 5
+  dashboard-deutschland indicator search --term "Indikator" --limit 5
+  dashboard-deutschland indicator get --id <indicator-id>
+  dashboard-deutschland indicator data --id <indicator-id> --limit 5
   dashboard-deutschland dashboard dossier --id arbeitsmarkt --indicator-limit 3
 
-Legacy-compatible commands
+Raw endpoint commands
   dashboard get [--param key=value]
-  indicators --param ids=tile_1666958835081
+  indicators --param ids=<indicator-id>
   geo
 """)
 
@@ -107,7 +107,7 @@ Bundle dashboard metadata and a small set of normalized indicator summaries.
     elif joined == "geo":
         print("""dashboard-deutschland geo
 
-Legacy GeoJSON endpoint wrapper. The endpoint returned 403 AccessDenied in
+Raw GeoJSON endpoint wrapper. The endpoint returned 403 AccessDenied in
 live tests; doctor reports this as degraded.
 """)
     else:
@@ -143,12 +143,12 @@ def run_doctor(argv):
     summary["geoEndpoint"] = {"url": GEO_URL, "statusCode": status, "ok": geo_ok, "contentType": content_type, "bodyPreview": truncate(strip_space(body), 180)}
     if not geo_ok:
         payload["status"] = "degraded"
-        warnings.append("The documented GeoJSON endpoint currently returns 403 AccessDenied; use geo as a legacy diagnostic command.")
+        warnings.append("The documented GeoJSON endpoint currently returns 403 AccessDenied; use geo as a diagnostic command.")
     payload.setdefault("status", "ok")
     payload["summary"] = summary
     payload["sources"] = default_sources()
     payload["warnings"] = warnings
-    payload["nextActions"] = ['dashboard-deutschland indicator search --term "Arbeitslosigkeit" --limit 5', "dashboard-deutschland dashboards list --limit 5"]
+    payload["nextActions"] = ['dashboard-deutschland indicator search --term "Indikator" --limit 5', "dashboard-deutschland dashboards list --limit 5"]
     emit(payload)
 
 
@@ -303,7 +303,7 @@ def fetch_json(request_url):
 
 
 def fetch_raw(request_url):
-    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/dashboard-deutschland-python-2.0"})
+    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/dashboard-deutschland-python"})
     try:
         with urllib.request.urlopen(req, timeout=45) as response:
             return response.status, response.headers.get("Content-Type", ""), response.read().decode("utf-8", "replace")

@@ -1,6 +1,6 @@
-# Abgeordnetenwatch CLI TypeScript/Node.js 2.0
+# Abgeordnetenwatch CLI TypeScript/Node.js
 
-Node.js implementation of the `abgeordnetenwatch` 2.0 command surface.
+Node.js implementation of the `abgeordnetenwatch` command surface.
 
 ## Build
 
@@ -14,8 +14,8 @@ npm run build
 
 ```powershell
 node dist\index.js doctor
-node dist\index.js politicians search --name "Alice Weidel" --limit 2
-node dist\index.js politicians dossier --id 108379 --grep Nebentätigkeiten
+node dist\index.js politicians search --name "Mustername" --limit 2
+node dist\index.js politicians dossier --id <politician-id> --grep Suchbegriff
 ```
 
 ## Notes

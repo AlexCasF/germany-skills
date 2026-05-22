@@ -81,9 +81,9 @@ Purpose
 
 Fast paths
   regionalatlas doctor
-  regionalatlas indicators search --term "Arbeitslosenquote" --limit 5
-  regionalatlas fields --indicator AI008-1-5
-  regionalatlas sample --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
+  regionalatlas indicators search --term "Indikator" --limit 5
+  regionalatlas fields --indicator <indicator-code>
+  regionalatlas sample --indicator <indicator-code> --field <field-code> --year 2024 --region-level 1 --limit 5
 
 Commands
   doctor
@@ -112,7 +112,7 @@ def print_help(path):
 Fetch a small bounded sample from a Regionalatlas dynamic-layer query.
 
 Example
-  regionalatlas sample --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
+  regionalatlas sample --indicator <indicator-code> --field <field-code> --year 2024 --region-level 1 --limit 5
 """)
     elif joined == "dossier":
         print("""regionalatlas dossier
@@ -176,7 +176,7 @@ def run_doctor(argv):
     payload["summary"] = summary
     payload["sources"] = default_sources()
     payload["warnings"] = warnings
-    payload["nextActions"] = ['regionalatlas indicators search --term "Arbeitslosenquote" --limit 5', "regionalatlas fields --indicator AI008-1-5"]
+    payload["nextActions"] = ['regionalatlas indicators search --term "Indikator" --limit 5', "regionalatlas fields --indicator <indicator-code>"]
     emit(payload)
 
 
@@ -192,7 +192,7 @@ def run_indicators_list(argv):
     payload["items"] = compact_indicators(flat, limit)
     payload["sources"] = default_sources()
     payload["warnings"] = default_warnings()
-    payload["nextActions"] = ['regionalatlas indicators search --term "Arbeitslosenquote" --limit 5']
+    payload["nextActions"] = ['regionalatlas indicators search --term "Indikator" --limit 5']
     emit(payload)
 
 
@@ -403,7 +403,7 @@ def fetch_catalog():
 
 
 def fetch_json(request_url):
-    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/regionalatlas-python-2.0"})
+    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/regionalatlas-python"})
     try:
         with urllib.request.urlopen(req, timeout=45) as response:
             body = response.read().decode("utf-8")

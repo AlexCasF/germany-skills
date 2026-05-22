@@ -36,7 +36,6 @@ Each skill folder follows the same general shape:
   python/                  Python CLI implementation
   typescript/              TypeScript/Node.js CLI implementation
   bin/                     locally built Windows binaries, where available
-  tests/                   manual test plan and observed results
 ```
 
 ## Quick Start
@@ -69,7 +68,7 @@ npm --prefix dip-bundestag/typescript ci && npm --prefix dip-bundestag/typescrip
 Run a prebuilt Windows binary where available:
 
 ```powershell
-.\dip-bundestag\bin\dip-bundestag-2.0.exe doctor
+.\dip-bundestag\bin\dip-bundestag.exe doctor
 ```
 
 ## For Agents

@@ -7,7 +7,7 @@ Retrieved: 2026-05-19
 No authentication was required for the public endpoints tested:
 
 - `https://www.dashboard-deutschland.de/api/dashboard/get`
-- `https://www.dashboard-deutschland.de/api/tile/indicators?ids=tile_1666958835081`
+- `https://www.dashboard-deutschland.de/api/tile/indicators?ids=<indicator-id>`
 
 The generated package documentation on PyPI states that all documented endpoints do not require authorization.
 
@@ -15,7 +15,7 @@ The generated package documentation on PyPI states that all documented endpoints
 
 No exact public request-per-second or request-per-day limit was found in the reviewed official/API materials.
 
-The API is served behind CloudFront and returns cache/security headers. The 2.0 CLI therefore uses conservative behavior:
+The API is served behind CloudFront and returns cache/security headers. The CLI therefore uses conservative behavior:
 
 - discover dashboards first
 - fetch indicators by explicit ID

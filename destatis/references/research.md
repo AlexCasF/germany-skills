@@ -26,7 +26,7 @@ Although the spec describes `GET`, live testing showed the current service
 works as form `POST` for `helloworld/logincheck` and `find/find`. `GET`
 returned the JavaScript web application rather than JSON during this pass.
 
-The 2.0 CLI therefore uses form `POST` by default.
+The CLI therefore uses form `POST` by default.
 
 ## Guest and personal credentials
 

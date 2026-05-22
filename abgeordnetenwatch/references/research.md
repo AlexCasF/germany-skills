@@ -14,7 +14,7 @@ The official documentation describes data such as:
 - side jobs and side-job organizations
 - related-data expansion paths
 
-The legacy CLI covered:
+The raw CLI covered:
 
 - `parliaments`
 - `parliament-periods`
@@ -52,31 +52,31 @@ The live API reported version `2.8.2` during testing.
 Search by name:
 
 ```text
-https://www.abgeordnetenwatch.de/api/v2/politicians?first_name[cn]=Alice&last_name[cn]=Weidel&pager_limit=3
+https://www.abgeordnetenwatch.de/api/v2/politicians?first_name[cn]=Muster&last_name[cn]=Name&pager_limit=3
 ```
 
 Exact politician:
 
 ```text
-https://www.abgeordnetenwatch.de/api/v2/politicians/108379
+https://www.abgeordnetenwatch.de/api/v2/politicians/<politician-id>
 ```
 
 Mandates for a politician:
 
 ```text
-https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?politician=108379&range_end=3
+https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?politician=<politician-id>&range_end=3
 ```
 
 Side jobs for a mandate:
 
 ```text
-https://www.abgeordnetenwatch.de/api/v2/sidejobs?mandates=68967&range_end=5
+https://www.abgeordnetenwatch.de/api/v2/sidejobs?mandates=<mandate-id>&range_end=5
 ```
 
 Public profile page:
 
 ```text
-https://www.abgeordnetenwatch.de/profile/alice-weidel
+https://www.abgeordnetenwatch.de/profile/example
 ```
 
 ## Interpretation caveats

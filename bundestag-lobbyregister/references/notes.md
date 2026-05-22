@@ -5,14 +5,14 @@
 The Bundestag Lobbyregister API exposes official public register data for
 interests represented toward the German Bundestag and the Federal Government.
 
-The current useful surface is API V2 under:
+The current useful surface is current API under:
 
 ```text
 https://api.lobbyregister.bundestag.de/rest/v2
 ```
 
 The old `sucheDetailJson` wrapper is preserved for comparison, but the
-official Open Data/API page says API V2 replaced API V1 on 2025-06-23.
+official Open Data/API page says The current API replaced the earlier API on 2025-06-23.
 
 ## Common workflows
 
@@ -27,7 +27,7 @@ official Open Data/API page says API V2 replaced API V1 on 2025-06-23.
 
 ## Common pitfalls
 
-- V2 requires an API key; use `LOBBYREGISTER_API_KEY`.
+- The API requires an API key; use `LOBBYREGISTER_API_KEY`.
 - Search responses can be large because they include rich entry details.
 - Register disclosure data is not proof of illegality or corruption.
 - Financial expense fields are ranges, not exact amounts.

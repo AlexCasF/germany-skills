@@ -13,10 +13,10 @@ Use `destatis` instead when the user needs deep configurable GENESIS tables or f
 
 ## Primary Tool
 
-Use the Go 2.0 binary first:
+Use the Go binary first:
 
 ```powershell
-skills\dashboard-deutschland\bin\dashboard-deutschland-2.0.exe --help
+skills\dashboard-deutschland\bin\dashboard-deutschland.exe --help
 ```
 
 Alternative implementations with the same command surface:
@@ -38,21 +38,21 @@ dashboard-deutschland doctor
 
 ```powershell
 dashboard-deutschland dashboards list --limit 5
-dashboard-deutschland indicator search --term "Arbeitslosigkeit" --limit 5
+dashboard-deutschland indicator search --term "Indikator" --limit 5
 ```
 
 3. Inspect one indicator:
 
 ```powershell
-dashboard-deutschland indicator get --id tile_1666958835081
-dashboard-deutschland indicator source --id tile_1666958835081
+dashboard-deutschland indicator get --id <indicator-id>
+dashboard-deutschland indicator source --id <indicator-id>
 ```
 
 4. Extract chart-ready points:
 
 ```powershell
-dashboard-deutschland indicator data --id tile_1666958835081 --limit 10
-dashboard-deutschland indicator data --id tile_1666958835081 --series "Arbeitslose" --limit 5
+dashboard-deutschland indicator data --id <indicator-id> --limit 10
+dashboard-deutschland indicator data --id <indicator-id> --series "Indikator" --limit 5
 ```
 
 5. Use a dashboard dossier when starting from a theme:
@@ -70,9 +70,9 @@ dashboard-deutschland dashboard dossier --id arbeitsmarkt --indicator-limit 3
 - `indicator get`: returns parsed tile metadata, widgets, text snippets, chart series summaries, and sources.
 - `indicator data`: extracts chart-ready series points from embedded Highcharts config.
 - `indicator source` / `source`: returns canonical API/source URLs for a tile.
-- `dashboard get`: preserved raw legacy dashboard endpoint wrapper.
-- `indicators`: preserved raw legacy indicator endpoint wrapper.
-- `geo`: preserved legacy GeoJSON wrapper; currently returns a structured 403 diagnostic.
+- `dashboard get`: preserved raw raw dashboard endpoint wrapper.
+- `indicators`: preserved raw raw indicator endpoint wrapper.
+- `geo`: preserved raw GeoJSON wrapper; currently returns a structured 403 diagnostic.
 
 ## Safety Rules
 

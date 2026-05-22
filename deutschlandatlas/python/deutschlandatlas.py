@@ -71,12 +71,12 @@ Purpose
 
 Fast paths
   deutschlandatlas doctor
-  deutschlandatlas tables search --term "Arbeitslosenquote" --limit 5
+  deutschlandatlas tables search --term "Indikator" --limit 5
   deutschlandatlas table fields --table alq_HA2023
   deutschlandatlas table sample --table alq_HA2023 --limit 5
   deutschlandatlas indicator dossier --table alq_HA2023
 
-Legacy-compatible command
+Raw endpoint command
   table query --table <table> [--param key=value] [--layer auto|0|5]
 
 Research commands
@@ -149,7 +149,7 @@ def run_doctor(argv):
     payload["summary"] = summary
     payload["sources"] = default_sources()
     payload["warnings"] = warnings
-    payload["nextActions"] = ['deutschlandatlas tables search --term "Arbeitslosenquote" --limit 5', "deutschlandatlas indicator dossier --table alq_HA2023"]
+    payload["nextActions"] = ['deutschlandatlas tables search --term "Indikator" --limit 5', "deutschlandatlas indicator dossier --table alq_HA2023"]
     emit(payload)
 
 
@@ -253,7 +253,7 @@ def run_table_sample(argv):
 def run_table_source(argv):
     parsed = parse_args(argv)
     table = required_table(parsed)
-    layer, layer_source = resolve_layer(table, parsed) if not flag_bool(parsed, "skip-layer-discovery") else (0, "legacy_default")
+    layer, layer_source = resolve_layer(table, parsed) if not flag_bool(parsed, "skip-layer-discovery") else (0, "raw_default")
     payload = envelope("table source", service_url(table), {"table": table, "layer": layer})
     payload["summary"] = {"table": table, "selectedLayer": layer, "layerSource": layer_source, "authRequired": False, "apiStyle": "ArcGIS REST MapServer query endpoint", "rateLimitFound": False}
     payload["sources"] = sources_for_table(table, layer)
@@ -372,8 +372,8 @@ def required_table(parsed):
 
 
 def resolve_layer(table, parsed):
-    if flag_bool(parsed, "legacy-layer-zero"):
-        return 0, "legacy_layer_zero"
+    if flag_bool(parsed, "raw-layer-zero"):
+        return 0, "raw_layer_zero"
     layer_flag = first_non_empty(parsed["flags"].get("layer"), "auto")
     if layer_flag and layer_flag != "auto":
         try:
@@ -391,7 +391,7 @@ def resolve_layer(table, parsed):
 
 
 def fetch_json(request_url):
-    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/deutschlandatlas-python-2.0"})
+    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/deutschlandatlas-python"})
     try:
         with urllib.request.urlopen(req, timeout=30) as response:
             body = response.read().decode("utf-8")

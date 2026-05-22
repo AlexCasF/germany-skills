@@ -1,6 +1,6 @@
-# Rechtsinformationen CLI TypeScript/Node.js 2.0
+# Rechtsinformationen CLI TypeScript/Node.js
 
-Node.js implementation of the `rechtsinformationen-bund` 2.0 command surface.
+Node.js implementation of the `rechtsinformationen-bund` command surface.
 
 ## Build
 
@@ -14,7 +14,7 @@ npm run build
 
 ```powershell
 node dist\index.js doctor
-node dist\index.js documents search --search-term "Bürgergeld" --limit 2
+node dist\index.js documents search --search-term "Suchbegriff" --limit 2
 node dist\index.js documents dossier --type case-law --document-number KORE600422026 --grep Revision
 ```
 

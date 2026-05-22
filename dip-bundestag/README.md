@@ -11,7 +11,7 @@ and related full-text records.
 
 | Implementation | Path | Notes |
 | --- | --- | --- |
-| Go 2.0 | `go/main.go` | Agent-friendly CLI with env auth, doctor, source, text, and dossier helpers. |
+| Go | `go/main.go` | Agent-friendly CLI with env auth, doctor, source, text, and dossier helpers. |
 | Python | `python/dip-bundestag.py` | Python parity implementation. |
 | TypeScript / Node.js | `typescript/src/index.ts` | TypeScript source compiled to Node.js JavaScript. |
 

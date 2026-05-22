@@ -39,10 +39,10 @@ WHERE typ = 1
 
 - The `layer` parameter is JSON and easy to corrupt through shell quoting.
 - Windows PowerShell can strip JSON quotes when passing a raw layer string to native commands; use `--layer-file`.
-- PowerShell may write UTF-8 files with a BOM; the 2.0 CLIs strip this for `--layer-file`.
+- PowerShell may write UTF-8 files with a BOM; the CLIs strip this for `--layer-file`.
 - ArcGIS may return `exceededTransferLimit=true`; do not treat a sample as a full extract.
 - `maxRecordCount` is very high, so accidental broad outputs can be enormous.
-- A field code such as `AI0801` needs metadata to be interpretable; inspect units and definitions.
+- A field code such as `<field-code>` needs metadata to be interpretable; inspect units and definitions.
 - Available years vary by indicator.
 
 ## Output Guidance

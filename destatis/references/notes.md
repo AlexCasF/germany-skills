@@ -5,7 +5,7 @@
 Destatis GENESIS-Online provides official German statistical tables, time
 series, metadata, variables, values, cubes, charts, maps, and result files.
 
-The 2.0 CLI is designed for progressive discovery:
+The CLI is designed for progressive discovery:
 
 ```text
 doctor -> search -> table source -> table dossier -> variables/sample -> cited answer

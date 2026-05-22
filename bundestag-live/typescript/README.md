@@ -13,4 +13,4 @@ Run from the repository root:
 node skills\bundestag-live\typescript\dist\index.js --help
 ```
 
-The TypeScript / Node.js version mirrors the Go 2.0 command vocabulary. It uses Node's built-in `fetch` and lightweight XML extraction tailored to these Bundestag feeds.
+The TypeScript / Node.js version mirrors the Go command vocabulary. It uses Node's built-in `fetch` and lightweight XML extraction tailored to these Bundestag feeds.

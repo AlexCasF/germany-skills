@@ -32,7 +32,7 @@ var entitySummaries = map[string]string{
 	"aktivitaet":           "Parliamentary activities",
 }
 
-var legacyEntities = map[string]bool{
+var rawEntities = map[string]bool{
 	"vorgang":         true,
 	"drucksache":      true,
 	"plenarprotokoll": true,
@@ -82,9 +82,9 @@ func main() {
 	case len(args) >= 3 && args[0] == "plenary" && args[1] == "speech" && args[2] == "search":
 		runPlenarySpeechSearch(args[3:])
 	case len(args) >= 2 && isEntity(args[0]) && args[1] == "list":
-		runLegacyList(args[0], args[2:])
+		runRawList(args[0], args[2:])
 	case len(args) >= 2 && isEntity(args[0]) && args[1] == "get":
-		runLegacyGet(args[0], args[2:])
+		runRawGet(args[0], args[2:])
 	default:
 		fail(2, "unknown_command", fmt.Sprintf("unknown command path: %s", strings.Join(args, " ")))
 	}
@@ -111,15 +111,15 @@ Fast paths
     dip-bundestag doctor
 
   Find a person:
-    dip-bundestag person search --name "Gauweiler" --limit 3
+    dip-bundestag person search --name "Mustername" --limit 3
 
   Build an evidence bundle:
-    dip-bundestag person dossier --name "Gauweiler"
+    dip-bundestag person dossier --name "Mustername"
 
   Get official plenary text snippets:
-    dip-bundestag plenarprotokoll text --document-number "20/139" --grep "Buergergeld"
+    dip-bundestag plenarprotokoll text --document-number "20/139" --grep "Suchbegriff"
 
-Legacy endpoint commands
+Raw endpoint commands
   dip-bundestag vorgang list|get
   dip-bundestag drucksache list|get
   dip-bundestag plenarprotokoll list|get
@@ -146,7 +146,7 @@ Auth
   --apikey still works for compatibility and is redacted from normalized output.
 
 Output
-  Legacy commands return upstream JSON by default.
+  Raw endpoint commands return upstream JSON by default.
   Research commands return a normalized JSON envelope with status, request,
   retrievedAt, sources, warnings, and nextActions.
 `)
@@ -178,8 +178,8 @@ Inputs
   --limit   Optional client-side result limit, default 10
 
 Examples
-  dip-bundestag person search --name "Gauweiler"
-  dip-bundestag person search --name "Alice Weidel" --limit 3`)
+  dip-bundestag person search --name "Mustername"
+  dip-bundestag person search --name "Mustername" --limit 3`)
 	case len(path) >= 2 && path[0] == "person" && path[1] == "dossier":
 		fmt.Println(`dip-bundestag person dossier
 
@@ -193,7 +193,7 @@ Inputs
 
 Examples
   dip-bundestag person dossier --id 760
-  dip-bundestag person dossier --name "Gauweiler"`)
+  dip-bundestag person dossier --name "Mustername"`)
 	case len(path) >= 2 && path[0] == "vorgang" && path[1] == "dossier":
 		fmt.Println(`dip-bundestag vorgang dossier
 
@@ -233,7 +233,7 @@ Inputs
   --context           Optional snippet context chars, default 220
 
 Examples
-  dip-bundestag %s text --document-number "20/139" --grep "Buergergeld"
+  dip-bundestag %s text --document-number "20/139" --grep "Suchbegriff"
 `, path[0], path[0])
 	case len(path) >= 3 && path[0] == "plenary" && path[1] == "speech" && path[2] == "search":
 		fmt.Println(`dip-bundestag plenary speech search
@@ -251,12 +251,12 @@ Inputs
   --limit             Optional activity result limit, default 10
 
 Examples
-  dip-bundestag plenary speech search --document-number "20/139" --term "Buergergeld"
-  dip-bundestag plenary speech search --person "Gauweiler" --term "Arbeitslosigkeit"`)
+  dip-bundestag plenary speech search --document-number "20/139" --term "Suchbegriff"
+  dip-bundestag plenary speech search --person "Mustername" --term "Indikator"`)
 	case len(path) >= 2 && isEntity(path[0]) && (path[1] == "list" || path[1] == "get"):
 		fmt.Printf(`dip-bundestag %s %s
 
-Legacy endpoint command preserved from v1.
+Raw endpoint command.
 
 Auth
   Uses DIP_API_KEY unless --apikey is passed.
@@ -268,7 +268,7 @@ Flags
   --limit n      Optional client-side document limit for JSON list responses
 
 Examples
-  dip-bundestag %s list --param "f.person=Gauweiler"
+  dip-bundestag %s list --param "f.person=Mustername"
   dip-bundestag %s get --id 760
 `, path[0], path[1], path[0], path[0])
 	default:
@@ -305,8 +305,8 @@ func runDoctor(args []string) {
 			"Use source attribution: Deutscher Bundestag/Bundesrat - DIP.",
 		},
 		"nextActions": []string{
-			"dip-bundestag person search --name \"Gauweiler\"",
-			"dip-bundestag plenarprotokoll text --document-number \"20/139\" --grep \"Buergergeld\"",
+			"dip-bundestag person search --name \"Mustername\"",
+			"dip-bundestag plenarprotokoll text --document-number \"20/139\" --grep \"Suchbegriff\"",
 		},
 	}
 	if key == "" {
@@ -334,7 +334,7 @@ func runDoctor(args []string) {
 	writeJSON(result)
 }
 
-func runLegacyList(entity string, args []string) {
+func runRawList(entity string, args []string) {
 	pa := mustParse(args)
 	key := mustAPIKey(pa.flags)
 	params := cloneValues(pa.params)
@@ -357,7 +357,7 @@ func runLegacyList(entity string, args []string) {
 	writeBody(body)
 }
 
-func runLegacyGet(entity string, args []string) {
+func runRawGet(entity string, args []string) {
 	pa := mustParse(args)
 	id := pa.flags["id"]
 	if id == "" {

@@ -23,7 +23,7 @@ const (
 	docsURL = "https://www.destatis.de/DE/Service/OpenData/genesis-api-webservice-oberflaeche.html"
 )
 
-var legacyPaths = map[string]string{
+var rawPaths = map[string]string{
 	"catalogue statistics":  "/catalogue/statistics",
 	"catalogue tables":      "/catalogue/tables",
 	"catalogue variables":   "/catalogue/variables",
@@ -89,7 +89,7 @@ func main() {
 	case match(args, "variables", "explain"):
 		err = runVariablesExplain(args[2:])
 	default:
-		err = runLegacy(args)
+		err = runRaw(args)
 	}
 	if err != nil {
 		var ce cliError
@@ -121,15 +121,15 @@ Fast paths
     destatis doctor
 
   Search official table/statistic catalogue:
-    destatis search --term "Arbeitslose" --limit 5
+    destatis search --term "Indikator" --limit 5
 
   Show source/citation metadata for a known table:
-    destatis table source --name 12211-0900
+    destatis table source --name <table-name>
 
   Build a cautious table bundle:
-    destatis table dossier --name 12211-0900
+    destatis table dossier --name <table-name>
 
-Legacy endpoint commands
+Raw endpoint commands
   destatis catalogue statistics
   destatis catalogue tables
   destatis catalogue variables
@@ -155,7 +155,7 @@ Auth
 
 Output
   Research commands emit JSON envelopes with status, request, retrievedAt,
-  summary/items, sources, warnings, and nextActions. Legacy commands return
+  summary/items, sources, warnings, and nextActions. Raw endpoint commands return
   upstream JSON on success and structured JSON errors on failure.`)
 }
 
@@ -169,8 +169,8 @@ credentials it tries metadata and a small data sample; with guest credentials it
 returns source metadata and structured warnings if protected endpoints return 401.
 
 Examples
-  destatis table dossier --name 12211-0900
-  destatis table dossier --name 12211-0900 --include-raw`)
+  destatis table dossier --name <table-name>
+  destatis table dossier --name <table-name> --include-raw`)
 	case "search":
 		fmt.Println(`destatis search
 
@@ -178,7 +178,7 @@ Friendly alias for the GENESIS find endpoint. Uses GAST/GAST by default when no
 credentials are configured and keeps output compact.
 
 Example
-  destatis search --term "Arbeitslose" --limit 5`)
+  destatis search --term "Indikator" --limit 5`)
 	default:
 		printRootHelp()
 	}
@@ -216,7 +216,7 @@ func runDoctor(argv []string) error {
 		"username":   redactUsername(stringAt(loginJSON, "Username")),
 	}
 
-	findResp, err := apiPost("/find/find", url.Values{"term": {"Arbeitslose"}, "category": {"all"}, "pagelength": {"1"}, "language": {"de"}}, cred)
+	findResp, err := apiPost("/find/find", url.Values{"term": {"Indikator"}, "category": {"all"}, "pagelength": {"1"}, "language": {"de"}}, cred)
 	if err == nil {
 		findJSON, _ := parseJSON(findResp.body)
 		payload["summary"].(map[string]any)["findCheck"] = map[string]any{
@@ -228,8 +228,8 @@ func runDoctor(argv []string) error {
 		payload["summary"].(map[string]any)["findCheck"] = map[string]any{"ok": false, "error": redact(err.Error())}
 	}
 	payload["nextActions"] = []string{
-		`destatis search --term "Arbeitslose" --limit 5`,
-		"destatis table source --name 12211-0900",
+		`destatis search --term "Indikator" --limit 5`,
+		"destatis table source --name <table-name>",
 	}
 	emit(payload)
 	return nil
@@ -423,12 +423,12 @@ func runVariablesExplain(argv []string) error {
 	return nil
 }
 
-func runLegacy(args []string) error {
+func runRaw(args []string) error {
 	if len(args) < 2 {
 		return cliError{2, "unknown_command", "expected command group and action"}
 	}
 	key := args[0] + " " + args[1]
-	path, ok := legacyPaths[key]
+	path, ok := rawPaths[key]
 	if !ok {
 		return cliError{2, "unknown_command", "unknown command path: " + strings.Join(args, " ")}
 	}

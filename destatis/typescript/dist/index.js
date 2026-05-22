@@ -2,7 +2,7 @@ const APP_NAME = "destatis";
 const BASE_URL = "https://www-genesis.destatis.de/genesisWS/rest/2020";
 const UI_URL = "https://www-genesis.destatis.de/datenbank/online";
 const DOCS_URL = "https://www.destatis.de/DE/Service/OpenData/genesis-api-webservice-oberflaeche.html";
-const legacyPaths = {
+const rawPaths = {
     "catalogue statistics": "/catalogue/statistics",
     "catalogue tables": "/catalogue/tables",
     "catalogue variables": "/catalogue/variables",
@@ -46,7 +46,7 @@ async function main(argv) {
         else if (matches(argv, "variables", "explain"))
             await runVariablesExplain(argv.slice(2));
         else
-            await runLegacy(argv);
+            await runRaw(argv);
     }
     catch (error) {
         if (error instanceof CLIError) {
@@ -66,11 +66,11 @@ Purpose
 
 Fast paths
   destatis doctor
-  destatis search --term "Arbeitslose" --limit 5
-  destatis table source --name 12211-0900
-  destatis table dossier --name 12211-0900
+  destatis search --term "Indikator" --limit 5
+  destatis table source --name <table-name>
+  destatis table dossier --name <table-name>
 
-Legacy endpoint commands
+Raw endpoint commands
   catalogue statistics|tables|variables
   metadata table|timeseries
   data table|timeseries
@@ -108,7 +108,7 @@ returns source metadata and structured warnings if protected endpoints return 40
 Friendly alias for the GENESIS find endpoint. Keeps output compact.
 
 Example
-  destatis search --term "Arbeitslose" --limit 5
+  destatis search --term "Indikator" --limit 5
 `);
         return;
     }
@@ -139,7 +139,7 @@ async function runDoctor(argv) {
         payload.summary.health = { ok: false, error: redact(error instanceof Error ? error.message : String(error)) };
     }
     try {
-        const found = await apiPost("/find/find", { term: "Arbeitslose", category: "all", pagelength: "1", language: "de" }, cred);
+        const found = await apiPost("/find/find", { term: "Indikator", category: "all", pagelength: "1", language: "de" }, cred);
         payload.summary.findCheck = {
             ok: true,
             status: found.Status,
@@ -149,7 +149,7 @@ async function runDoctor(argv) {
     catch (error) {
         payload.summary.findCheck = { ok: false, error: redact(error instanceof Error ? error.message : String(error)) };
     }
-    payload.nextActions = ['destatis search --term "Arbeitslose" --limit 5', "destatis table source --name 12211-0900"];
+    payload.nextActions = ['destatis search --term "Indikator" --limit 5', "destatis table source --name <table-name>"];
     emit(payload);
 }
 async function runSearch(argv) {
@@ -295,11 +295,11 @@ async function runVariablesExplain(argv) {
     payload.nextActions = [`destatis table dossier --name ${table}`];
     emit(payload);
 }
-async function runLegacy(argv) {
+async function runRaw(argv) {
     if (argv.length < 2)
         throw new CLIError(2, "unknown_command", "expected command group and action");
     const command = argv.slice(0, 2).join(" ");
-    const path = legacyPaths[command];
+    const path = rawPaths[command];
     if (!path)
         throw new CLIError(2, "unknown_command", "unknown command path: " + argv.join(" "));
     const parsed = parseArgs(argv.slice(2));

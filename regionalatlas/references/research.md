@@ -40,8 +40,8 @@ The map service reports:
 
 The refactor tested unemployment-rate data using:
 
-- indicator `AI008-1-5`
-- field `AI0801`
+- indicator `<indicator-code>`
+- field `<field-code>`
 - year `2024`
 - region level `1`
 

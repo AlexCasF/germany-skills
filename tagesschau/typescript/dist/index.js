@@ -10,7 +10,7 @@ const API_DOCS_URL = "https://github.com/bundesAPI/tagesschau-api";
 const OPENAPI_URL = "https://github.com/bundesAPI/tagesschau-api/raw/refs/heads/main/openapi.yaml";
 const CC_URL = "https://www.tagesschau.de/multimedia/video/creative-commons-index-100.html";
 const RSS_INFO_URL = "https://www.tagesschau.de/infoservices/rssfeeds";
-const USER_AGENT = "germany-skills/tagesschau-node-2.0";
+const USER_AGENT = "germany-skills/tagesschau-node";
 const DEFAULT_LIMIT = 10;
 const MAX_LIMIT = 30;
 class CliError extends Error {
@@ -74,15 +74,15 @@ async function main(argv) {
     }
 }
 function printRootHelp() {
-    console.log(`tagesschau 2.0 - Tagesschau public JSON feed research CLI
+    console.log(`tagesschau - Tagesschau public JSON feed research CLI
 
 Usage:
   tagesschau doctor
   tagesschau homepage --limit 5
   tagesschau news --ressort inland --limit 5
   tagesschau channels --limit 5
-  tagesschau search --text "Bundestag" --limit 5
-  tagesschau article get --url "https://www.tagesschau.de/...-100.html" --grep "Bundestag"
+  tagesschau search --text "Suchbegriff" --limit 5
+  tagesschau article get --url "https://www.tagesschau.de/...-100.html" --grep "Suchbegriff"
   tagesschau article dossier --url "https://www.tagesschau.de/...-100.html"
 
 Tagesschau is a current-news context source, not the sole official evidence for parliamentary, legal, fiscal, or statistical claims.`);
@@ -110,9 +110,9 @@ function printExamples() {
   tagesschau doctor
   tagesschau homepage --limit 5
   tagesschau news --ressort inland --limit 5
-  tagesschau search --text "Bundestag" --limit 5
-  tagesschau search --param searchText=Bundestag --param pageSize=5
-  tagesschau article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Bundestag"`);
+  tagesschau search --text "Suchbegriff" --limit 5
+  tagesschau search --param searchText=Suchbegriff --param pageSize=5
+  tagesschau article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Suchbegriff"`);
 }
 async function runDoctor(_argv) {
     const checks = [];
@@ -120,7 +120,7 @@ async function runDoctor(_argv) {
         ["homepage", HOMEPAGE_URL],
         ["news", withParams(NEWS_URL, { ressort: "inland" })],
         ["channels", CHANNELS_URL],
-        ["search", withParams(SEARCH_URL, { searchText: "Bundestag", pageSize: "1" })],
+        ["search", withParams(SEARCH_URL, { searchText: "Suchbegriff", pageSize: "1" })],
     ]) {
         const item = { name, url };
         try {
@@ -143,7 +143,7 @@ async function runDoctor(_argv) {
     };
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
-    payload.nextActions = ['tagesschau search --text "Bundestag" --limit 5', "tagesschau homepage --limit 5", "tagesschau source"];
+    payload.nextActions = ['tagesschau search --text "Suchbegriff" --limit 5', "tagesschau homepage --limit 5", "tagesschau source"];
     emit(payload);
 }
 function runSource(_argv) {
@@ -158,7 +158,7 @@ function runSource(_argv) {
     };
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
-    payload.nextActions = ["tagesschau fields", 'tagesschau search --text "Bundestag" --limit 5'];
+    payload.nextActions = ["tagesschau fields", 'tagesschau search --text "Suchbegriff" --limit 5'];
     emit(payload);
 }
 function runFields(_argv) {
@@ -176,7 +176,7 @@ function runFields(_argv) {
     };
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
-    payload.nextActions = ['tagesschau search --text "Bundestag" --limit 5', "tagesschau homepage --limit 5"];
+    payload.nextActions = ['tagesschau search --text "Suchbegriff" --limit 5', "tagesschau homepage --limit 5"];
     emit(payload);
 }
 async function runFeed(command, endpoint, argv) {

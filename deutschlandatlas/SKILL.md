@@ -29,7 +29,7 @@ statistical tables, use Destatis/Regionalatlas first.
 
 Primary Go binary:
 
-`skills/deutschlandatlas/bin/deutschlandatlas-2.0.exe`
+`skills/deutschlandatlas/bin/deutschlandatlas.exe`
 
 Alternative implementations:
 
@@ -49,7 +49,7 @@ Alternative implementations:
 
 Discovery:
 
-`deutschlandatlas tables search --term "Arbeitslosenquote" --limit 5`
+`deutschlandatlas tables search --term "Indikator" --limit 5`
 
 Field inspection:
 
@@ -81,9 +81,9 @@ Raw upstream query:
 - Research commands return a stable envelope with `status`, `summary`, `items`,
   `sources`, `warnings`, and `nextActions`.
 - `table query` returns raw upstream ArcGIS JSON for compatibility.
-- Version 2.0 auto-discovers the feature layer. This matters because live
+- The CLI auto-discovers the feature layer. This matters because live
   services such as `alq_HA2023` use layer `5`, not layer `0`.
-- Use `--layer 0` or `--legacy-layer-zero` only for explicit legacy probing.
+- Use `--layer 0` or `--raw-layer-zero` only for explicit raw probing.
 - Result counts default small and are capped at 100 unless
   `--allow-large-output` is passed.
 - `returnGeometry=false` is the default.

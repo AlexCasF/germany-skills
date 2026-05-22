@@ -47,9 +47,9 @@ def main(argv):
         elif len(argv) >= 3 and argv[0:3] == ["plenary", "speech", "search"]:
             run_plenary_speech_search(argv[3:])
         elif len(argv) >= 2 and argv[0] in ENTITIES and argv[1] == "list":
-            run_legacy_list(argv[0], argv[2:])
+            run_raw_list(argv[0], argv[2:])
         elif len(argv) >= 2 and argv[0] in ENTITIES and argv[1] == "get":
-            run_legacy_get(argv[0], argv[2:])
+            run_raw_get(argv[0], argv[2:])
         else:
             fail(2, "unknown_command", "unknown command path: " + " ".join(argv))
     except CLIError as exc:
@@ -86,12 +86,12 @@ Fast paths
     dip-bundestag doctor
 
   Find a person:
-    dip-bundestag person search --name "Gauweiler" --limit 3
+    dip-bundestag person search --name "Mustername" --limit 3
 
   Build an evidence bundle:
-    dip-bundestag person dossier --name "Gauweiler"
+    dip-bundestag person dossier --name "Mustername"
 
-Legacy endpoint commands
+Raw endpoint commands
   dip-bundestag vorgang list|get
   dip-bundestag drucksache list|get
   dip-bundestag plenarprotokoll list|get
@@ -127,7 +127,7 @@ Inputs
 
 Examples
   dip-bundestag person dossier --id 760
-  dip-bundestag person dossier --name "Gauweiler"
+  dip-bundestag person dossier --name "Mustername"
 """)
     elif path and path[0] == "doctor":
         print("dip-bundestag doctor\n\nWhat it does\n  Checks auth and endpoint health without printing the API key.")
@@ -161,8 +161,8 @@ def run_doctor(args):
             "Use source attribution: Deutscher Bundestag/Bundesrat - DIP.",
         ],
         "nextActions": [
-            'dip-bundestag person search --name "Gauweiler"',
-            'dip-bundestag plenarprotokoll text --document-number "20/139" --grep "Bürgergeld"',
+            'dip-bundestag person search --name "Mustername"',
+            'dip-bundestag plenarprotokoll text --document-number "20/139" --grep "Suchbegriff"',
         ],
     }
     if not key:
@@ -176,7 +176,7 @@ def run_doctor(args):
     write_json(out)
 
 
-def run_legacy_list(entity, args):
+def run_raw_list(entity, args):
     flags, params = parse_args(args)
     key = must_key(flags)
     params.setdefault("format", ["json"])
@@ -193,7 +193,7 @@ def run_legacy_list(entity, args):
     print(body)
 
 
-def run_legacy_get(entity, args):
+def run_raw_get(entity, args):
     flags, params = parse_args(args)
     record_id = flags.get("id")
     if not record_id:

@@ -96,7 +96,7 @@ Fast paths
     deutschlandatlas doctor
 
   Find candidate indicator tables:
-    deutschlandatlas tables search --term "Arbeitslosenquote" --limit 5
+    deutschlandatlas tables search --term "Indikator" --limit 5
 
   Inspect one table before querying values:
     deutschlandatlas table fields --table alq_HA2023
@@ -105,11 +105,11 @@ Fast paths
   Build a compact evidence bundle:
     deutschlandatlas indicator dossier --table alq_HA2023
 
-Legacy-compatible command
+Raw endpoint command
   table query --table <table> [--param key=value] [--layer auto|0|5]
-    Returns the upstream ArcGIS JSON. Version 2.0 defaults to discovering the
+    Returns the upstream ArcGIS JSON. The CLI defaults to discovering the
     service's feature layer because many current services are not on layer 0.
-    Use --layer 0 or --legacy-layer-zero for exact layer-zero probing.
+    Use --layer 0 or --raw-layer-zero for exact layer-zero probing.
 
 Research commands
   doctor
@@ -159,7 +159,7 @@ Search the public ArcGIS portal for Deutschlandatlas table services.
 
 Examples
   deutschlandatlas tables search --term "Apotheken" --limit 5
-  deutschlandatlas tables search --term "Arbeitslosenquote" --limit 5`)
+  deutschlandatlas tables search --term "Indikator" --limit 5`)
 	default:
 		printRootHelp()
 	}
@@ -198,7 +198,7 @@ func runDoctor(argv []string) error {
 	}
 	payload["sources"] = defaultSources()
 	payload["nextActions"] = []string{
-		`deutschlandatlas tables search --term "Arbeitslosenquote" --limit 5`,
+		`deutschlandatlas tables search --term "Indikator" --limit 5`,
 		"deutschlandatlas indicator dossier --table alq_HA2023",
 	}
 	emit(payload)
@@ -385,7 +385,7 @@ func runTableSource(argv []string) error {
 		return err
 	}
 	layer := 0
-	layerSource := "legacy_default"
+	layerSource := "raw_default"
 	if !flagBool(parsed, "skip-layer-discovery") {
 		if discovered, source, err := resolveLayer(table, parsed); err == nil {
 			layer = discovered
@@ -610,8 +610,8 @@ func requiredTable(parsed parsedArgs) (string, error) {
 }
 
 func resolveLayer(table string, parsed parsedArgs) (int, string, error) {
-	if flagBool(parsed, "legacy-layer-zero") {
-		return 0, "legacy_layer_zero", nil
+	if flagBool(parsed, "raw-layer-zero") {
+		return 0, "raw_layer_zero", nil
 	}
 	layerFlag := firstNonEmpty(parsed.flags["layer"], "auto")
 	if layerFlag != "" && layerFlag != "auto" {
@@ -665,7 +665,7 @@ func fetchJSON(requestURL string) (map[string]any, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("User-Agent", "germany-skills/deutschlandatlas-2.0")
+	req.Header.Set("User-Agent", "germany-skills/deutschlandatlas")
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err

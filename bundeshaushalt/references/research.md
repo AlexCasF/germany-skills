@@ -30,7 +30,7 @@ The API is not a replacement for statistical APIs. Budget values are nominal eur
 
 ## OpenAPI Versus Live Endpoint
 
-The bundled `openapi.yaml` documents a small `GET /internalapi/budgetData` surface and lists years only through 2021. Live probes showed newer target years are available. The 2.0 CLIs therefore keep the OpenAPI file as a reference, but use live endpoint behavior for `years list`, `doctor`, and examples.
+The bundled `openapi.yaml` documents a small `GET /internalapi/budgetData` surface and lists years only through 2021. Live probes showed newer target years are available. The CLIs therefore keep the OpenAPI file as a reference, but use live endpoint behavior for `years list`, `doctor`, and examples.
 
 ## Tested Request Shapes
 

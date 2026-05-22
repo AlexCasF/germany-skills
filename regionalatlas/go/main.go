@@ -148,14 +148,14 @@ Fast paths
     regionalatlas doctor
 
   Discover indicators:
-    regionalatlas indicators search --term "Arbeitslosenquote" --limit 5
+    regionalatlas indicators search --term "Indikator" --limit 5
 
   Inspect metadata before data:
-    regionalatlas fields --indicator AI008-1-5
-    regionalatlas explain-field --indicator AI008-1-5 --field AI0801
+    regionalatlas fields --indicator <indicator-code>
+    regionalatlas explain-field --indicator <indicator-code> --field <field-code>
 
   Fetch a tiny safe sample:
-    regionalatlas sample --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
+    regionalatlas sample --indicator <indicator-code> --field <field-code> --year 2024 --region-level 1 --limit 5
 
 Commands
   doctor
@@ -168,7 +168,7 @@ Commands
   dossier
   query-builder
   explain-field
-  query              Raw legacy dynamic-layer query
+  query              Raw raw dynamic-layer query
 
 Output guarantees
   Research commands emit JSON envelopes with status, request, retrievedAt,
@@ -190,9 +190,9 @@ func printHelp(path []string) {
 Fetch a small bounded sample from a Regionalatlas dynamic-layer query.
 
 Examples
-  regionalatlas sample --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
+  regionalatlas sample --indicator <indicator-code> --field <field-code> --year 2024 --region-level 1 --limit 5
   regionalatlas sample --indicator AI002-1-5 --field AI0201 --year 2020 --region-level 1 --limit 5
-  regionalatlas sample --indicator AI008-1-5 --field AI0801 --year 2024 --ags 11
+  regionalatlas sample --indicator <indicator-code> --field <field-code> --year 2024 --ags 11
 
 Region levels
   1 = Laender
@@ -209,14 +209,14 @@ Build a compact evidence bundle: catalog metadata, fields, source URLs, query
 URL, a tiny sample, warnings, and next actions.
 
 Example
-  regionalatlas dossier --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1`)
+  regionalatlas dossier --indicator <indicator-code> --field <field-code> --year 2024 --region-level 1`)
 	case "query-builder":
 		fmt.Println(`regionalatlas query-builder
 
 Build the encoded ArcGIS dynamic-layer query URL without fetching data.
 
 Example
-  regionalatlas query-builder --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1`)
+  regionalatlas query-builder --indicator <indicator-code> --field <field-code> --year 2024 --region-level 1`)
 	case "query":
 		fmt.Println(`regionalatlas query
 
@@ -278,8 +278,8 @@ func runDoctor(argv []string) error {
 	payload["sources"] = defaultSources()
 	payload["warnings"] = warnings
 	payload["nextActions"] = []string{
-		`regionalatlas indicators search --term "Arbeitslosenquote" --limit 5`,
-		"regionalatlas fields --indicator AI008-1-5",
+		`regionalatlas indicators search --term "Indikator" --limit 5`,
+		"regionalatlas fields --indicator <indicator-code>",
 	}
 	emit(payload)
 	return nil
@@ -309,7 +309,7 @@ func runIndicatorsList(argv []string) error {
 	payload["sources"] = defaultSources()
 	payload["warnings"] = defaultWarnings()
 	payload["nextActions"] = []string{
-		`regionalatlas indicators search --term "Arbeitslosenquote" --limit 5`,
+		`regionalatlas indicators search --term "Indikator" --limit 5`,
 	}
 	emit(payload)
 	return nil
@@ -688,7 +688,7 @@ func fetchBytes(requestURL string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("User-Agent", "germany-skills/regionalatlas-2.0")
+	req.Header.Set("User-Agent", "germany-skills/regionalatlas")
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err

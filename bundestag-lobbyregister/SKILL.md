@@ -25,7 +25,7 @@ pages.
 - Auth: API key required
 - Preferred auth: `LOBBYREGISTER_API_KEY`
 - Published exact rate limit: not found in official docs reviewed
-- API version note: V2 replaced V1 on 2025-06-23
+- API version note: the current API replaced the earlier public API on 2025-06-23
 
 ## Use this when
 
@@ -46,12 +46,12 @@ pages.
 
 ## Preferred tool
 
-Prefer the 2.0 CLI contract.
+Prefer the CLI contract.
 
 Use the local executable when available:
 
 ```powershell
-skills\bundestag-lobbyregister\bin\bundestag-lobbyregister-2.0.exe doctor
+skills\bundestag-lobbyregister\bin\bundestag-lobbyregister.exe doctor
 ```
 
 Portable fallbacks:
@@ -65,7 +65,7 @@ If the runtime exposes the binary as `bundestag-lobbyregister`, use that shorter
 
 ## Auth
 
-Set `LOBBYREGISTER_API_KEY` before live V2 calls.
+Set `LOBBYREGISTER_API_KEY` before live API calls.
 
 The CLI also accepts `--apikey`, but prefer the environment variable so keys do
 not appear in command previews. Normalized output redacts key material.
@@ -98,39 +98,39 @@ bundestag-lobbyregister statistics
 Search:
 
 ```powershell
-bundestag-lobbyregister search --term "Bundesverband Soziokultur" --limit 3
+bundestag-lobbyregister search --term "Musterverband" --limit 3
 bundestag-lobbyregister search --term "Energie" --limit 5
 ```
 
 Exact entry:
 
 ```powershell
-bundestag-lobbyregister entry get --register-number R001255
-bundestag-lobbyregister entry source --register-number R001255
+bundestag-lobbyregister entry get --register-number <register-number>
+bundestag-lobbyregister entry source --register-number <register-number>
 ```
 
 Evidence bundle:
 
 ```powershell
-bundestag-lobbyregister entry dossier --register-number R001255 --grep Soziokultur --limit 5
+bundestag-lobbyregister entry dossier --register-number <register-number> --grep Musterverband --limit 5
 ```
 
 Finance:
 
 ```powershell
-bundestag-lobbyregister financial summary --register-number R001255
+bundestag-lobbyregister financial summary --register-number <register-number>
 ```
 
 Statements:
 
 ```powershell
-bundestag-lobbyregister statements list --register-number R001255 --grep Soziokultur --limit 5
+bundestag-lobbyregister statements list --register-number <register-number> --grep Musterverband --limit 5
 ```
 
-Legacy V1 wrapper remains available for comparison:
+Raw comparison command remains available:
 
 ```powershell
-bundestag-lobbyregister v1 search --param "q=Bundesverband"
+bundestag-lobbyregister raw search --param "q=Musterverband"
 ```
 
 ## Output expectations
@@ -162,10 +162,9 @@ discovery.
 
 ## References
 
-- `references/openapi-v2.yaml`
+- `references/openapi.yaml`
 - `references/openapi.yaml`
 - `references/notes.md`
 - `references/research.md`
 - `references/rate-limits-and-terms.md`
-- `tests/test-plan.md`
 - `MANIFEST.md`

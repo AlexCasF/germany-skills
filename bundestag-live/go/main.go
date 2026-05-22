@@ -360,8 +360,8 @@ Do not use this when
 
 Fast paths
   bundestag-live doctor
-  bundestag-live members search --name "Amthor" --limit 3
-  bundestag-live members dossier --name "Amthor" --grep "TÃ¤tigkeiten"
+  bundestag-live members search --name "Mustername" --limit 3
+  bundestag-live members dossier --name "Mustername" --grep "Suchbegriff"
   bundestag-live committees search --term "Arbeit" --limit 5
   bundestag-live committees dossier --id a11 --member-limit 5
   bundestag-live plenum conferences --limit 2 --item-limit 3
@@ -401,8 +401,8 @@ func printHelp(path []string) {
 Search the official Bundestag member index and return compact rows.
 
 Examples
-  bundestag-live members search --name "Amthor" --limit 3
-  bundestag-live members search --term "AfD" --limit 5
+  bundestag-live members search --name "Mustername" --limit 3
+  bundestag-live members search --term "Suchbegriff" --limit 5
 
 Flags
   --name <text>       Search member name
@@ -416,7 +416,7 @@ Build a compact source-rich dossier for one Bundestag member.
 
 Examples
   bundestag-live members dossier --id 2022
-  bundestag-live members dossier --name "Amthor" --grep "TÃ¤tigkeiten"
+  bundestag-live members dossier --name "Mustername" --grep "Suchbegriff"
 
 Flags
   --id <mdb-id>       Bundestag member ID
@@ -474,10 +474,10 @@ func printExamples() {
    bundestag-live doctor
 
 2. Search for a member:
-   bundestag-live members search --name "Amthor" --limit 3
+   bundestag-live members search --name "Mustername" --limit 3
 
 3. Expand a member into an official source dossier:
-   bundestag-live members dossier --id 2022 --grep "TÃ¤tigkeiten"
+   bundestag-live members dossier --id 2022 --grep "Suchbegriff"
 
 4. Search current Bundestag committees:
    bundestag-live committees search --term "Arbeit" --limit 5
@@ -552,7 +552,7 @@ func runDoctor(argv []string) error {
 	payload["sources"] = defaultSources()
 	payload["warnings"] = defaultWarnings()
 	payload["nextActions"] = []string{
-		`bundestag-live members search --name "Amthor" --limit 3`,
+		`bundestag-live members search --name "Mustername" --limit 3`,
 		"bundestag-live committees search --term Arbeit --limit 5",
 		"bundestag-live plenum conferences --limit 2 --item-limit 3",
 	}
@@ -581,7 +581,7 @@ func runMembersList(argv []string) error {
 	payload["items"] = items
 	payload["sources"] = sources("Bundestag member XML index", membersURL, "api_endpoint")
 	payload["warnings"] = defaultWarnings()
-	payload["nextActions"] = []string{`bundestag-live members search --name "Amthor" --limit 3`}
+	payload["nextActions"] = []string{`bundestag-live members search --name "Mustername" --limit 3`}
 	emit(payload)
 	return nil
 }
@@ -642,7 +642,7 @@ func runMemberBiography(argv []string) error {
 	payload["sources"] = sourcesForMemberBiography(bio, requestURL)
 	payload["warnings"] = defaultWarnings()
 	payload["nextActions"] = []string{
-		fmt.Sprintf("bundestag-live members dossier --id %s --grep TÃ¤tigkeiten", id),
+		fmt.Sprintf("bundestag-live members dossier --id %s --grep Suchbegriff", id),
 	}
 	if flagBool(parsed, "include-raw") {
 		payload["raw"] = bio
@@ -1332,7 +1332,7 @@ func nextActionsForMembers(members []memberListItem) []string {
 		actions = append(actions, fmt.Sprintf("bundestag-live members dossier --id %s", member.ID.Text))
 	}
 	if len(actions) == 0 {
-		return []string{`bundestag-live members search --name "Amthor" --limit 3`}
+		return []string{`bundestag-live members search --name "Mustername" --limit 3`}
 	}
 	return actions
 }
@@ -1425,7 +1425,7 @@ func fetchRaw(requestURL string) (int, string, []byte, error) {
 	if err != nil {
 		return 0, "", nil, err
 	}
-	req.Header.Set("User-Agent", "germany-skills/bundestag-live-2.0")
+	req.Header.Set("User-Agent", "germany-skills/bundestag-live")
 	resp, err := client.Do(req)
 	if err != nil {
 		return 0, "", nil, err

@@ -31,7 +31,7 @@ const (
 	defaultLimit       = 10
 	safeLimit          = 100
 	defaultTimeout     = 45 * time.Second
-	defaultUserAgent   = "germany-skills/bundeshaushalt-2.0"
+	defaultUserAgent   = "germany-skills/bundeshaushalt"
 	latestTargetYear   = 2026
 	latestActualYear   = 2024
 	earliestKnownYear  = 2012
@@ -372,7 +372,7 @@ func runSource(argv []string) error {
 		"primaryDataSource": "Bundeshaushalt Digital, Bundesministerium der Finanzen",
 		"apiEndpoint":       budgetDataURL,
 		"citation":          "Bundesministerium der Finanzen, Bundeshaushalt Digital, " + digitalURL,
-		"licenseNote":       "BMF Datenportal open data are under Datenlizenz Deutschland - Namensnennung - 2.0 where marked as open data; Bundeshaushalt Digital also contains freely usable products and public web content. Preserve BMF attribution and dataset/page URLs.",
+		"licenseNote":       "BMF Datenportal open data are under the applicable attribution license where marked as open data; Bundeshaushalt Digital also contains freely usable products and public web content. Preserve BMF attribution and dataset/page URLs.",
 	}
 	payload["sources"] = defaultSources()
 	payload["warnings"] = defaultWarnings()

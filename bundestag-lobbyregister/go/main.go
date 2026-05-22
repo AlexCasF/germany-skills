@@ -20,7 +20,7 @@ const (
 	appName     = "bundestag-lobbyregister"
 	baseURL     = "https://api.lobbyregister.bundestag.de/rest/v2"
 	publicURL   = "https://www.lobbyregister.bundestag.de"
-	legacyV1URL = "https://www.lobbyregister.bundestag.de/sucheDetailJson"
+	rawV1URL = "https://www.lobbyregister.bundestag.de/sucheDetailJson"
 )
 
 type parsedArgs struct {
@@ -75,7 +75,7 @@ func main() {
 		err = runFinancialSummary(args[2:])
 	case match(args, "statements", "list"):
 		err = runStatementsList(args[2:])
-	case match(args, "v1", "search"):
+	case match(args, "raw", "search"):
 		err = runV1Search(args[2:])
 	default:
 		err = cliError{2, "unknown_command", "unknown command path: " + strings.Join(args, " ")}
@@ -112,13 +112,13 @@ Fast paths
     bundestag-lobbyregister doctor
 
   Search safely:
-    bundestag-lobbyregister search --term "Bundesverband Soziokultur" --limit 3
+    bundestag-lobbyregister search --term "Musterverband" --limit 3
 
   Build an evidence bundle:
-    bundestag-lobbyregister entry dossier --register-number R001255 --grep "Foerderung"
+    bundestag-lobbyregister entry dossier --register-number <register-number> --grep "Foerderung"
 
   Normalize financial data:
-    bundestag-lobbyregister financial summary --register-number R001255
+    bundestag-lobbyregister financial summary --register-number <register-number>
 
 Research commands
   doctor
@@ -130,8 +130,8 @@ Research commands
   financial summary
   statements list
 
-Legacy command
-  v1 search    Preserves the old unauthenticated sucheDetailJson wrapper.
+Raw endpoint command
+  raw search    Preserves the old unauthenticated sucheDetailJson wrapper.
 
 Auth
   Prefer LOBBYREGISTER_API_KEY from the environment.
@@ -152,32 +152,32 @@ func printHelp(path []string) {
 Builds a compact evidence bundle for one register entry.
 
 Inputs
-  --register-number R001255    Exact register number
-  --name "Bundesverband ..."   Search first, then use the first match
+  --register-number <register-number>    Exact register number
+  --name "Musterverband ..."   Search first, then use the first match
   --grep "term"                Return snippets from embedded statement text
   --include-raw                Include the full upstream detail JSON
 
 Examples
-  bundestag-lobbyregister entry dossier --register-number R001255 --grep "Laerm"
-  bundestag-lobbyregister entry dossier --name "Bundesverband Soziokultur"`)
+  bundestag-lobbyregister entry dossier --register-number <register-number> --grep "Laerm"
+  bundestag-lobbyregister entry dossier --name "Musterverband"`)
 	case "search":
 		fmt.Println(`bundestag-lobbyregister search
 
-Safe free-text search over V2 register entries. The upstream endpoint returns
+Safe free-text search over register entries. The upstream endpoint returns
 large full-detail records, so this command defaults to compact summaries and a
 small --limit.
 
 Examples
   bundestag-lobbyregister search --term "Energie" --limit 5
-  bundestag-lobbyregister search --term "\"Bundesverband Soziokultur\"" --include-raw`)
+  bundestag-lobbyregister search --term "\"Musterverband\"" --include-raw`)
 	case "entry get":
 		fmt.Println(`bundestag-lobbyregister entry get
 
-Fetch one official V2 register entry by register number.
+Fetch one official register entry by register number.
 
 Examples
-  bundestag-lobbyregister entry get --register-number R001255
-  bundestag-lobbyregister entry get --register-number R001255 --version 6 --include-raw`)
+  bundestag-lobbyregister entry get --register-number <register-number>
+  bundestag-lobbyregister entry get --register-number <register-number> --version 6 --include-raw`)
 	case "financial summary":
 		fmt.Println(`bundestag-lobbyregister financial summary
 
@@ -185,7 +185,7 @@ Fetch one register entry and normalize financial expense ranges, donations,
 membership fees, public allowances, annual-report links, and disclosure caveats.
 
 Example
-  bundestag-lobbyregister financial summary --register-number R001255`)
+  bundestag-lobbyregister financial summary --register-number <register-number>`)
 	default:
 		printRootHelp()
 	}
@@ -210,7 +210,7 @@ func runDoctor(argv []string) error {
 	payload["sources"] = defaultSources()
 	payload["warnings"] = standardWarnings()
 	if key == "" {
-		payload["warnings"] = appendAny(payload["warnings"], "LOBBYREGISTER_API_KEY is not configured; live V2 calls will fail.")
+		payload["warnings"] = appendAny(payload["warnings"], "LOBBYREGISTER_API_KEY is not configured; live API calls will fail.")
 		payload["nextActions"] = []string{"Set LOBBYREGISTER_API_KEY, then run: bundestag-lobbyregister statistics"}
 		emit(payload)
 		return nil
@@ -232,8 +232,8 @@ func runDoctor(argv []string) error {
 		"inactiveLobbyists": anyAt(stats, "lobbyists", "inactive", "number"),
 	}
 	payload["nextActions"] = []string{
-		`bundestag-lobbyregister search --term "Bundesverband" --limit 3`,
-		"bundestag-lobbyregister entry dossier --register-number R001255",
+		`bundestag-lobbyregister search --term "Musterverband" --limit 3`,
+		"bundestag-lobbyregister entry dossier --register-number <register-number>",
 	}
 	emit(payload)
 	return nil
@@ -427,7 +427,7 @@ func runV1Search(argv []string) error {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), timeoutFlag(parsed))
 	defer cancel()
-	u, _ := url.Parse(legacyV1URL)
+	u, _ := url.Parse(rawV1URL)
 	u.RawQuery = params.Encode()
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
 	if err != nil {
@@ -440,7 +440,7 @@ func runV1Search(argv []string) error {
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode >= 400 {
-		return cliError{1, "http_error", fmt.Sprintf("legacy V1 endpoint returned HTTP %d", resp.StatusCode)}
+		return cliError{1, "http_error", fmt.Sprintf("raw V1 endpoint returned HTTP %d", resp.StatusCode)}
 	}
 	os.Stdout.Write(body)
 	if len(body) == 0 || body[len(body)-1] != '\n' {
@@ -466,7 +466,7 @@ func getEntryFromArgs(parsed parsedArgs) (map[string]any, string, error) {
 		return nil, "", cliError{2, "missing_register_number", "requires --register-number or --name"}
 	}
 	if !regexp.MustCompile(`^R[0-9]{6}$`).MatchString(registerNumber) {
-		return nil, "", cliError{2, "invalid_register_number", "register number must look like R001255"}
+		return nil, "", cliError{2, "invalid_register_number", "register number must look like <register-number>"}
 	}
 	path := "/registerentries/" + url.PathEscape(registerNumber)
 	if version := parsed.flags["version"]; version != "" {
@@ -617,14 +617,14 @@ func defaultSources() []any {
 	return []any{
 		map[string]any{"title": "Bundestag Lobbyregister", "url": publicURL, "kind": "official-register"},
 		map[string]any{"title": "Open Data/API page", "url": publicURL + "/informationen-und-hilfe/open-data-1049716", "kind": "terms"},
-		map[string]any{"title": "Swagger UI V2", "url": baseURL + "/swagger-ui/", "kind": "api-docs"},
-		map[string]any{"title": "OpenAPI YAML V2", "url": baseURL + "/R2.21-de.yaml", "kind": "openapi"},
+		map[string]any{"title": "Swagger UI", "url": baseURL + "/swagger-ui/", "kind": "api-docs"},
+		map[string]any{"title": "OpenAPI YAML", "url": baseURL + "/R2.21-de.yaml", "kind": "openapi"},
 	}
 }
 
 func standardWarnings() []string {
 	return []string{
-		"V2 API calls require an API key; this tool redacts keys from normalized output.",
+		"API calls require an API key; this tool redacts keys from normalized output.",
 		"Register disclosures describe published self-reported register data; corroborate contentious claims with additional official sources.",
 		"Use small limits for broad searches; the upstream search endpoint returns full-detail records.",
 	}

@@ -87,8 +87,8 @@ Purpose
 
 Fast paths
   bundestag-live doctor
-  bundestag-live members search --name "Amthor" --limit 3
-  bundestag-live members dossier --name "Amthor" --grep "TÃ¤tigkeiten"
+  bundestag-live members search --name "Mustername" --limit 3
+  bundestag-live members dossier --name "Mustername" --grep "Suchbegriff"
   bundestag-live committees search --term "Arbeit" --limit 5
   bundestag-live committees dossier --id a11 --member-limit 5
   bundestag-live plenum conferences --limit 2 --item-limit 3
@@ -108,9 +108,9 @@ Endpoint-compatible commands
 function printHelp(path) {
     const joined = path.join(" ");
     if (joined === "members search")
-        console.log('bundestag-live members search --name "Amthor" --limit 3');
+        console.log('bundestag-live members search --name "Mustername" --limit 3');
     else if (joined === "members dossier")
-        console.log('bundestag-live members dossier --id 2022 --grep "TÃ¤tigkeiten"');
+        console.log('bundestag-live members dossier --id 2022 --grep "Suchbegriff"');
     else if (joined === "committees dossier")
         console.log("bundestag-live committees dossier --id a11 --member-limit 5 --news-limit 3");
     else if (joined === "article page")
@@ -122,8 +122,8 @@ function printExamples() {
     console.log(`bundestag-live examples
 
 1. bundestag-live doctor
-2. bundestag-live members search --name "Amthor" --limit 3
-3. bundestag-live members dossier --id 2022 --grep "TÃ¤tigkeiten"
+2. bundestag-live members search --name "Mustername" --limit 3
+3. bundestag-live members dossier --id 2022 --grep "Suchbegriff"
 4. bundestag-live committees search --term "Arbeit" --limit 5
 5. bundestag-live committees dossier --id a11 --member-limit 5 --news-limit 3
 6. bundestag-live plenum conferences --limit 2 --item-limit 5
@@ -156,7 +156,7 @@ async function runDoctor(argv) {
     payload.summary = summary;
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
-    payload.nextActions = ['bundestag-live members search --name "Amthor" --limit 3', "bundestag-live committees search --term Arbeit --limit 5"];
+    payload.nextActions = ['bundestag-live members search --name "Mustername" --limit 3', "bundestag-live committees search --term Arbeit --limit 5"];
     emit(payload);
 }
 async function runMembersList(argv) {
@@ -171,7 +171,7 @@ async function runMembersList(argv) {
     payload.items = items.slice(0, limit).map((item) => compactMember(item, flagBool(parsed, "include-raw")));
     payload.sources = source("Bundestag member XML index", MEMBERS_URL, "api_endpoint");
     payload.warnings = defaultWarnings();
-    payload.nextActions = ['bundestag-live members search --name "Amthor" --limit 3'];
+    payload.nextActions = ['bundestag-live members search --name "Mustername" --limit 3'];
     emit(payload);
 }
 async function runMembersSearch(argv) {
@@ -205,7 +205,7 @@ async function runMemberBiography(argv) {
     payload.items = [memberEvidence(body, grep)];
     payload.sources = sourcesForMember(body, requestUrl);
     payload.warnings = defaultWarnings();
-    payload.nextActions = [`bundestag-live members dossier --id ${id} --grep TÃ¤tigkeiten`];
+    payload.nextActions = [`bundestag-live members dossier --id ${id} --grep Suchbegriff`];
     if (flagBool(parsed, "include-raw"))
         payload.rawXml = body;
     emit(payload);
@@ -506,7 +506,7 @@ async function fetchXmlWithParams(base, params) {
     return { body: raw.body, requestUrl };
 }
 async function fetchRaw(requestUrl) {
-    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/bundestag-live-node-2.0" }, signal: AbortSignal.timeout(45000) });
+    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/bundestag-live-node" }, signal: AbortSignal.timeout(45000) });
     return { status: response.status, contentType: response.headers.get("content-type") ?? "", body: await response.text() };
 }
 function parseArgs(args) {

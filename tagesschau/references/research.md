@@ -47,4 +47,4 @@ Feed and search results usually expose:
 - `detailsweb`: public article URL
 - `shareURL`: sometimes a regional broadcaster source URL
 
-The 2.0 CLIs accept either public `detailsweb` URLs or API `details` URLs and return both forms. Article expansion returns bounded snippets rather than full article dumps.
+The CLIs accept either public `detailsweb` URLs or API `details` URLs and return both forms. Article expansion returns bounded snippets rather than full article dumps.

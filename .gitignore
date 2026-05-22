@@ -12,6 +12,20 @@ __pycache__/
 # Go
 *.test
 
+# Skill test artifacts
+abgeordnetenwatch/tests/
+bundeshaushalt/tests/
+bundesrat-live/tests/
+bundestag-live/tests/
+bundestag-lobbyregister/tests/
+dashboard-deutschland/tests/
+destatis/tests/
+deutschlandatlas/tests/
+dip-bundestag/tests/
+rechtsinformationen-bund/tests/
+regionalatlas/tests/
+tagesschau/tests/
+
 # Local runtime data
 tmp/
 .env

@@ -12,7 +12,7 @@ table/statistic codes, then request metadata or data with small bounds.
 
 | Implementation | Path | Notes |
 | --- | --- | --- |
-| Go 2.0 | `go/main.go` | Agent-friendly CLI with env auth, doctor, search alias, source, dossier, sample, and variable helpers. |
+| Go | `go/main.go` | Agent-friendly CLI with env auth, doctor, search alias, source, dossier, sample, and variable helpers. |
 | Python | `python/destatis.py` | Python parity implementation. |
 | TypeScript / Node.js | `typescript/src/index.ts` | TypeScript source compiled to Node.js JavaScript. |
 
@@ -25,7 +25,7 @@ $env:DESTATIS_USERNAME = "<username>"
 $env:DESTATIS_PASSWORD = "<password>"
 ```
 
-If these are unset, the 2.0 CLIs use `GAST/GAST` for public discovery. Live
+If these are unset, the CLIs use `GAST/GAST` for public discovery. Live
 testing showed `GAST/GAST` works for `logincheck` and `find/find`, but
 catalogue/metadata/data endpoints can return `401 Unauthorized`. Use a personal
 GENESIS account for full metadata/data retrieval.

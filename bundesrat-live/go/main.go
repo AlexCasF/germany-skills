@@ -26,7 +26,7 @@ const (
 	defaultLimit     = 10
 	safeLimit        = 100
 	defaultTimeout   = 45 * time.Second
-	defaultUserAgent = "germany-skills/bundesrat-live-2.0"
+	defaultUserAgent = "germany-skills/bundesrat-live"
 )
 
 var endpoints = map[string]string{
@@ -158,14 +158,14 @@ Do not use this when
 Fast paths
   bundesrat-live doctor
   bundesrat-live news --limit 5
-  bundesrat-live news search --term "Bovenschulte" --limit 3
+  bundesrat-live news search --term "Suchbegriff" --limit 3
   bundesrat-live dates --limit 5
   bundesrat-live members search --name "Ã–zdemir" --limit 3
   bundesrat-live members dossier --name "Ã–zdemir" --grep "Bundesrat"
   bundesrat-live plenum compact --limit 1 --top-limit 3
   bundesrat-live plenum current --limit 1 --top-limit 5
   bundesrat-live plenum next
-  bundesrat-live page --url "https://www.bundesrat.de/SharedDocs/pm/2026/10_europaeischer_verdienstorden_merkel.html" --grep "Merkel"
+  bundesrat-live page --url "https://www.bundesrat.de/SharedDocs/pm/2026/example.html" --grep "Suchbegriff"
 
 Endpoint-compatible commands
   startlist
@@ -206,7 +206,7 @@ func printHelp(path []string) {
 Search a Bundesrat feed and return compact source-rich rows.
 
 Examples
-  bundesrat-live news search --term "Bovenschulte" --limit 3
+  bundesrat-live news search --term "Suchbegriff" --limit 3
   bundesrat-live dates search --term "Ausschuss" --limit 5
 
 Flags
@@ -263,7 +263,7 @@ Flags
 Fetch and normalize a public bundesrat.de source URL emitted by a feed.
 
 Examples
-  bundesrat-live page --url "https://www.bundesrat.de/SharedDocs/pm/2026/10_europaeischer_verdienstorden_merkel.html" --grep "Merkel"
+  bundesrat-live page --url "https://www.bundesrat.de/SharedDocs/pm/2026/example.html" --grep "Suchbegriff"
 
 Flags
   --url <url>         Public bundesrat.de URL
@@ -286,8 +286,8 @@ func printExamples() {
    bundesrat-live news --limit 5
 
 4. Search news and expand a returned source page:
-   bundesrat-live news search --term "Bovenschulte" --limit 3
-   bundesrat-live news page --url "https://www.bundesrat.de/SharedDocs/pm/2026/10_europaeischer_verdienstorden_merkel.html" --grep "Bovenschulte"
+   bundesrat-live news search --term "Suchbegriff" --limit 3
+   bundesrat-live news page --url "https://www.bundesrat.de/SharedDocs/pm/2026/example.html" --grep "Suchbegriff"
 
 5. Inspect scheduled Bundesrat events:
    bundesrat-live dates --limit 5
@@ -811,7 +811,7 @@ func nextActionsFromItems(items []map[string]any, key string) []string {
 		}
 	}
 	if key == "news" {
-		return []string{`bundesrat-live news search --term "Bovenschulte" --limit 3`}
+		return []string{`bundesrat-live news search --term "Suchbegriff" --limit 3`}
 	}
 	if key == "dates" {
 		return []string{`bundesrat-live dates search --term "Ausschuss" --limit 5`}

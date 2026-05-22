@@ -73,8 +73,8 @@ def main(argv):
         elif argv[0] == "cite":
             run_cite(argv[1:])
         else:
-            command, rest = resolve_legacy(argv)
-            run_legacy(command, rest)
+            command, rest = resolve_raw(argv)
+            run_raw(command, rest)
     except CLIError as exc:
         fail(exc.exit_code, exc.code, exc.message)
     return 0
@@ -90,10 +90,10 @@ Purpose
 
 Fast paths
   rechtsinformationen-bund doctor
-  rechtsinformationen-bund documents search --search-term "Bürgergeld" --limit 3
+  rechtsinformationen-bund documents search --search-term "Suchbegriff" --limit 3
   rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision
 
-Legacy endpoint commands
+Raw endpoint commands
   statistics
   documents list|search|search-case-law|search-legislation
   administrative-directive list|get|html|xml
@@ -119,7 +119,7 @@ snippets, warnings, and next actions.
 
 Examples
   rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision
-  rechtsinformationen-bund documents dossier --search-term "Bürgergeld" --grep Bürgergeld
+  rechtsinformationen-bund documents dossier --search-term "Suchbegriff" --grep Suchbegriff
 """)
     elif path == ["documents", "text"]:
         print("""rechtsinformationen-bund documents text
@@ -143,11 +143,11 @@ def run_doctor():
     }, "/statistics"))
 
 
-def run_legacy(command, argv):
+def run_raw(command, argv):
     path_template, kind = LEGACY_COMMANDS[command]
     parsed = parse_args(argv)
     path = fill_path(path_template, parsed, command)
-    params = legacy_params(parsed)
+    params = raw_params(parsed)
     if command == "documents search" and parsed["flags"].get("search-term"):
         run_compact_search(path, params, parsed)
         return
@@ -276,7 +276,7 @@ def source_text(source):
     return strip_xml(body), resp["url"]
 
 
-def resolve_legacy(argv):
+def resolve_raw(argv):
     for width in (3, 2, 1):
         key = " ".join(argv[:width])
         if key in LEGACY_COMMANDS:
@@ -309,7 +309,7 @@ def parse_args(argv):
     return {"flags": flags, "params": params, "positionals": positionals}
 
 
-def legacy_params(parsed):
+def raw_params(parsed):
     params = dict(parsed["params"])
     flags = parsed["flags"]
     direct = {
@@ -359,7 +359,7 @@ def api_get(path, params=None):
 
 
 def http_get_absolute(url):
-    req = urllib.request.Request(url, headers={"User-Agent": APP_NAME + "/2.0", "Accept": "application/json, text/html, application/xml;q=0.9, */*;q=0.8"})
+    req = urllib.request.Request(url, headers={"User-Agent": APP_NAME, "Accept": "application/json, text/html, application/xml;q=0.9, */*;q=0.8"})
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
             return {
@@ -570,7 +570,7 @@ def envelope(command, summary, path_or_url):
             "Use existing official sources for production-grade legal research.",
         ],
         "nextActions": [
-            'rechtsinformationen-bund documents search --search-term "Bürgergeld" --limit 3',
+            'rechtsinformationen-bund documents search --search-term "Suchbegriff" --limit 3',
             "rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision",
         ],
     }

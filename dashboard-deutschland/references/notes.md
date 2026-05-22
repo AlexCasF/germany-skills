@@ -16,7 +16,7 @@ The useful live API shape is:
 - The dashboard sections referenced about 100 unique indicator IDs.
 - `tile/indicators` requires the `ids` parameter; without it, the endpoint returned a 500 error saying the required parameter is missing.
 - An unknown `ids` value returned an empty array with HTTP 200.
-- The indicator tile `tile_1666958835081` returned unemployment/open-vacancy data with embedded Highcharts series, widgets, text, source links, and update metadata.
+- The indicator tile `<indicator-id>` returned unemployment/open-vacancy data with embedded Highcharts series, widgets, text, source links, and update metadata.
 
 ## Common Pitfalls
 

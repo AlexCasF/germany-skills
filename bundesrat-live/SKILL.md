@@ -37,11 +37,11 @@ Use `bundesrat-live` to work with public Bundesrat XML feeds from `bundesrat.de`
 ```text
 bundesrat-live doctor
 bundesrat-live news --limit 5
-bundesrat-live news search --term "Bovenschulte" --limit 3
-bundesrat-live news page --url "https://www.bundesrat.de/SharedDocs/pm/2026/10_europaeischer_verdienstorden_merkel.html" --grep "Merkel"
+bundesrat-live news search --term "Suchbegriff" --limit 3
+bundesrat-live news page --url "https://www.bundesrat.de/SharedDocs/pm/2026/example.html" --grep "Suchbegriff"
 bundesrat-live dates --limit 5
-bundesrat-live members search --name "Özdemir" --limit 3
-bundesrat-live members dossier --name "Özdemir" --grep "Bundesrat"
+bundesrat-live members search --name "Mustername" --limit 3
+bundesrat-live members dossier --name "Mustername" --grep "Bundesrat"
 bundesrat-live plenum compact --limit 1 --top-limit 3
 bundesrat-live plenum current --limit 1 --top-limit 5
 bundesrat-live plenum next

@@ -96,8 +96,8 @@ Purpose
 
 Fast paths
   bundestag-live doctor
-  bundestag-live members search --name "Amthor" --limit 3
-  bundestag-live members dossier --name "Amthor" --grep "TÃ¤tigkeiten"
+  bundestag-live members search --name "Mustername" --limit 3
+  bundestag-live members dossier --name "Mustername" --grep "Suchbegriff"
   bundestag-live committees search --term "Arbeit" --limit 5
   bundestag-live committees dossier --id a11 --member-limit 5
   bundestag-live plenum conferences --limit 2 --item-limit 3
@@ -118,9 +118,9 @@ Endpoint-compatible commands
 def print_help(path):
     joined = " ".join(path)
     if joined == "members search":
-        print('bundestag-live members search --name "Amthor" --limit 3')
+        print('bundestag-live members search --name "Mustername" --limit 3')
     elif joined == "members dossier":
-        print('bundestag-live members dossier --id 2022 --grep "TÃ¤tigkeiten"')
+        print('bundestag-live members dossier --id 2022 --grep "Suchbegriff"')
     elif joined == "committees dossier":
         print("bundestag-live committees dossier --id a11 --member-limit 5 --news-limit 3")
     elif joined == "article page":
@@ -133,8 +133,8 @@ def print_examples():
     print("""bundestag-live examples
 
 1. bundestag-live doctor
-2. bundestag-live members search --name "Amthor" --limit 3
-3. bundestag-live members dossier --id 2022 --grep "TÃ¤tigkeiten"
+2. bundestag-live members search --name "Mustername" --limit 3
+3. bundestag-live members dossier --id 2022 --grep "Suchbegriff"
 4. bundestag-live committees search --term "Arbeit" --limit 5
 5. bundestag-live committees dossier --id a11 --member-limit 5 --news-limit 3
 6. bundestag-live plenum conferences --limit 2 --item-limit 5
@@ -172,7 +172,7 @@ def run_doctor(argv):
     payload["summary"] = summary
     payload["sources"] = default_sources()
     payload["warnings"] = default_warnings()
-    payload["nextActions"] = ['bundestag-live members search --name "Amthor" --limit 3', "bundestag-live committees search --term Arbeit --limit 5"]
+    payload["nextActions"] = ['bundestag-live members search --name "Mustername" --limit 3', "bundestag-live committees search --term Arbeit --limit 5"]
     emit(payload)
 
 
@@ -190,7 +190,7 @@ def run_members_list(argv):
     payload["items"] = [compact_member(item, flag_bool(parsed, "include-raw")) for item in members[:limit]]
     payload["sources"] = source("Bundestag member XML index", MEMBERS_URL, "api_endpoint")
     payload["warnings"] = default_warnings()
-    payload["nextActions"] = ['bundestag-live members search --name "Amthor" --limit 3']
+    payload["nextActions"] = ['bundestag-live members search --name "Mustername" --limit 3']
     emit(payload)
 
 
@@ -209,7 +209,7 @@ def run_members_search(argv):
     payload["items"] = [compact_member(item, flag_bool(parsed, "include-raw")) for item in matches[:limit]]
     payload["sources"] = source("Bundestag member XML index", MEMBERS_URL, "api_endpoint")
     payload["warnings"] = default_warnings()
-    payload["nextActions"] = [f"bundestag-live members dossier --id {item['id']}" for item in matches[:3]] or ['bundestag-live members search --name "Amthor" --limit 3']
+    payload["nextActions"] = [f"bundestag-live members dossier --id {item['id']}" for item in matches[:3]] or ['bundestag-live members search --name "Mustername" --limit 3']
     emit(payload)
 
 
@@ -229,7 +229,7 @@ def run_member_biography(argv):
     payload["items"] = [member_evidence(root, parsed["flags"].get("grep", ""))]
     payload["sources"] = sources_for_member(root, request_url)
     payload["warnings"] = default_warnings()
-    payload["nextActions"] = [f"bundestag-live members dossier --id {member_id} --grep TÃ¤tigkeiten"]
+    payload["nextActions"] = [f"bundestag-live members dossier --id {member_id} --grep Suchbegriff"]
     if flag_bool(parsed, "include-raw"):
         payload["rawXml"] = body
     emit(payload)
@@ -611,7 +611,7 @@ def fetch_xml_with_params(base, params):
 
 
 def fetch_raw(request_url):
-    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/bundestag-live-python-2.0"})
+    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/bundestag-live-python"})
     try:
         with urllib.request.urlopen(req, timeout=45) as response:
             return response.status, response.headers.get("Content-Type", ""), response.read().decode("utf-8", "replace")

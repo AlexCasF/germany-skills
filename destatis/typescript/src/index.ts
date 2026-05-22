@@ -7,7 +7,7 @@ type JsonObject = Record<string, unknown>;
 type ParsedArgs = { flags: Record<string, string>; params: Record<string, string>; positionals: string[] };
 type Credentials = { username: string; password: string; source: string; guest: boolean };
 
-const legacyPaths: Record<string, string> = {
+const rawPaths: Record<string, string> = {
   "catalogue statistics": "/catalogue/statistics",
   "catalogue tables": "/catalogue/tables",
   "catalogue variables": "/catalogue/variables",
@@ -45,7 +45,7 @@ async function main(argv: string[]): Promise<number> {
     else if (matches(argv, "table", "sample")) await runTableSample(argv.slice(2));
     else if (matches(argv, "timeseries", "dossier")) await runTimeseriesDossier(argv.slice(2));
     else if (matches(argv, "variables", "explain")) await runVariablesExplain(argv.slice(2));
-    else await runLegacy(argv);
+    else await runRaw(argv);
   } catch (error) {
     if (error instanceof CLIError) {
       fail(error.exitCode, error.code, error.message);
@@ -65,11 +65,11 @@ Purpose
 
 Fast paths
   destatis doctor
-  destatis search --term "Arbeitslose" --limit 5
-  destatis table source --name 12211-0900
-  destatis table dossier --name 12211-0900
+  destatis search --term "Indikator" --limit 5
+  destatis table source --name <table-name>
+  destatis table dossier --name <table-name>
 
-Legacy endpoint commands
+Raw endpoint commands
   catalogue statistics|tables|variables
   metadata table|timeseries
   data table|timeseries
@@ -108,7 +108,7 @@ returns source metadata and structured warnings if protected endpoints return 40
 Friendly alias for the GENESIS find endpoint. Keeps output compact.
 
 Example
-  destatis search --term "Arbeitslose" --limit 5
+  destatis search --term "Indikator" --limit 5
 `);
     return;
   }
@@ -139,7 +139,7 @@ async function runDoctor(argv: string[]): Promise<void> {
     (payload.summary as JsonObject).health = { ok: false, error: redact(error instanceof Error ? error.message : String(error)) };
   }
   try {
-    const found = await apiPost("/find/find", { term: "Arbeitslose", category: "all", pagelength: "1", language: "de" }, cred);
+    const found = await apiPost("/find/find", { term: "Indikator", category: "all", pagelength: "1", language: "de" }, cred);
     (payload.summary as JsonObject).findCheck = {
       ok: true,
       status: found.Status,
@@ -148,7 +148,7 @@ async function runDoctor(argv: string[]): Promise<void> {
   } catch (error) {
     (payload.summary as JsonObject).findCheck = { ok: false, error: redact(error instanceof Error ? error.message : String(error)) };
   }
-  payload.nextActions = ['destatis search --term "Arbeitslose" --limit 5', "destatis table source --name 12211-0900"];
+  payload.nextActions = ['destatis search --term "Indikator" --limit 5', "destatis table source --name <table-name>"];
   emit(payload);
 }
 
@@ -292,10 +292,10 @@ async function runVariablesExplain(argv: string[]): Promise<void> {
   emit(payload);
 }
 
-async function runLegacy(argv: string[]): Promise<void> {
+async function runRaw(argv: string[]): Promise<void> {
   if (argv.length < 2) throw new CLIError(2, "unknown_command", "expected command group and action");
   const command = argv.slice(0, 2).join(" ");
-  const path = legacyPaths[command];
+  const path = rawPaths[command];
   if (!path) throw new CLIError(2, "unknown_command", "unknown command path: " + argv.join(" "));
   const parsed = parseArgs(argv.slice(2));
   const cred = resolveCredentials(parsed);

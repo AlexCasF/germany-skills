@@ -61,7 +61,7 @@ def main(argv):
         elif argv[:2] == ["variables", "explain"]:
             run_variables_explain(argv[2:])
         else:
-            run_legacy(argv)
+            run_raw(argv)
     except CLIError as exc:
         fail(exc.exit_code, exc.code, exc.message)
     except Exception as exc:
@@ -77,11 +77,11 @@ Purpose
 
 Fast paths
   destatis doctor
-  destatis search --term "Arbeitslose" --limit 5
-  destatis table source --name 12211-0900
-  destatis table dossier --name 12211-0900
+  destatis search --term "Indikator" --limit 5
+  destatis table source --name <table-name>
+  destatis table dossier --name <table-name>
 
-Legacy endpoint commands
+Raw endpoint commands
   catalogue statistics|tables|variables
   metadata table|timeseries
   data table|timeseries
@@ -118,7 +118,7 @@ returns source metadata and structured warnings if protected endpoints return 40
 Friendly alias for the GENESIS find endpoint. Keeps output compact.
 
 Example
-  destatis search --term "Arbeitslose" --limit 5
+  destatis search --term "Indikator" --limit 5
 """)
     else:
         print_root_help()
@@ -151,7 +151,7 @@ def run_doctor(argv):
         payload["status"] = "error"
         payload["summary"]["health"] = {"ok": False, "error": redact(str(exc))}
     try:
-        found = api_post("/find/find", {"term": "Arbeitslose", "category": "all", "pagelength": "1", "language": "de"}, cred)
+        found = api_post("/find/find", {"term": "Indikator", "category": "all", "pagelength": "1", "language": "de"}, cred)
         payload["summary"]["findCheck"] = {
             "ok": True,
             "status": found.get("Status"),
@@ -159,7 +159,7 @@ def run_doctor(argv):
         }
     except Exception as exc:
         payload["summary"]["findCheck"] = {"ok": False, "error": redact(str(exc))}
-    payload["nextActions"] = ['destatis search --term "Arbeitslose" --limit 5', "destatis table source --name 12211-0900"]
+    payload["nextActions"] = ['destatis search --term "Indikator" --limit 5', "destatis table source --name <table-name>"]
     emit(payload)
 
 
@@ -301,7 +301,7 @@ def run_variables_explain(argv):
     emit(payload)
 
 
-def run_legacy(argv):
+def run_raw(argv):
     if len(argv) < 2:
         raise CLIError(2, "unknown_command", "expected command group and action")
     command = " ".join(argv[:2])

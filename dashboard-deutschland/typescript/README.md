@@ -1,4 +1,4 @@
-# dashboard-deutschland TypeScript / Node.js 2.0
+# dashboard-deutschland TypeScript / Node.js
 
 TypeScript / Node.js implementation of the Dashboard Deutschland research CLI.
 
@@ -6,5 +6,5 @@ TypeScript / Node.js implementation of the Dashboard Deutschland research CLI.
 npm install
 npm run build
 node dist/index.js doctor
-node dist/index.js indicator data --id tile_1666958835081 --limit 3
+node dist/index.js indicator data --id <indicator-id> --limit 3
 ```

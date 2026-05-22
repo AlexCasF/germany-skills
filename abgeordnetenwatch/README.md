@@ -11,7 +11,7 @@ side-job organizations.
 
 | Implementation | Path | Notes |
 | --- | --- | --- |
-| Go 2.0 | `go/main.go` | Agent-friendly CLI with doctor, search, page, source, and dossier helpers. |
+| Go | `go/main.go` | Agent-friendly CLI with doctor, search, page, source, and dossier helpers. |
 | Python | `python/abgeordnetenwatch.py` | Python parity implementation. |
 | TypeScript / Node.js | `typescript/src/index.ts` | TypeScript source compiled to Node.js JavaScript. |
 
@@ -21,4 +21,4 @@ The public API is unauthenticated and returns JSON.
 
 The official API documentation says the data is provided under CC0 1.0.
 No exact request-per-minute rate limit was found in the official API docs, so
-the 2.0 CLI uses small default limits and records fair-use warnings.
+the CLI uses small default limits and records fair-use warnings.

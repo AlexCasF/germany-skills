@@ -12,7 +12,7 @@ Do not copy the public key into repo files or logs. Use:
 $env:LOBBYREGISTER_API_KEY = "<key>"
 ```
 
-The V2 OpenAPI document supports:
+The current OpenAPI document supports:
 
 - `Authorization: ApiKey <key>`
 - `apikey=<key>` query parameter
@@ -36,7 +36,7 @@ Fair-use guidance for agents:
 
 The official Open Data/API page states that public register contents can be
 queried through the API and references JSON/OpenAPI documentation. It also says
-API V2 replaced API V1 on 2025-06-23.
+The current API replaced the earlier API on 2025-06-23.
 
 Statement texts and PDFs may include copyrighted material. Quote only short
 excerpts and cite the official source URL.

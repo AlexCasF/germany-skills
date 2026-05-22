@@ -74,7 +74,7 @@ def main(argv):
         elif argv[0] == "source":
             run_politician_source(argv[1:])
         else:
-            run_legacy(argv)
+            run_raw(argv)
     except CLIError as exc:
         fail(exc.exit_code, exc.code, exc.message)
     return 0
@@ -89,10 +89,10 @@ Purpose
 
 Fast paths
   abgeordnetenwatch doctor
-  abgeordnetenwatch politicians search --name "Alice Weidel" --limit 3
-  abgeordnetenwatch politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
+  abgeordnetenwatch politicians search --name "Mustername" --limit 3
+  abgeordnetenwatch politicians dossier --name "Mustername" --grep Suchbegriff
 
-Legacy endpoint commands
+Raw endpoint commands
   <entity> list|get
 
 Research commands
@@ -116,8 +116,8 @@ mandates, side jobs, source URLs, page metadata, optional profile-page snippets,
 warnings, and next actions.
 
 Examples
-  abgeordnetenwatch politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
-  abgeordnetenwatch politicians dossier --id 108379 --limit 5
+  abgeordnetenwatch politicians dossier --name "Mustername" --grep Suchbegriff
+  abgeordnetenwatch politicians dossier --id <politician-id> --limit 5
 """)
     elif joined == "politicians page":
         print("""abgeordnetenwatch politicians page
@@ -162,13 +162,13 @@ def run_doctor():
     payload["sources"] = default_sources()
     payload["warnings"] = standard_warnings()
     payload["nextActions"] = [
-        'abgeordnetenwatch politicians search --name "Alice Weidel" --limit 3',
-        "abgeordnetenwatch politicians dossier --id 108379 --grep NebentÃ¤tigkeiten",
+        'abgeordnetenwatch politicians search --name "Mustername" --limit 3',
+        "abgeordnetenwatch politicians dossier --id <politician-id> --grep Suchbegriff",
     ]
     emit(payload)
 
 
-def run_legacy(argv):
+def run_raw(argv):
     if len(argv) < 2:
         raise CLIError(2, "unknown_command", "expected <entity> list|get")
     entity, action = argv[0], argv[1]
@@ -271,7 +271,7 @@ def run_politician_dossier(argv):
     ]
     payload["nextActions"] = [
         f"abgeordnetenwatch sidejobs for-politician --id {ident} --limit {limit}",
-        f"abgeordnetenwatch politicians page --id {ident} --grep NebentÃ¤tigkeiten",
+        f"abgeordnetenwatch politicians page --id {ident} --grep Suchbegriff",
     ]
     emit(payload)
 
@@ -309,7 +309,7 @@ def run_sidejobs_for_politician(argv):
     payload["items"] = summarize_records(sidejobs, limit)
     payload["sources"] = [{"kind": "api", "title": "Sidejobs endpoint", "url": BASE_URL + "/sidejobs"}]
     payload["warnings"] = standard_warnings() + ["Side-job data is disclosure data; interpret categories and income fields cautiously."]
-    payload["nextActions"] = [f"abgeordnetenwatch politicians dossier --id {ident} --grep NebentÃ¤tigkeiten"]
+    payload["nextActions"] = [f"abgeordnetenwatch politicians dossier --id {ident} --grep Suchbegriff"]
     emit(payload)
 
 
@@ -413,7 +413,7 @@ def api_get(path, params=None):
 
 
 def http_get(raw_url, accept):
-    request = urllib.request.Request(raw_url, headers={"Accept": accept, "User-Agent": APP_NAME + "/2.0 (+https://github.com/AlexCasF/germany-skills)"})
+    request = urllib.request.Request(raw_url, headers={"Accept": accept, "User-Agent": APP_NAME + " (+https://github.com/AlexCasF/germany-skills)"})
     try:
         with urllib.request.urlopen(request, timeout=30) as response:
             return {"url": response.geturl(), "status": response.status, "contentType": response.headers.get("content-type", ""), "body": response.read(8 * 1024 * 1024).decode("utf-8", errors="replace")}
@@ -541,7 +541,7 @@ def next_for_politician_items(items):
         if ident is None:
             continue
         out.append(f"abgeordnetenwatch politicians dossier --id {ident}")
-        out.append(f"abgeordnetenwatch politicians page --id {ident} --grep NebentÃ¤tigkeiten")
+        out.append(f"abgeordnetenwatch politicians page --id {ident} --grep Suchbegriff")
         if len(out) >= 4:
             break
     return out

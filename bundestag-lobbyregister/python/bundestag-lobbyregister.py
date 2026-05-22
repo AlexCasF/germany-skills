@@ -51,7 +51,7 @@ def main(argv):
             run_financial_summary(argv[2:])
         elif argv[:2] == ["statements", "list"]:
             run_statements_list(argv[2:])
-        elif argv[:2] == ["v1", "search"]:
+        elif argv[:2] == ["raw", "search"]:
             run_v1_search(argv[2:])
         else:
             raise CLIError(2, "unknown_command", "unknown command path: " + " ".join(argv))
@@ -71,9 +71,9 @@ Purpose
 
 Fast paths
   bundestag-lobbyregister doctor
-  bundestag-lobbyregister search --term "Bundesverband Soziokultur" --limit 3
-  bundestag-lobbyregister entry dossier --register-number R001255 --grep "Foerderung"
-  bundestag-lobbyregister financial summary --register-number R001255
+  bundestag-lobbyregister search --term "Musterverband" --limit 3
+  bundestag-lobbyregister entry dossier --register-number <register-number> --grep "Foerderung"
+  bundestag-lobbyregister financial summary --register-number <register-number>
 
 Research commands
   doctor
@@ -85,8 +85,8 @@ Research commands
   financial summary
   statements list
 
-Legacy command
-  v1 search
+Raw endpoint command
+  raw search
 
 Auth
   Prefer LOBBYREGISTER_API_KEY from the environment.
@@ -102,18 +102,18 @@ def print_help(path):
 Builds a compact evidence bundle for one register entry.
 
 Examples
-  bundestag-lobbyregister entry dossier --register-number R001255 --grep "Laerm"
-  bundestag-lobbyregister entry dossier --name "Bundesverband Soziokultur"
+  bundestag-lobbyregister entry dossier --register-number <register-number> --grep "Laerm"
+  bundestag-lobbyregister entry dossier --name "Musterverband"
 """)
     elif joined == "search":
         print("""bundestag-lobbyregister search
 
-Safe V2 free-text search with compact summaries and a small default limit.
+Safe free-text search with compact summaries and a small default limit.
 """)
     elif joined == "entry get":
         print("""bundestag-lobbyregister entry get
 
-Fetch one official V2 register entry by register number.
+Fetch one official register entry by register number.
 """)
     elif joined == "financial summary":
         print("""bundestag-lobbyregister financial summary
@@ -144,7 +144,7 @@ def run_doctor(argv):
     payload["sources"] = default_sources()
     payload["warnings"] = standard_warnings()
     if not key:
-        payload["warnings"].append("LOBBYREGISTER_API_KEY is not configured; live V2 calls will fail.")
+        payload["warnings"].append("LOBBYREGISTER_API_KEY is not configured; live API calls will fail.")
         payload["nextActions"] = ["Set LOBBYREGISTER_API_KEY, then run: bundestag-lobbyregister statistics"]
         emit(payload)
         return
@@ -162,8 +162,8 @@ def run_doctor(argv):
         payload["status"] = "error"
         payload["summary"]["health"] = {"ok": False, "error": redact(str(exc))}
     payload["nextActions"] = [
-        'bundestag-lobbyregister search --term "Bundesverband" --limit 3',
-        "bundestag-lobbyregister entry dossier --register-number R001255",
+        'bundestag-lobbyregister search --term "Musterverband" --limit 3',
+        "bundestag-lobbyregister entry dossier --register-number <register-number>",
     ]
     emit(payload)
 
@@ -324,7 +324,7 @@ def get_entry_from_args(parsed):
     if not register_number:
         raise CLIError(2, "missing_register_number", "requires --register-number or --name")
     if not re.match(r"^R[0-9]{6}$", register_number):
-        raise CLIError(2, "invalid_register_number", "register number must look like R001255")
+        raise CLIError(2, "invalid_register_number", "register number must look like <register-number>")
     path = "/registerentries/" + urllib.parse.quote(register_number)
     if parsed["flags"].get("version"):
         path += "/" + urllib.parse.quote(parsed["flags"]["version"])
@@ -463,14 +463,14 @@ def default_sources():
     return [
         {"title": "Bundestag Lobbyregister", "url": PUBLIC_URL, "kind": "official-register"},
         {"title": "Open Data/API page", "url": f"{PUBLIC_URL}/informationen-und-hilfe/open-data-1049716", "kind": "terms"},
-        {"title": "Swagger UI V2", "url": f"{BASE_URL}/swagger-ui/", "kind": "api-docs"},
-        {"title": "OpenAPI YAML V2", "url": f"{BASE_URL}/R2.21-de.yaml", "kind": "openapi"},
+        {"title": "Swagger UI", "url": f"{BASE_URL}/swagger-ui/", "kind": "api-docs"},
+        {"title": "OpenAPI YAML", "url": f"{BASE_URL}/R2.21-de.yaml", "kind": "openapi"},
     ]
 
 
 def standard_warnings():
     return [
-        "V2 API calls require an API key; this tool redacts keys from normalized output.",
+        "API calls require an API key; this tool redacts keys from normalized output.",
         "Register disclosures describe published self-reported register data; corroborate contentious claims with additional official sources.",
         "Use small limits for broad searches; the upstream search endpoint returns full-detail records.",
     ]

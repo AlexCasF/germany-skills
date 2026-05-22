@@ -3,9 +3,9 @@
 Self-contained skill and CLI bundle for the Deutschlandatlas public ArcGIS data
 services.
 
-## What changed in 2.0
+## Current behavior
 
-- Preserved the legacy raw `table query` behavior.
+- Preserved the raw raw `table query` behavior.
 - Added layer auto-discovery, because live services can use feature layers other
   than `0`.
 - Added research commands: `doctor`, `tables search`, `table fields`,
@@ -18,9 +18,9 @@ services.
 ## Quick start
 
 ```powershell
-skills\deutschlandatlas\bin\deutschlandatlas-2.0.exe doctor
-skills\deutschlandatlas\bin\deutschlandatlas-2.0.exe tables search --term "Arbeitslosenquote" --limit 5
-skills\deutschlandatlas\bin\deutschlandatlas-2.0.exe indicator dossier --table alq_HA2023 --limit 3
+skills\deutschlandatlas\bin\deutschlandatlas.exe doctor
+skills\deutschlandatlas\bin\deutschlandatlas.exe tables search --term "Indikator" --limit 5
+skills\deutschlandatlas\bin\deutschlandatlas.exe indicator dossier --table alq_HA2023 --limit 3
 ```
 
 ## Sources

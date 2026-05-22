@@ -35,12 +35,12 @@ Use this skill to search and cite public transparency data from abgeordnetenwatc
 
 ## Preferred tool
 
-Prefer the 2.0 CLI contract.
+Prefer the CLI contract.
 
 Use the local executable when available:
 
 ```powershell
-skills\abgeordnetenwatch\bin\abgeordnetenwatch-2.0.exe doctor
+skills\abgeordnetenwatch\bin\abgeordnetenwatch.exe doctor
 ```
 
 Portable fallbacks:
@@ -72,33 +72,33 @@ abgeordnetenwatch doctor
 Search:
 
 ```powershell
-abgeordnetenwatch politicians search --name "Alice Weidel" --limit 3
-abgeordnetenwatch politicians search --name "Gauweiler" --limit 3
+abgeordnetenwatch politicians search --name "Mustername" --limit 3
+abgeordnetenwatch politicians search --name "Mustername" --limit 3
 ```
 
 Source/page:
 
 ```powershell
-abgeordnetenwatch politicians source --id 108379
-abgeordnetenwatch politicians page --id 108379 --grep Nebentätigkeiten
-abgeordnetenwatch politicians page --url https://www.abgeordnetenwatch.de/profile/alice-weidel --grep Nebentätigkeiten
+abgeordnetenwatch politicians source --id <politician-id>
+abgeordnetenwatch politicians page --id <politician-id> --grep Suchbegriff
+abgeordnetenwatch politicians page --url https://www.abgeordnetenwatch.de/profile/example --grep Suchbegriff
 ```
 
 Evidence bundle:
 
 ```powershell
-abgeordnetenwatch politicians dossier --id 108379 --grep Nebentätigkeiten --limit 5
-abgeordnetenwatch sidejobs for-politician --id 108379 --limit 5
-abgeordnetenwatch mandates for-politician --id 108379 --limit 5
+abgeordnetenwatch politicians dossier --id <politician-id> --grep Suchbegriff --limit 5
+abgeordnetenwatch sidejobs for-politician --id <politician-id> --limit 5
+abgeordnetenwatch mandates for-politician --id <politician-id> --limit 5
 ```
 
 Raw endpoint access remains available:
 
 ```powershell
 abgeordnetenwatch parliaments list --limit 5
-abgeordnetenwatch politicians get --id 108379
+abgeordnetenwatch politicians get --id <politician-id>
 abgeordnetenwatch sidejobs list --limit 5
-abgeordnetenwatch sidejobs get --id 20846
+abgeordnetenwatch sidejobs get --id <sidejob-id>
 ```
 
 ## Output expectations
@@ -116,7 +116,7 @@ Research commands return JSON envelopes with:
 - `warnings`
 - `nextActions`
 
-Legacy endpoint commands return upstream API JSON directly.
+Raw endpoint commands return upstream API JSON directly.
 
 ## Evidence caveats
 
@@ -140,5 +140,4 @@ Legacy endpoint commands return upstream API JSON directly.
 - `references/notes.md`
 - `references/research.md`
 - `references/rate-limits-and-terms.md`
-- `tests/test-plan.md`
 - `MANIFEST.md`

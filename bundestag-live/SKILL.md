@@ -35,8 +35,8 @@ Use `bundestag-live` to work with public Bundestag live/site XML surfaces. This 
 ## High-value commands
 
 ```text
-bundestag-live members search --name "Amthor" --limit 3
-bundestag-live members dossier --id 2022 --grep "Tätigkeiten"
+bundestag-live members search --name "Mustername" --limit 3
+bundestag-live members dossier --id 2022 --grep "Suchbegriff"
 bundestag-live committees search --term "Arbeit" --limit 5
 bundestag-live committees dossier --id a11 --member-limit 5 --news-limit 3
 bundestag-live plenum conferences --limit 2 --item-limit 5

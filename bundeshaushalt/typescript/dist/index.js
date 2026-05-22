@@ -9,7 +9,7 @@ const ROBOTS_URL = "https://www.bundeshaushalt.de/robots.txt";
 const BMF_BUDGET_URL = "https://www.bundesfinanzministerium.de/Web/DE/Themen/Oeffentliche_Finanzen/Bundeshaushalt/bundeshaushalt.html";
 const BMF_DATA_USE_URL = "https://www.bundesfinanzministerium.de/Datenportal/Nutzungshinweise/nutzungshinweise.html";
 const OPENAPI_WRAPPER_URL = "https://github.com/anetz89/bundeshaushalt-api";
-const USER_AGENT = "germany-skills/bundeshaushalt-node-2.0";
+const USER_AGENT = "germany-skills/bundeshaushalt-node";
 const KNOWN_YEARS = Array.from({ length: 15 }, (_, index) => 2012 + index);
 const EARLIEST_KNOWN_YEAR = 2012;
 const LATEST_TARGET_YEAR = 2026;
@@ -80,13 +80,13 @@ async function main(argv) {
     }
 }
 function printRootHelp() {
-    console.log(`bundeshaushalt 2.0 - Bundeshaushalt Digital research CLI
+    console.log(`bundeshaushalt - Bundeshaushalt Digital research CLI
 
 Usage:
   bundeshaushalt doctor
   bundeshaushalt years list
   bundeshaushalt budget tree --year 2026 --account expenses --quota target --unit single --limit 8
-  bundeshaushalt search --year 2025 --account expenses --term "Buergergeld" --limit 5
+  bundeshaushalt search --year 2025 --account expenses --term "Suchbegriff" --limit 5
   bundeshaushalt title get --year 2025 --account expenses --id 110168112
   bundeshaushalt compare --years 2024,2025 --account expenses --id 110168112
   bundeshaushalt budget-data --year 2025 --account expenses --quota target --unit single --raw

@@ -1,4 +1,4 @@
-# regionalatlas TypeScript / Node.js 2.0
+# regionalatlas TypeScript / Node.js
 
 TypeScript / Node.js implementation of the Regionalatlas research CLI.
 
@@ -13,8 +13,8 @@ npm run build
 
 ```powershell
 node dist/index.js doctor
-node dist/index.js indicators search --term Arbeitslosenquote --limit 3
-node dist/index.js sample --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 3
+node dist/index.js indicators search --term Indikator --limit 3
+node dist/index.js sample --indicator <indicator-code> --field <field-code> --year 2024 --region-level 1 --limit 3
 ```
 
 The command surface mirrors the Go and Python versions. JSON is the default output format.

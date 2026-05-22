@@ -3,7 +3,7 @@
 This skill folder contains the CLI and guidance for official Bundestag
 Lobbyregister research.
 
-The V2 API provides read-only access to public lobby-register contents for
+The current API provides read-only access to public lobby-register contents for
 interests represented toward the German Bundestag and the Federal Government.
 It is useful for registered organizations/persons, activity descriptions,
 fields of interest, financial expense ranges, funding sources, donations,
@@ -14,13 +14,13 @@ public detail pages, PDFs, and statistics.
 
 | Implementation | Path | Notes |
 | --- | --- | --- |
-| Go 2.0 | `go/main.go` | Agent-friendly V2 CLI with auth, safe search, source, dossier, statistics, financial, and statement helpers. |
+| Go | `go/main.go` | Agent-friendly CLI with auth, safe search, source, dossier, statistics, financial, and statement helpers. |
 | Python | `python/bundestag-lobbyregister.py` | Python parity implementation. |
 | TypeScript / Node.js | `typescript/src/index.ts` | TypeScript source compiled to Node.js JavaScript. |
 
 ## Runtime data
 
-The official V2 API requires an API key. Use `LOBBYREGISTER_API_KEY` in the
+The official current API requires an API key. Use `LOBBYREGISTER_API_KEY` in the
 environment. `--apikey` is supported for local compatibility, but normalized
 outputs redact key material.
 

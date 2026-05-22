@@ -16,9 +16,9 @@ The tool reads the Bundeshaushalt Digital internal JSON endpoint. It is best for
 Start narrow and let the CLI teach you the next command.
 
 ```powershell
-skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe doctor
-skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe fields
-skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe years list
+skills\bundeshaushalt\bin\bundeshaushalt.exe doctor
+skills\bundeshaushalt\bin\bundeshaushalt.exe fields
+skills\bundeshaushalt\bin\bundeshaushalt.exe years list
 ```
 
 If you need a Python or TypeScript/Node equivalent:
@@ -56,12 +56,12 @@ Use this sequence for most questions:
 ## Common Examples
 
 ```powershell
-skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe budget tree --year 2026 --account expenses --quota target --unit single --limit 8
-skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe budget tree --year 2025 --account expenses --id 11 --limit 8
-skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe search --year 2025 --account expenses --term "Bürgergeld" --limit 5
-skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe title get --year 2025 --account expenses --id 110168112
-skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe compare --years 2024,2025 --account expenses --id 110168112
-skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe budget-data --param year=2025 --param account=expenses --param quota=target --param unit=single --raw
+skills\bundeshaushalt\bin\bundeshaushalt.exe budget tree --year 2026 --account expenses --quota target --unit single --limit 8
+skills\bundeshaushalt\bin\bundeshaushalt.exe budget tree --year 2025 --account expenses --id 11 --limit 8
+skills\bundeshaushalt\bin\bundeshaushalt.exe search --year 2025 --account expenses --term "Suchbegriff" --limit 5
+skills\bundeshaushalt\bin\bundeshaushalt.exe title get --year 2025 --account expenses --id 110168112
+skills\bundeshaushalt\bin\bundeshaushalt.exe compare --years 2024,2025 --account expenses --id 110168112
+skills\bundeshaushalt\bin\bundeshaushalt.exe budget-data --param year=2025 --param account=expenses --param quota=target --param unit=single --raw
 ```
 
 ## Interpretation Rules
@@ -78,7 +78,7 @@ skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe budget-data --param year=2025 -
 
 - The old OpenAPI file is stale: its year enum stops at 2021, while live endpoint tests found target data through 2026.
 - The live endpoint requires at least `year` and `account`; missing required params return HTTP 400.
-- Some node responses include `related` categories such as `agency`, `function`, and `group`; the 2.0 CLIs parse these.
+- Some node responses include `related` categories such as `agency`, `function`, and `group`; the CLIs parse these.
 - Broad `search` can traverse many hierarchy nodes. Keep `--limit` low and adjust `--max-requests` only when needed.
 - No exact public API quota was found. Respect `robots.txt` crawl-delay guidance for crawling-like workflows and avoid repeated large traversals.
 
@@ -88,4 +88,3 @@ skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe budget-data --param year=2025 -
 - `references/notes.md`
 - `references/research.md`
 - `references/rate-limits-and-terms.md`
-- `tests/test-plan.md`

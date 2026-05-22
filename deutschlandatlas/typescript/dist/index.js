@@ -66,12 +66,12 @@ Purpose
 
 Fast paths
   deutschlandatlas doctor
-  deutschlandatlas tables search --term "Arbeitslosenquote" --limit 5
+  deutschlandatlas tables search --term "Indikator" --limit 5
   deutschlandatlas table fields --table alq_HA2023
   deutschlandatlas table sample --table alq_HA2023 --limit 5
   deutschlandatlas indicator dossier --table alq_HA2023
 
-Legacy-compatible command
+Raw endpoint command
   table query --table <table> [--param key=value] [--layer auto|0|5]
 
 Research commands
@@ -151,7 +151,7 @@ async function runDoctor(argv) {
     payload.summary = summary;
     payload.sources = defaultSources();
     payload.warnings = warnings;
-    payload.nextActions = ['deutschlandatlas tables search --term "Arbeitslosenquote" --limit 5', "deutschlandatlas indicator dossier --table alq_HA2023"];
+    payload.nextActions = ['deutschlandatlas tables search --term "Indikator" --limit 5', "deutschlandatlas indicator dossier --table alq_HA2023"];
     emit(payload);
 }
 async function runTablesSearch(argv) {
@@ -251,7 +251,7 @@ async function runTableSample(argv) {
 async function runTableSource(argv) {
     const parsed = parseArgs(argv);
     const table = requiredTable(parsed);
-    const [layer, layerSource] = flagBool(parsed, "skip-layer-discovery") ? [0, "legacy_default"] : await resolveLayer(table, parsed);
+    const [layer, layerSource] = flagBool(parsed, "skip-layer-discovery") ? [0, "raw_default"] : await resolveLayer(table, parsed);
     const payload = envelope("table source", serviceUrl(table), { table, layer });
     payload.summary = { table, selectedLayer: layer, layerSource, authRequired: false, apiStyle: "ArcGIS REST MapServer query endpoint", rateLimitFound: false };
     payload.sources = sourcesForTable(table, layer);
@@ -372,8 +372,8 @@ function requiredTable(parsed) {
     return table;
 }
 async function resolveLayer(table, parsed) {
-    if (flagBool(parsed, "legacy-layer-zero"))
-        return [0, "legacy_layer_zero"];
+    if (flagBool(parsed, "raw-layer-zero"))
+        return [0, "raw_layer_zero"];
     const layerFlag = firstNonEmpty(parsed.flags.layer, "auto");
     if (layerFlag && layerFlag !== "auto") {
         const layer = Number.parseInt(layerFlag, 10);
@@ -391,7 +391,7 @@ async function resolveLayer(table, parsed) {
     throw new CLIError(1, "no_feature_layer", "service metadata did not expose a feature layer");
 }
 async function fetchJson(requestUrl) {
-    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/deutschlandatlas-node-2.0" } });
+    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/deutschlandatlas-node" } });
     const text = await response.text();
     if (!response.ok)
         throw new Error(`HTTP ${response.status} from ${requestUrl}: ${text.slice(0, 300)}`);

@@ -66,7 +66,7 @@ git clone https://github.com/AlexCasF/germany-skills.git && cd germany-skills &&
 Windows binary, where available:
 
 ```powershell
-git clone https://github.com/AlexCasF/germany-skills.git; cd germany-skills; .\dip-bundestag\bin\dip-bundestag-2.0.exe doctor
+git clone https://github.com/AlexCasF/germany-skills.git; cd germany-skills; .\dip-bundestag\bin\dip-bundestag.exe doctor
 ```
 
 ## Agent Installation Patterns
@@ -107,7 +107,7 @@ Use this repository as a bundled skill/tool asset:
 git clone https://github.com/AlexCasF/germany-skills.git skills
 ```
 
-Bundle `skills/` into the agent runtime image or deployment package, compile the Go v2 CLIs into the runtime `bin/` directory, and expose shell execution through your normal ADK tool boundary.
+Bundle `skills/` into the agent runtime image or deployment package, compile the Go CLIs into the runtime `bin/` directory, and expose shell execution through your normal ADK tool boundary.
 
 ### Hermes, OpenClaw, Pi, Picoclaw, And Similar Computer Agents
 

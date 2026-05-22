@@ -11,7 +11,7 @@ legal search, and HTML/XML source renditions.
 
 | Implementation | Path | Notes |
 | --- | --- | --- |
-| Go 2.0 | `go/main.go` | Agent-friendly CLI with doctor, source, text, dossier, and cite helpers. |
+| Go | `go/main.go` | Agent-friendly CLI with doctor, source, text, dossier, and cite helpers. |
 | Python | `python/rechtsinformationen-bund.py` | Python parity implementation. |
 | TypeScript / Node.js | `typescript/src/index.ts` | TypeScript source compiled to Node.js JavaScript. |
 
@@ -27,5 +27,4 @@ artifacts.
 
 ## Validation
 
-The Go 2.0, Python, and TypeScript/Node.js implementations all passed the
-shared 10-case test plan in `tests/test-plan.md`.
+The Go, Python, and TypeScript/Node.js implementations all passed the

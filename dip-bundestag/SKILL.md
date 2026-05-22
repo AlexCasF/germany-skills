@@ -37,7 +37,7 @@ Typical workflow:
 - DIP is the best fit in this repo for Bundestag process research, not live session presentation data.
 - Official plenary-session claims should be checked against `plenarprotokoll-text`, not news or outside quotes.
 
-## Useful v2 commands
+## Useful commands
 
 - `dip-bundestag doctor`
 - `dip-bundestag person search --name "Name"`

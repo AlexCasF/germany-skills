@@ -77,12 +77,12 @@ Purpose
 
 Fast paths
   regionalatlas doctor
-  regionalatlas indicators search --term "Arbeitslosenquote" --limit 5
-  regionalatlas fields --indicator AI008-1-5
-  regionalatlas sample --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
-  regionalatlas dossier --indicator AI008-1-5 --field AI0801 --year 2024
+  regionalatlas indicators search --term "Indikator" --limit 5
+  regionalatlas fields --indicator <indicator-code>
+  regionalatlas sample --indicator <indicator-code> --field <field-code> --year 2024 --region-level 1 --limit 5
+  regionalatlas dossier --indicator <indicator-code> --field <field-code> --year 2024
 
-Legacy-compatible command
+Raw endpoint command
   query --layer <dynamic-layer-json> [--param key=value]
 
 Research commands
@@ -110,8 +110,8 @@ Fetches a small ArcGIS dynamic-layer sample. Defaults:
   --geometry false
 
 Useful flags
-  --indicator AI008-1-5
-  --field AI0801
+  --indicator <indicator-code>
+  --field <field-code>
   --year 2024
   --region-level 1
   --ags 11
@@ -178,8 +178,8 @@ async function runDoctor(argv) {
     payload.sources = defaultSources();
     payload.warnings = warnings;
     payload.nextActions = [
-        'regionalatlas indicators search --term "Arbeitslosenquote" --limit 5',
-        "regionalatlas fields --indicator AI008-1-5"
+        'regionalatlas indicators search --term "Indikator" --limit 5',
+        "regionalatlas fields --indicator <indicator-code>"
     ];
     emit(payload);
 }
@@ -195,7 +195,7 @@ async function runIndicatorsList(argv) {
     payload.items = compactIndicators(flat, limit);
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
-    payload.nextActions = ['regionalatlas indicators search --term "Arbeitslosenquote" --limit 5'];
+    payload.nextActions = ['regionalatlas indicators search --term "Indikator" --limit 5'];
     emit(payload);
 }
 async function runIndicatorsSearch(argv) {
@@ -469,7 +469,7 @@ async function fetchCatalog() {
 }
 async function fetchJson(requestUrl) {
     const response = await fetch(requestUrl, {
-        headers: { "User-Agent": "germany-skills/regionalatlas-node-2.0" },
+        headers: { "User-Agent": "germany-skills/regionalatlas-node" },
         signal: AbortSignal.timeout(45000)
     });
     const body = await response.text();

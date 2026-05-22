@@ -16,9 +16,9 @@ Treat Tagesschau as a context layer. Do not use it as the sole evidence for parl
 Start with health and source/usage context:
 
 ```powershell
-& .\skills\tagesschau\bin\tagesschau-2.0.exe doctor
-& .\skills\tagesschau\bin\tagesschau-2.0.exe source
-& .\skills\tagesschau\bin\tagesschau-2.0.exe fields
+& .\skills\tagesschau\bin\tagesschau.exe doctor
+& .\skills\tagesschau\bin\tagesschau.exe source
+& .\skills\tagesschau\bin\tagesschau.exe fields
 ```
 
 Alternative runtimes:
@@ -49,7 +49,7 @@ Use this sequence:
 - `news --ressort inland --limit N`: compact news feed. Also supports `--regions`.
 - `channels --limit N`: compact channel feed.
 - `search --text TERM --limit N`: compact search feed.
-- `search --param searchText=TERM --param pageSize=N`: legacy-compatible parameter path.
+- `search --param searchText=TERM --param pageSize=N`: raw-compatible parameter path.
 - `article source --url URL`: cite/source metadata without fetching article content.
 - `article get --url URL --grep TERM --limit N`: bounded snippets from one article JSON/detail URL.
 - `article dossier --url URL --limit N`: metadata, snippets, sources, caveats, and next actions.
@@ -57,12 +57,12 @@ Use this sequence:
 ## Examples
 
 ```powershell
-& .\skills\tagesschau\bin\tagesschau-2.0.exe homepage --limit 5
-& .\skills\tagesschau\bin\tagesschau-2.0.exe news --ressort inland --limit 5
-& .\skills\tagesschau\bin\tagesschau-2.0.exe search --text "Bundestag" --limit 5
-& .\skills\tagesschau\bin\tagesschau-2.0.exe search --param searchText=Bundestag --param pageSize=5
-& .\skills\tagesschau\bin\tagesschau-2.0.exe article source --url "https://www.tagesschau.de/inland/example-100.html"
-& .\skills\tagesschau\bin\tagesschau-2.0.exe article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Bundestag" --limit 3
+& .\skills\tagesschau\bin\tagesschau.exe homepage --limit 5
+& .\skills\tagesschau\bin\tagesschau.exe news --ressort inland --limit 5
+& .\skills\tagesschau\bin\tagesschau.exe search --text "Suchbegriff" --limit 5
+& .\skills\tagesschau\bin\tagesschau.exe search --param searchText=Suchbegriff --param pageSize=5
+& .\skills\tagesschau\bin\tagesschau.exe article source --url "https://www.tagesschau.de/inland/example-100.html"
+& .\skills\tagesschau\bin\tagesschau.exe article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Suchbegriff" --limit 3
 ```
 
 ## Interpretation And Safety Rules
@@ -90,4 +90,3 @@ The CLI converts between public and API URLs and returns both.
 - `references/notes.md`
 - `references/research.md`
 - `references/rate-limits-and-terms.md`
-- `tests/test-plan.md`

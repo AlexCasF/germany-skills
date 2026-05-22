@@ -13,10 +13,10 @@ The Regionalatlas is useful for comparing regions by population, labor market, e
 
 ## Primary Tool
 
-Use the Go 2.0 binary first:
+Use the Go binary first:
 
 ```powershell
-skills\regionalatlas\bin\regionalatlas-2.0.exe --help
+skills\regionalatlas\bin\regionalatlas.exe --help
 ```
 
 Alternative implementations with the same command surface:
@@ -37,26 +37,26 @@ regionalatlas doctor
 2. Search the indicator catalog:
 
 ```powershell
-regionalatlas indicators search --term "Arbeitslosenquote" --limit 5
+regionalatlas indicators search --term "Indikator" --limit 5
 ```
 
 3. Inspect fields, units, available years, and metadata:
 
 ```powershell
-regionalatlas fields --indicator AI008-1-5
-regionalatlas explain-field --indicator AI008-1-5 --field AI0801 --grep Quelle
+regionalatlas fields --indicator <indicator-code>
+regionalatlas explain-field --indicator <indicator-code> --field <field-code> --grep Quelle
 ```
 
 4. Fetch a small bounded sample:
 
 ```powershell
-regionalatlas sample --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
+regionalatlas sample --indicator <indicator-code> --field <field-code> --year 2024 --region-level 1 --limit 5
 ```
 
 5. Use `dossier` when you need an evidence bundle:
 
 ```powershell
-regionalatlas dossier --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
+regionalatlas dossier --indicator <indicator-code> --field <field-code> --year 2024 --region-level 1 --limit 5
 ```
 
 ## Command Map
@@ -71,7 +71,7 @@ regionalatlas dossier --indicator AI008-1-5 --field AI0801 --year 2024 --region-
 - `dossier`: combines metadata, source URLs, field snippets, and a small sample.
 - `query-builder`: builds the encoded ArcGIS request URL without fetching.
 - `explain-field`: extracts field metadata snippets, optionally filtered by `--grep`.
-- `query`: preserves the raw legacy dynamic-layer query escape hatch.
+- `query`: preserves the raw raw dynamic-layer query escape hatch.
 
 ## Safety Rules
 

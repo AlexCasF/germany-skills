@@ -52,7 +52,7 @@ async function main(argv: string[]): Promise<number> {
       await runFinancialSummary(argv.slice(2));
     } else if (matches(argv, "statements", "list")) {
       await runStatementsList(argv.slice(2));
-    } else if (matches(argv, "v1", "search")) {
+    } else if (matches(argv, "raw", "search")) {
       await runV1Search(argv.slice(2));
     } else {
       throw new CLIError(2, "unknown_command", "unknown command path: " + argv.join(" "));
@@ -78,9 +78,9 @@ Purpose
 
 Fast paths
   bundestag-lobbyregister doctor
-  bundestag-lobbyregister search --term "Bundesverband Soziokultur" --limit 3
-  bundestag-lobbyregister entry dossier --register-number R001255 --grep "Foerderung"
-  bundestag-lobbyregister financial summary --register-number R001255
+  bundestag-lobbyregister search --term "Musterverband" --limit 3
+  bundestag-lobbyregister entry dossier --register-number <register-number> --grep "Foerderung"
+  bundestag-lobbyregister financial summary --register-number <register-number>
 
 Research commands
   doctor
@@ -92,8 +92,8 @@ Research commands
   financial summary
   statements list
 
-Legacy command
-  v1 search
+Raw endpoint command
+  raw search
 
 Auth
   Prefer LOBBYREGISTER_API_KEY from the environment.
@@ -109,17 +109,17 @@ function printHelp(path: string[]): void {
 Builds a compact evidence bundle for one register entry.
 
 Examples
-  bundestag-lobbyregister entry dossier --register-number R001255 --grep "Laerm"
-  bundestag-lobbyregister entry dossier --name "Bundesverband Soziokultur"
+  bundestag-lobbyregister entry dossier --register-number <register-number> --grep "Laerm"
+  bundestag-lobbyregister entry dossier --name "Musterverband"
 `);
     return;
   }
   if (joined === "search") {
-    console.log("bundestag-lobbyregister search\n\nSafe V2 free-text search with compact summaries and a small default limit.");
+    console.log("bundestag-lobbyregister search\n\nSafe free-text search with compact summaries and a small default limit.");
     return;
   }
   if (joined === "entry get") {
-    console.log("bundestag-lobbyregister entry get\n\nFetch one official V2 register entry by register number.");
+    console.log("bundestag-lobbyregister entry get\n\nFetch one official register entry by register number.");
     return;
   }
   if (joined === "financial summary") {
@@ -148,7 +148,7 @@ async function runDoctor(argv: string[]): Promise<void> {
   payload.sources = defaultSources();
   payload.warnings = standardWarnings();
   if (!key) {
-    (payload.warnings as unknown[]).push("LOBBYREGISTER_API_KEY is not configured; live V2 calls will fail.");
+    (payload.warnings as unknown[]).push("LOBBYREGISTER_API_KEY is not configured; live API calls will fail.");
     payload.nextActions = ["Set LOBBYREGISTER_API_KEY, then run: bundestag-lobbyregister statistics"];
     emit(payload);
     return;
@@ -171,8 +171,8 @@ async function runDoctor(argv: string[]): Promise<void> {
     };
   }
   payload.nextActions = [
-    'bundestag-lobbyregister search --term "Bundesverband" --limit 3',
-    "bundestag-lobbyregister entry dossier --register-number R001255"
+    'bundestag-lobbyregister search --term "Musterverband" --limit 3',
+    "bundestag-lobbyregister entry dossier --register-number <register-number>"
   ];
   emit(payload);
 }
@@ -322,7 +322,7 @@ async function getEntryFromArgs(parsed: ParsedArgs): Promise<{ entry: JsonObject
   }
   if (!registerNumber) throw new CLIError(2, "missing_register_number", "requires --register-number or --name");
   if (!/^R[0-9]{6}$/.test(registerNumber)) {
-    throw new CLIError(2, "invalid_register_number", "register number must look like R001255");
+    throw new CLIError(2, "invalid_register_number", "register number must look like <register-number>");
   }
   let path = `/registerentries/${encodeURIComponent(registerNumber)}`;
   if (parsed.flags.version) path += `/${encodeURIComponent(parsed.flags.version)}`;
@@ -479,14 +479,14 @@ function defaultSources(): JsonObject[] {
   return [
     { title: "Bundestag Lobbyregister", url: PUBLIC_URL, kind: "official-register" },
     { title: "Open Data/API page", url: `${PUBLIC_URL}/informationen-und-hilfe/open-data-1049716`, kind: "terms" },
-    { title: "Swagger UI V2", url: `${BASE_URL}/swagger-ui/`, kind: "api-docs" },
-    { title: "OpenAPI YAML V2", url: `${BASE_URL}/R2.21-de.yaml`, kind: "openapi" }
+    { title: "Swagger UI", url: `${BASE_URL}/swagger-ui/`, kind: "api-docs" },
+    { title: "OpenAPI YAML", url: `${BASE_URL}/R2.21-de.yaml`, kind: "openapi" }
   ];
 }
 
 function standardWarnings(): string[] {
   return [
-    "V2 API calls require an API key; this tool redacts keys from normalized output.",
+    "API calls require an API key; this tool redacts keys from normalized output.",
     "Register disclosures describe published self-reported register data; corroborate contentious claims with additional official sources.",
     "Use small limits for broad searches; the upstream search endpoint returns full-detail records."
   ];

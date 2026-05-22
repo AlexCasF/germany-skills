@@ -47,7 +47,7 @@ class CLIError extends Error {
         this.code = code;
     }
 }
-const legacyCommands = {
+const rawCommands = {
     "statistics": { path: "/statistics", kind: "singleton" },
     "documents list": { path: "/document", kind: "list" },
     "documents search": { path: "/document/lucene-search", kind: "list" },
@@ -106,8 +106,8 @@ async function main(argv) {
             await runCite(argv.slice(1));
         }
         else {
-            const resolved = resolveLegacy(argv);
-            await runLegacy(resolved.command, resolved.rest);
+            const resolved = resolveRaw(argv);
+            await runRaw(resolved.command, resolved.rest);
         }
     }
     catch (error) {
@@ -131,10 +131,10 @@ Purpose
 
 Fast paths
   rechtsinformationen-bund doctor
-  rechtsinformationen-bund documents search --search-term "Buergergeld" --limit 3
+  rechtsinformationen-bund documents search --search-term "Suchbegriff" --limit 3
   rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision
 
-Legacy endpoint commands
+Raw endpoint commands
   statistics
   documents list|search|search-case-law|search-legislation
   administrative-directive list|get|html|xml
@@ -159,7 +159,7 @@ snippets, warnings, and next actions.
 
 Examples
   rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision
-  rechtsinformationen-bund documents dossier --search-term "Buergergeld" --grep Buergergeld
+  rechtsinformationen-bund documents dossier --search-term "Suchbegriff" --grep Suchbegriff
 `);
         return;
     }
@@ -184,17 +184,17 @@ async function runDoctor() {
         trialService: true
     }, "/statistics"));
 }
-async function runLegacy(command, argv) {
-    const legacy = legacyCommands[command];
+async function runRaw(command, argv) {
+    const raw = rawCommands[command];
     const parsed = parseArgs(argv);
-    const path = fillPath(legacy.path, parsed, command);
-    const params = legacyParams(parsed);
+    const path = fillPath(raw.path, parsed, command);
+    const params = rawParams(parsed);
     if (command === "documents search" && parsed.flags["search-term"]) {
         await runCompactSearch(path, params, parsed);
         return;
     }
     const resp = await apiGet(path, params);
-    if (legacy.kind === "text") {
+    if (raw.kind === "text") {
         console.log(resp.body);
         return;
     }
@@ -308,10 +308,10 @@ async function sourceText(source) {
     const text = resp.contentType.includes("html") || chosen.endsWith(".html") ? stripHtml(resp.body) : stripXml(resp.body);
     return { text, usedUrl: resp.url };
 }
-function resolveLegacy(argv) {
+function resolveRaw(argv) {
     for (const width of [3, 2, 1]) {
         const key = argv.slice(0, width).join(" ");
-        if (legacyCommands[key]) {
+        if (rawCommands[key]) {
             return { command: key, rest: argv.slice(width) };
         }
     }
@@ -346,7 +346,7 @@ function parseArgs(argv) {
     }
     return { flags, params, positionals };
 }
-function legacyParams(parsed) {
+function rawParams(parsed) {
     const params = { ...parsed.params };
     const direct = {
         "search-term": "searchTerm",
@@ -399,7 +399,7 @@ function httpGetAbsolute(rawUrl) {
     return new Promise((resolve, reject) => {
         const req = https.request(rawUrl, {
             headers: {
-                "User-Agent": APP_NAME + "/2.0",
+                "User-Agent": APP_NAME,
                 "Accept": "application/json, text/html, application/xml;q=0.9, */*;q=0.8"
             },
             timeout: 30000
@@ -635,7 +635,7 @@ function envelope(command, summary, pathOrUrl) {
             "Use existing official sources for production-grade legal research."
         ],
         nextActions: [
-            "rechtsinformationen-bund documents search --search-term \"Buergergeld\" --limit 3",
+            "rechtsinformationen-bund documents search --search-term \"Suchbegriff\" --limit 3",
             "rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision"
         ]
     };

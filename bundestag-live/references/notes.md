@@ -14,7 +14,7 @@ This API wraps public Bundestag XML feeds for:
 ## Response style
 
 - Upstream responses are XML.
-- The 2.0 CLIs normalize common workflows into compact JSON envelopes.
+- The CLIs normalize common workflows into compact JSON envelopes.
 - Use `--raw` on endpoint-compatible commands when exact upstream XML is needed.
 
 ## Common pitfalls

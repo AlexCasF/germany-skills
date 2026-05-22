@@ -66,14 +66,14 @@ Purpose
 Fast paths
   dashboard-deutschland doctor
   dashboard-deutschland dashboards list --limit 5
-  dashboard-deutschland indicator search --term "Arbeitslosigkeit" --limit 5
-  dashboard-deutschland indicator get --id tile_1666958835081
-  dashboard-deutschland indicator data --id tile_1666958835081 --limit 5
+  dashboard-deutschland indicator search --term "Indikator" --limit 5
+  dashboard-deutschland indicator get --id <indicator-id>
+  dashboard-deutschland indicator data --id <indicator-id> --limit 5
   dashboard-deutschland dashboard dossier --id arbeitsmarkt --indicator-limit 3
 
-Legacy-compatible commands
+Raw endpoint commands
   dashboard get [--param key=value]
-  indicators --param ids=tile_1666958835081
+  indicators --param ids=<indicator-id>
   geo
 `);
 }
@@ -92,7 +92,7 @@ Bundle dashboard metadata and a small set of normalized indicator summaries.`);
   } else if (joined === "geo") {
     console.log(`dashboard-deutschland geo
 
-Legacy GeoJSON endpoint wrapper. The endpoint returned 403 AccessDenied in live tests.`);
+Raw GeoJSON endpoint wrapper. The endpoint returned 403 AccessDenied in live tests.`);
   } else {
     printRootHelp();
   }
@@ -128,12 +128,12 @@ async function runDoctor(argv: string[]): Promise<void> {
   summary.geoEndpoint = { url: GEO_URL, statusCode: raw.status, ok: geoOk, contentType: raw.contentType, bodyPreview: truncate(stripSpace(raw.body), 180) };
   if (!geoOk) {
     payload.status = "degraded";
-    warnings.push("The documented GeoJSON endpoint currently returns 403 AccessDenied; use geo as a legacy diagnostic command.");
+    warnings.push("The documented GeoJSON endpoint currently returns 403 AccessDenied; use geo as a diagnostic command.");
   }
   payload.summary = summary;
   payload.sources = defaultSources();
   payload.warnings = warnings;
-  payload.nextActions = ['dashboard-deutschland indicator search --term "Arbeitslosigkeit" --limit 5', "dashboard-deutschland dashboards list --limit 5"];
+  payload.nextActions = ['dashboard-deutschland indicator search --term "Indikator" --limit 5', "dashboard-deutschland dashboards list --limit 5"];
   emit(payload);
 }
 
@@ -282,7 +282,7 @@ async function fetchJson(requestUrl: string): Promise<any> {
 }
 
 async function fetchRaw(requestUrl: string): Promise<{ status: number; contentType: string; body: string }> {
-  const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/dashboard-deutschland-node-2.0" }, signal: AbortSignal.timeout(45000) });
+  const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/dashboard-deutschland-node" }, signal: AbortSignal.timeout(45000) });
   return { status: response.status, contentType: response.headers.get("content-type") ?? "", body: await response.text() };
 }
 

@@ -14,7 +14,7 @@ The historical OpenAPI wrapper documents:
 `/{table}/MapServer/0/query`
 
 Live testing showed that current services are not always on layer `0`. For
-example, `alq_HA2023` exposes the feature layer at `/MapServer/5`. The 2.0 CLI
+example, `alq_HA2023` exposes the feature layer at `/MapServer/5`. The CLI
 therefore discovers the first feature layer from service metadata by default.
 
 ## Good research sequence

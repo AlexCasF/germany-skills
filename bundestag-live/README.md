@@ -10,7 +10,7 @@ bundestag-live
 
 ## Implementations
 
-- Go 2.0: `bin/bundestag-live-2.0.exe`
+- Go: `bin/bundestag-live.exe`
 - Python: `python/bundestag-live.py`
 - TypeScript / Node.js: `typescript/dist/index.js`
 
@@ -18,8 +18,8 @@ bundestag-live
 
 ```text
 bundestag-live doctor
-bundestag-live members search --name "Amthor" --limit 3
-bundestag-live members dossier --id 2022 --grep "Tätigkeiten"
+bundestag-live members search --name "Mustername" --limit 3
+bundestag-live members dossier --id 2022 --grep "Suchbegriff"
 bundestag-live committees search --term "Arbeit" --limit 5
 bundestag-live committees dossier --id a11 --member-limit 5 --news-limit 3
 bundestag-live plenum conferences --limit 2 --item-limit 5

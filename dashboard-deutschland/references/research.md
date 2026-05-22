@@ -54,15 +54,15 @@ Each indicator item has a top-level `json` string. This string contains the impo
 - `dataVersionDate`
 - `dateUpload`
 
-The 2.0 CLI parses this field and exposes chart-ready data through `indicator data`.
+The CLI parses this field and exposes chart-ready data through `indicator data`.
 
 ## Tested Example
 
-The refactor used `tile_1666958835081`, "Arbeitslosigkeit und offene Stellen", as the primary test tile.
+The refactor used `<indicator-id>`, "Indikator und offene Stellen", as the primary test tile.
 
 Observed normalized contents included:
 
-- chart series `Arbeitslose`
+- chart series `Indikator`
 - chart series `gemeldete offene Stellen`
 - source link to Statistik der Bundesagentur fuer Arbeit
 - source link to Macrobond

@@ -39,12 +39,12 @@ units, dimensions, regions, and time periods.
 
 ## Preferred tool
 
-Prefer the 2.0 CLI contract.
+Prefer the CLI contract.
 
 Use the local executable when available:
 
 ```powershell
-skills\destatis\bin\destatis-2.0.exe doctor
+skills\destatis\bin\destatis.exe doctor
 ```
 
 Portable fallbacks:
@@ -94,31 +94,31 @@ destatis doctor
 Discovery:
 
 ```powershell
-destatis search --term "Arbeitslose" --limit 5
-destatis find search --param "term=Arbeitslose" --limit 5
+destatis search --term "Indikator" --limit 5
+destatis find search --param "term=Indikator" --limit 5
 ```
 
 Source and metadata:
 
 ```powershell
-destatis table source --name 12211-0900
-destatis table dossier --name 12211-0900
-destatis variables explain --table 12211-0900
+destatis table source --name <table-name>
+destatis table dossier --name <table-name>
+destatis variables explain --table <table-name>
 ```
 
 Data sample:
 
 ```powershell
-destatis table sample --name 12211-0900
+destatis table sample --name <table-name>
 ```
 
-Legacy raw endpoint access remains available:
+Raw endpoint access remains available:
 
 ```powershell
 destatis catalogue statistics --limit 10
 destatis catalogue tables --param "selection=arbeit" --limit 10
-destatis metadata table --param "name=12211-0900"
-destatis data table --param "name=12211-0900" --param "area=all"
+destatis metadata table --param "name=<table-name>"
+destatis data table --param "name=<table-name>" --param "area=all"
 ```
 
 ## Output expectations
@@ -136,8 +136,8 @@ Research commands return JSON envelopes with:
 - `warnings`
 - `nextActions`
 
-Legacy endpoint commands return upstream JSON on success. If a protected
-endpoint fails, 2.0 commands return structured errors or `partial` envelopes.
+Raw endpoint commands return upstream JSON on success. If a protected
+endpoint fails, commands return structured errors or `partial` envelopes.
 
 ## Evidence caveats
 
@@ -154,5 +154,4 @@ endpoint fails, 2.0 commands return structured errors or `partial` envelopes.
 - `references/notes.md`
 - `references/research.md`
 - `references/rate-limits-and-terms.md`
-- `tests/test-plan.md`
 - `MANIFEST.md`
