@@ -1,4 +1,4 @@
-const APP_NAME = "deutschlandatlasctl";
+﻿const APP_NAME = "deutschlandatlasctl";
 const PORTAL_SEARCH_BASE = "https://www.karto365.de/portal/sharing/rest/search";
 const HOSTING_BASE = "https://www.karto365.de/hosting/rest/services";
 const OFFICIAL_HOME_URL = "https://www.deutschlandatlas.bund.de/DE/Home/home_node.html";
@@ -375,7 +375,7 @@ async function resolveLayer(table: string, parsed: ParsedArgs): Promise<[number,
 }
 
 async function fetchJson(requestUrl: string): Promise<JsonObject> {
-  const response = await fetch(requestUrl, { headers: { "User-Agent": "democracy-researcher/deutschlandatlasctl-node-2.0" } });
+  const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/deutschlandatlasctl-node-2.0" } });
   const text = await response.text();
   if (!response.ok) throw new Error(`HTTP ${response.status} from ${requestUrl}: ${text.slice(0, 300)}`);
   const data = JSON.parse(text);

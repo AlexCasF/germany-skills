@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 const APP_NAME = "bundesratctl";
 const BASE_URL = "https://www.bundesrat.de";
@@ -93,8 +93,8 @@ Fast paths
   bundesratctl doctor
   bundesratctl news --limit 5
   bundesratctl news search --term "Bovenschulte" --limit 3
-  bundesratctl members search --name "Özdemir" --limit 3
-  bundesratctl members dossier --name "Özdemir" --grep "Bundesrat"
+  bundesratctl members search --name "Ã–zdemir" --limit 3
+  bundesratctl members dossier --name "Ã–zdemir" --grep "Bundesrat"
   bundesratctl plenum compact --limit 1 --top-limit 3
   bundesratctl plenum current --limit 1 --top-limit 5
   bundesratctl plenum next
@@ -116,8 +116,8 @@ Endpoint-compatible commands
 function printHelp(path: string[]): void {
   const joined = path.join(" ");
   if (joined === "news search" || joined === "dates search") console.log('bundesratctl news search --term "Bovenschulte" --limit 3');
-  else if (joined === "members search") console.log('bundesratctl members search --name "Özdemir" --limit 3');
-  else if (joined === "members dossier") console.log('bundesratctl members dossier --name "Özdemir" --grep "Bundesrat"');
+  else if (joined === "members search") console.log('bundesratctl members search --name "Ã–zdemir" --limit 3');
+  else if (joined === "members dossier") console.log('bundesratctl members dossier --name "Ã–zdemir" --grep "Bundesrat"');
   else if (["page", "news page", "dates page"].includes(joined)) console.log('bundesratctl page --url "https://www.bundesrat.de/..." --grep "term"');
   else printRootHelp();
 }
@@ -130,8 +130,8 @@ function printExamples(): void {
 3. bundesratctl news --limit 5
 4. bundesratctl news search --term "Bovenschulte" --limit 3
 5. bundesratctl dates --limit 5
-6. bundesratctl members search --name "Özdemir" --limit 3
-7. bundesratctl members dossier --name "Özdemir" --grep "Bundesrat"
+6. bundesratctl members search --name "Ã–zdemir" --limit 3
+7. bundesratctl members dossier --name "Ã–zdemir" --grep "Bundesrat"
 8. bundesratctl plenum compact --limit 1 --top-limit 3
 9. bundesratctl plenum current --limit 1 --top-limit 5
 10. bundesratctl plenum compact --raw
@@ -161,7 +161,7 @@ async function runDoctor(argv: string[]): Promise<void> {
   payload.summary = summary;
   payload.sources = defaultSources();
   payload.warnings = defaultWarnings();
-  payload.nextActions = ["bundesratctl news --limit 5", 'bundesratctl members search --name "Özdemir" --limit 3', "bundesratctl plenum compact --limit 1 --top-limit 3"];
+  payload.nextActions = ["bundesratctl news --limit 5", 'bundesratctl members search --name "Ã–zdemir" --limit 3', "bundesratctl plenum compact --limit 1 --top-limit 3"];
   emit(payload);
 }
 
@@ -200,7 +200,7 @@ async function runMembers(argv: string[]): Promise<void> {
   payload.items = items;
   payload.sources = source("Bundesrat member XML feed", requestUrl, "api_endpoint");
   payload.warnings = defaultWarnings();
-  payload.nextActions = ['bundesratctl members search --name "Özdemir" --limit 3'];
+  payload.nextActions = ['bundesratctl members search --name "Ã–zdemir" --limit 3'];
   emit(payload);
 }
 
@@ -314,7 +314,7 @@ async function fetchEndpoint(key: string, params: Record<string, string>): Promi
 }
 
 async function fetchRaw(requestUrl: string): Promise<{ status: number; contentType: string; body: string }> {
-  const response = await fetch(requestUrl, { headers: { "User-Agent": "democracy-researcher/bundesratctl-node-2.0" }, signal: AbortSignal.timeout(45000) });
+  const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/bundesratctl-node-2.0" }, signal: AbortSignal.timeout(45000) });
   return { status: response.status, contentType: response.headers.get("content-type") ?? "", body: await response.text() };
 }
 
@@ -437,7 +437,7 @@ function nextActionsFromItems(items: JsonObject[], key: string): string[] {
 
 function nextActionsFromEmployees(items: JsonObject[]): string[] {
   const actions = items.slice(0, 3).filter((item) => item.name).map((item) => `bundesratctl members dossier --name "${item.name}"`);
-  return actions.length ? actions : ['bundesratctl members search --name "Özdemir" --limit 3'];
+  return actions.length ? actions : ['bundesratctl members search --name "Ã–zdemir" --limit 3'];
 }
 
 function nextActionsForUrl(sourceUrl: string, key: string): string[] {
@@ -450,7 +450,7 @@ function nextActionsForUrl(sourceUrl: string, key: string): string[] {
 }
 
 function defaultSources(): JsonObject[] {
-  return [{ title: "bundesAPI Bundesrat OpenAPI wrapper", url: OPENAPI_URL, kind: "openapi_reference" }, { title: "service.bund.de Bundesrat profile", url: SERVICE_BUND_URL, kind: "official_context" }, { title: "Bundesrat robots.txt", url: ROBOTS_URL, kind: "fair_use" }, { title: "Bundesrat Impressum", url: IMPRINT_URL, kind: "terms" }, { title: "Bundesrat Datenschutzerklärung", url: PRIVACY_URL, kind: "privacy" }];
+  return [{ title: "bundesAPI Bundesrat OpenAPI wrapper", url: OPENAPI_URL, kind: "openapi_reference" }, { title: "service.bund.de Bundesrat profile", url: SERVICE_BUND_URL, kind: "official_context" }, { title: "Bundesrat robots.txt", url: ROBOTS_URL, kind: "fair_use" }, { title: "Bundesrat Impressum", url: IMPRINT_URL, kind: "terms" }, { title: "Bundesrat DatenschutzerklÃ¤rung", url: PRIVACY_URL, kind: "privacy" }];
 }
 
 function defaultWarnings(): string[] {

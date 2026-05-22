@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Agent-friendly Bundeshaushalt Digital CLI mirror."""
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ ROBOTS_URL = "https://www.bundeshaushalt.de/robots.txt"
 BMF_BUDGET_URL = "https://www.bundesfinanzministerium.de/Web/DE/Themen/Oeffentliche_Finanzen/Bundeshaushalt/bundeshaushalt.html"
 BMF_DATA_USE_URL = "https://www.bundesfinanzministerium.de/Datenportal/Nutzungshinweise/nutzungshinweise.html"
 OPENAPI_WRAPPER_URL = "https://github.com/anetz89/bundeshaushalt-api"
-USER_AGENT = "democracy-researcher/bundeshaushaltctl-python-2.0"
+USER_AGENT = "germany-skills/bundeshaushaltctl-python-2.0"
 
 KNOWN_YEARS = list(range(2012, 2027))
 EARLIEST_KNOWN_YEAR = 2012

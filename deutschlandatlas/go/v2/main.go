@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"encoding/json"
@@ -665,7 +665,7 @@ func fetchJSON(requestURL string) (map[string]any, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("User-Agent", "democracy-researcher/deutschlandatlasctl-2.0")
+	req.Header.Set("User-Agent", "germany-skills/deutschlandatlasctl-2.0")
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err

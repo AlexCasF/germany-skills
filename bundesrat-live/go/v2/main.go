@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"encoding/json"
@@ -26,7 +26,7 @@ const (
 	defaultLimit     = 10
 	safeLimit        = 100
 	defaultTimeout   = 45 * time.Second
-	defaultUserAgent = "democracy-researcher/bundesratctl-2.0"
+	defaultUserAgent = "germany-skills/bundesratctl-2.0"
 )
 
 var endpoints = map[string]string{
@@ -160,8 +160,8 @@ Fast paths
   bundesratctl news --limit 5
   bundesratctl news search --term "Bovenschulte" --limit 3
   bundesratctl dates --limit 5
-  bundesratctl members search --name "Özdemir" --limit 3
-  bundesratctl members dossier --name "Özdemir" --grep "Bundesrat"
+  bundesratctl members search --name "Ã–zdemir" --limit 3
+  bundesratctl members dossier --name "Ã–zdemir" --grep "Bundesrat"
   bundesratctl plenum compact --limit 1 --top-limit 3
   bundesratctl plenum current --limit 1 --top-limit 5
   bundesratctl plenum next
@@ -219,7 +219,7 @@ Flags
 Search the current Bundesrat member feed.
 
 Examples
-  bundesratctl members search --name "Özdemir" --limit 3
+  bundesratctl members search --name "Ã–zdemir" --limit 3
   bundesratctl members search --term "Bremen" --limit 5
 
 Flags
@@ -233,8 +233,8 @@ Flags
 Build a compact dossier for one Bundesrat member from the official member feed.
 
 Examples
-  bundesratctl members dossier --name "Özdemir"
-  bundesratctl members dossier --url "https://www.bundesrat.de/SharedDocs/personen/DE/laender/bw/oezdemir-cem.html" --grep "Ministerpräsident"
+  bundesratctl members dossier --name "Ã–zdemir"
+  bundesratctl members dossier --url "https://www.bundesrat.de/SharedDocs/personen/DE/laender/bw/oezdemir-cem.html" --grep "MinisterprÃ¤sident"
 
 Flags
   --name <text>       Resolve by member name
@@ -293,10 +293,10 @@ func printExamples() {
    bundesratctl dates --limit 5
 
 6. Search current members:
-   bundesratctl members search --name "Özdemir" --limit 3
+   bundesratctl members search --name "Ã–zdemir" --limit 3
 
 7. Build a member dossier:
-   bundesratctl members dossier --name "Özdemir" --grep "Bundesrat"
+   bundesratctl members dossier --name "Ã–zdemir" --grep "Bundesrat"
 
 8. Inspect BundesratKOMPAKT plenary TOPs:
    bundesratctl plenum compact --limit 1 --top-limit 3
@@ -349,7 +349,7 @@ func runDoctor(argv []string) error {
 	payload["warnings"] = defaultWarnings()
 	payload["nextActions"] = []string{
 		"bundesratctl news --limit 5",
-		`bundesratctl members search --name "Özdemir" --limit 3`,
+		`bundesratctl members search --name "Ã–zdemir" --limit 3`,
 		"bundesratctl plenum compact --limit 1 --top-limit 3",
 	}
 	emit(payload)
@@ -406,7 +406,7 @@ func runMembers(argv []string) error {
 	payload["items"] = items
 	payload["sources"] = sources("Bundesrat member XML feed", requestURL, "api_endpoint")
 	payload["warnings"] = defaultWarnings()
-	payload["nextActions"] = []string{`bundesratctl members search --name "Özdemir" --limit 3`}
+	payload["nextActions"] = []string{`bundesratctl members search --name "Ã–zdemir" --limit 3`}
 	emit(payload)
 	return nil
 }
@@ -830,7 +830,7 @@ func nextActionsFromEmployees(items []map[string]any) []string {
 		}
 	}
 	if len(actions) == 0 {
-		return []string{`bundesratctl members search --name "Özdemir" --limit 3`}
+		return []string{`bundesratctl members search --name "Ã–zdemir" --limit 3`}
 	}
 	return actions
 }
@@ -858,7 +858,7 @@ func defaultSources() []map[string]any {
 		{"title": "service.bund.de Bundesrat profile", "url": serviceBundURL, "kind": "official_context"},
 		{"title": "Bundesrat robots.txt", "url": robotsURL, "kind": "fair_use"},
 		{"title": "Bundesrat Impressum", "url": imprintURL, "kind": "terms"},
-		{"title": "Bundesrat Datenschutzerklärung", "url": privacyURL, "kind": "privacy"},
+		{"title": "Bundesrat DatenschutzerklÃ¤rung", "url": privacyURL, "kind": "privacy"},
 	}
 }
 

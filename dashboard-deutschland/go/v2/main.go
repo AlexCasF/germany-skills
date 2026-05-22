@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"bytes"
@@ -533,7 +533,7 @@ func fetchRaw(requestURL string) (int, string, []byte, error) {
 	if err != nil {
 		return 0, "", nil, err
 	}
-	req.Header.Set("User-Agent", "democracy-researcher/dashboardctl-2.0")
+	req.Header.Set("User-Agent", "germany-skills/dashboardctl-2.0")
 	resp, err := client.Do(req)
 	if err != nil {
 		return 0, "", nil, err

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import html
 import json
 import re
@@ -97,7 +97,7 @@ Purpose
 Fast paths
   bundestagctl doctor
   bundestagctl members search --name "Amthor" --limit 3
-  bundestagctl members dossier --name "Amthor" --grep "Tätigkeiten"
+  bundestagctl members dossier --name "Amthor" --grep "TÃ¤tigkeiten"
   bundestagctl committees search --term "Arbeit" --limit 5
   bundestagctl committees dossier --id a11 --member-limit 5
   bundestagctl plenum conferences --limit 2 --item-limit 3
@@ -120,7 +120,7 @@ def print_help(path):
     if joined == "members search":
         print('bundestagctl members search --name "Amthor" --limit 3')
     elif joined == "members dossier":
-        print('bundestagctl members dossier --id 2022 --grep "Tätigkeiten"')
+        print('bundestagctl members dossier --id 2022 --grep "TÃ¤tigkeiten"')
     elif joined == "committees dossier":
         print("bundestagctl committees dossier --id a11 --member-limit 5 --news-limit 3")
     elif joined == "article page":
@@ -134,7 +134,7 @@ def print_examples():
 
 1. bundestagctl doctor
 2. bundestagctl members search --name "Amthor" --limit 3
-3. bundestagctl members dossier --id 2022 --grep "Tätigkeiten"
+3. bundestagctl members dossier --id 2022 --grep "TÃ¤tigkeiten"
 4. bundestagctl committees search --term "Arbeit" --limit 5
 5. bundestagctl committees dossier --id a11 --member-limit 5 --news-limit 3
 6. bundestagctl plenum conferences --limit 2 --item-limit 5
@@ -229,7 +229,7 @@ def run_member_biography(argv):
     payload["items"] = [member_evidence(root, parsed["flags"].get("grep", ""))]
     payload["sources"] = sources_for_member(root, request_url)
     payload["warnings"] = default_warnings()
-    payload["nextActions"] = [f"bundestagctl members dossier --id {member_id} --grep Tätigkeiten"]
+    payload["nextActions"] = [f"bundestagctl members dossier --id {member_id} --grep TÃ¤tigkeiten"]
     if flag_bool(parsed, "include-raw"):
         payload["rawXml"] = body
     emit(payload)
@@ -611,7 +611,7 @@ def fetch_xml_with_params(base, params):
 
 
 def fetch_raw(request_url):
-    req = urllib.request.Request(request_url, headers={"User-Agent": "democracy-researcher/bundestagctl-python-2.0"})
+    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/bundestagctl-python-2.0"})
     try:
         with urllib.request.urlopen(req, timeout=45) as response:
             return response.status, response.headers.get("Content-Type", ""), response.read().decode("utf-8", "replace")

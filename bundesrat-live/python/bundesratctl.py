@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import html
 import json
 import re
@@ -116,8 +116,8 @@ Fast paths
   bundesratctl doctor
   bundesratctl news --limit 5
   bundesratctl news search --term "Bovenschulte" --limit 3
-  bundesratctl members search --name "Özdemir" --limit 3
-  bundesratctl members dossier --name "Özdemir" --grep "Bundesrat"
+  bundesratctl members search --name "Ã–zdemir" --limit 3
+  bundesratctl members dossier --name "Ã–zdemir" --grep "Bundesrat"
   bundesratctl plenum compact --limit 1 --top-limit 3
   bundesratctl plenum current --limit 1 --top-limit 5
   bundesratctl plenum next
@@ -141,9 +141,9 @@ def print_help(path):
     if joined in {"news search", "dates search"}:
         print('bundesratctl news search --term "Bovenschulte" --limit 3')
     elif joined == "members search":
-        print('bundesratctl members search --name "Özdemir" --limit 3')
+        print('bundesratctl members search --name "Ã–zdemir" --limit 3')
     elif joined == "members dossier":
-        print('bundesratctl members dossier --name "Özdemir" --grep "Bundesrat"')
+        print('bundesratctl members dossier --name "Ã–zdemir" --grep "Bundesrat"')
     elif joined in {"page", "news page", "dates page"}:
         print('bundesratctl page --url "https://www.bundesrat.de/..." --grep "term"')
     else:
@@ -158,8 +158,8 @@ def print_examples():
 3. bundesratctl news --limit 5
 4. bundesratctl news search --term "Bovenschulte" --limit 3
 5. bundesratctl dates --limit 5
-6. bundesratctl members search --name "Özdemir" --limit 3
-7. bundesratctl members dossier --name "Özdemir" --grep "Bundesrat"
+6. bundesratctl members search --name "Ã–zdemir" --limit 3
+7. bundesratctl members dossier --name "Ã–zdemir" --grep "Bundesrat"
 8. bundesratctl plenum compact --limit 1 --top-limit 3
 9. bundesratctl plenum current --limit 1 --top-limit 5
 10. bundesratctl plenum compact --raw
@@ -194,7 +194,7 @@ def run_doctor(argv):
     payload["summary"] = summary
     payload["sources"] = default_sources()
     payload["warnings"] = default_warnings()
-    payload["nextActions"] = ["bundesratctl news --limit 5", 'bundesratctl members search --name "Özdemir" --limit 3', "bundesratctl plenum compact --limit 1 --top-limit 3"]
+    payload["nextActions"] = ["bundesratctl news --limit 5", 'bundesratctl members search --name "Ã–zdemir" --limit 3', "bundesratctl plenum compact --limit 1 --top-limit 3"]
     emit(payload)
 
 
@@ -238,7 +238,7 @@ def run_members(argv):
     payload["items"] = items
     payload["sources"] = source("Bundesrat member XML feed", request_url, "api_endpoint")
     payload["warnings"] = default_warnings()
-    payload["nextActions"] = ['bundesratctl members search --name "Özdemir" --limit 3']
+    payload["nextActions"] = ['bundesratctl members search --name "Ã–zdemir" --limit 3']
     emit(payload)
 
 
@@ -364,7 +364,7 @@ def fetch_endpoint(key, params):
 
 
 def fetch_raw(request_url):
-    req = urllib.request.Request(request_url, headers={"User-Agent": "democracy-researcher/bundesratctl-python-2.0"})
+    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/bundesratctl-python-2.0"})
     try:
         with urllib.request.urlopen(req, timeout=45) as response:
             return response.status, response.headers.get("Content-Type", ""), response.read().decode("utf-8", "replace")
@@ -521,7 +521,7 @@ def next_actions_from_items(items, key):
 
 def next_actions_from_employees(items):
     actions = [f'bundesratctl members dossier --name "{item.get("name")}"' for item in items[:3] if item.get("name")]
-    return actions or ['bundesratctl members search --name "Özdemir" --limit 3']
+    return actions or ['bundesratctl members search --name "Ã–zdemir" --limit 3']
 
 
 def next_actions_for_url(source_url, key):
@@ -538,7 +538,7 @@ def next_actions_for_url(source_url, key):
 
 
 def default_sources():
-    return [{"title": "bundesAPI Bundesrat OpenAPI wrapper", "url": OPENAPI_URL, "kind": "openapi_reference"}, {"title": "service.bund.de Bundesrat profile", "url": SERVICE_BUND_URL, "kind": "official_context"}, {"title": "Bundesrat robots.txt", "url": ROBOTS_URL, "kind": "fair_use"}, {"title": "Bundesrat Impressum", "url": IMPRINT_URL, "kind": "terms"}, {"title": "Bundesrat Datenschutzerklärung", "url": PRIVACY_URL, "kind": "privacy"}]
+    return [{"title": "bundesAPI Bundesrat OpenAPI wrapper", "url": OPENAPI_URL, "kind": "openapi_reference"}, {"title": "service.bund.de Bundesrat profile", "url": SERVICE_BUND_URL, "kind": "official_context"}, {"title": "Bundesrat robots.txt", "url": ROBOTS_URL, "kind": "fair_use"}, {"title": "Bundesrat Impressum", "url": IMPRINT_URL, "kind": "terms"}, {"title": "Bundesrat DatenschutzerklÃ¤rung", "url": PRIVACY_URL, "kind": "privacy"}]
 
 
 def default_warnings():

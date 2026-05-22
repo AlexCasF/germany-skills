@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import html
 import json
 import re
@@ -90,7 +90,7 @@ Purpose
 Fast paths
   abgeordnetenwatchctl doctor
   abgeordnetenwatchctl politicians search --name "Alice Weidel" --limit 3
-  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep Nebentätigkeiten
+  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
 
 Legacy endpoint commands
   <entity> list|get
@@ -116,7 +116,7 @@ mandates, side jobs, source URLs, page metadata, optional profile-page snippets,
 warnings, and next actions.
 
 Examples
-  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep Nebentätigkeiten
+  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
   abgeordnetenwatchctl politicians dossier --id 108379 --limit 5
 """)
     elif joined == "politicians page":
@@ -163,7 +163,7 @@ def run_doctor():
     payload["warnings"] = standard_warnings()
     payload["nextActions"] = [
         'abgeordnetenwatchctl politicians search --name "Alice Weidel" --limit 3',
-        "abgeordnetenwatchctl politicians dossier --id 108379 --grep Nebentätigkeiten",
+        "abgeordnetenwatchctl politicians dossier --id 108379 --grep NebentÃ¤tigkeiten",
     ]
     emit(payload)
 
@@ -271,7 +271,7 @@ def run_politician_dossier(argv):
     ]
     payload["nextActions"] = [
         f"abgeordnetenwatchctl sidejobs for-politician --id {ident} --limit {limit}",
-        f"abgeordnetenwatchctl politicians page --id {ident} --grep Nebentätigkeiten",
+        f"abgeordnetenwatchctl politicians page --id {ident} --grep NebentÃ¤tigkeiten",
     ]
     emit(payload)
 
@@ -309,7 +309,7 @@ def run_sidejobs_for_politician(argv):
     payload["items"] = summarize_records(sidejobs, limit)
     payload["sources"] = [{"kind": "api", "title": "Sidejobs endpoint", "url": BASE_URL + "/sidejobs"}]
     payload["warnings"] = standard_warnings() + ["Side-job data is disclosure data; interpret categories and income fields cautiously."]
-    payload["nextActions"] = [f"abgeordnetenwatchctl politicians dossier --id {ident} --grep Nebentätigkeiten"]
+    payload["nextActions"] = [f"abgeordnetenwatchctl politicians dossier --id {ident} --grep NebentÃ¤tigkeiten"]
     emit(payload)
 
 
@@ -413,7 +413,7 @@ def api_get(path, params=None):
 
 
 def http_get(raw_url, accept):
-    request = urllib.request.Request(raw_url, headers={"Accept": accept, "User-Agent": APP_NAME + "/2.0 (+https://github.com/AlexCasF/democracy-researcher)"})
+    request = urllib.request.Request(raw_url, headers={"Accept": accept, "User-Agent": APP_NAME + "/2.0 (+https://github.com/AlexCasF/germany-skills)"})
     try:
         with urllib.request.urlopen(request, timeout=30) as response:
             return {"url": response.geturl(), "status": response.status, "contentType": response.headers.get("content-type", ""), "body": response.read(8 * 1024 * 1024).decode("utf-8", errors="replace")}
@@ -541,7 +541,7 @@ def next_for_politician_items(items):
         if ident is None:
             continue
         out.append(f"abgeordnetenwatchctl politicians dossier --id {ident}")
-        out.append(f"abgeordnetenwatchctl politicians page --id {ident} --grep Nebentätigkeiten")
+        out.append(f"abgeordnetenwatchctl politicians page --id {ident} --grep NebentÃ¤tigkeiten")
         if len(out) >= 4:
             break
     return out

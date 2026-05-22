@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"encoding/json"
@@ -31,7 +31,7 @@ const (
 	defaultLimit       = 10
 	safeLimit          = 100
 	defaultTimeout     = 45 * time.Second
-	defaultUserAgent   = "democracy-researcher/bundeshaushaltctl-2.0"
+	defaultUserAgent   = "germany-skills/bundeshaushaltctl-2.0"
 	latestTargetYear   = 2026
 	latestActualYear   = 2024
 	earliestKnownYear  = 2012
@@ -177,7 +177,7 @@ Fast paths
   bundeshaushaltctl doctor
   bundeshaushaltctl years list
   bundeshaushaltctl budget tree --year 2026 --account expenses --quota target --unit single --limit 8
-  bundeshaushaltctl search --year 2025 --account expenses --term "Bürgergeld" --limit 5
+  bundeshaushaltctl search --year 2025 --account expenses --term "BÃ¼rgergeld" --limit 5
   bundeshaushaltctl title get --year 2025 --account expenses --id 110168112
   bundeshaushaltctl compare --years 2024,2025 --account expenses --id 110168112
   bundeshaushaltctl budget-data --year 2025 --account expenses --quota target --unit single --raw
@@ -229,7 +229,7 @@ Flags
 Search budget hierarchy labels by traversing from the selected root.
 
 Examples
-  bundeshaushaltctl search --year 2025 --account expenses --term "Bürgergeld" --limit 5
+  bundeshaushaltctl search --year 2025 --account expenses --term "BÃ¼rgergeld" --limit 5
   bundeshaushaltctl search --year 2025 --account income --unit group --term "Steuern"
 
 Flags
@@ -280,10 +280,10 @@ func printExamples() {
 5. Drill into the 2025 labour/social ministry:
    bundeshaushaltctl budget tree --year 2025 --account expenses --id 11 --limit 10
 
-6. Search for Bürgergeld in the 2025 expense hierarchy:
-   bundeshaushaltctl search --year 2025 --account expenses --term "Bürgergeld" --limit 5
+6. Search for BÃ¼rgergeld in the 2025 expense hierarchy:
+   bundeshaushaltctl search --year 2025 --account expenses --term "BÃ¼rgergeld" --limit 5
 
-7. Fetch the Bürgergeld title:
+7. Fetch the BÃ¼rgergeld title:
    bundeshaushaltctl title get --year 2025 --account expenses --id 110168112
 
 8. Compare that title across two years:
@@ -334,7 +334,7 @@ func runDoctor(argv []string) error {
 	payload["nextActions"] = []string{
 		"bundeshaushaltctl years list",
 		"bundeshaushaltctl budget tree --year 2026 --account expenses --quota target --limit 8",
-		`bundeshaushaltctl search --year 2025 --account expenses --term "Bürgergeld" --limit 5`,
+		`bundeshaushaltctl search --year 2025 --account expenses --term "BÃ¼rgergeld" --limit 5`,
 	}
 	emit(payload)
 	return nil

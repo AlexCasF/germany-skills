@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 const APP_NAME = "dashboardctl";
 const BASE_URL = "https://www.dashboard-deutschland.de";
 const DASHBOARDS_URL = `${BASE_URL}/api/dashboard/get`;
@@ -288,7 +288,7 @@ async function fetchJson(requestUrl) {
     return JSON.parse(raw.body);
 }
 async function fetchRaw(requestUrl) {
-    const response = await fetch(requestUrl, { headers: { "User-Agent": "democracy-researcher/dashboardctl-node-2.0" }, signal: AbortSignal.timeout(45000) });
+    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/dashboardctl-node-2.0" }, signal: AbortSignal.timeout(45000) });
     return { status: response.status, contentType: response.headers.get("content-type") ?? "", body: await response.text() };
 }
 function parseTileConfig(indicator) {

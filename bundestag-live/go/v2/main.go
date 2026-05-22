@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"bytes"
@@ -361,7 +361,7 @@ Do not use this when
 Fast paths
   bundestagctl doctor
   bundestagctl members search --name "Amthor" --limit 3
-  bundestagctl members dossier --name "Amthor" --grep "Tätigkeiten"
+  bundestagctl members dossier --name "Amthor" --grep "TÃ¤tigkeiten"
   bundestagctl committees search --term "Arbeit" --limit 5
   bundestagctl committees dossier --id a11 --member-limit 5
   bundestagctl plenum conferences --limit 2 --item-limit 3
@@ -416,7 +416,7 @@ Build a compact source-rich dossier for one Bundestag member.
 
 Examples
   bundestagctl members dossier --id 2022
-  bundestagctl members dossier --name "Amthor" --grep "Tätigkeiten"
+  bundestagctl members dossier --name "Amthor" --grep "TÃ¤tigkeiten"
 
 Flags
   --id <mdb-id>       Bundestag member ID
@@ -477,7 +477,7 @@ func printExamples() {
    bundestagctl members search --name "Amthor" --limit 3
 
 3. Expand a member into an official source dossier:
-   bundestagctl members dossier --id 2022 --grep "Tätigkeiten"
+   bundestagctl members dossier --id 2022 --grep "TÃ¤tigkeiten"
 
 4. Search current Bundestag committees:
    bundestagctl committees search --term "Arbeit" --limit 5
@@ -642,7 +642,7 @@ func runMemberBiography(argv []string) error {
 	payload["sources"] = sourcesForMemberBiography(bio, requestURL)
 	payload["warnings"] = defaultWarnings()
 	payload["nextActions"] = []string{
-		fmt.Sprintf("bundestagctl members dossier --id %s --grep Tätigkeiten", id),
+		fmt.Sprintf("bundestagctl members dossier --id %s --grep TÃ¤tigkeiten", id),
 	}
 	if flagBool(parsed, "include-raw") {
 		payload["raw"] = bio
@@ -1425,7 +1425,7 @@ func fetchRaw(requestURL string) (int, string, []byte, error) {
 	if err != nil {
 		return 0, "", nil, err
 	}
-	req.Header.Set("User-Agent", "democracy-researcher/bundestagctl-2.0")
+	req.Header.Set("User-Agent", "germany-skills/bundestagctl-2.0")
 	resp, err := client.Do(req)
 	if err != nil {
 		return 0, "", nil, err
@@ -1619,7 +1619,7 @@ var (
 	scriptStylePattern = regexp.MustCompile(`(?is)<(script|style)[^>]*>.*?</(script|style)>`)
 	htmlTagPattern     = regexp.MustCompile(`<[^>]+>`)
 	spacePattern       = regexp.MustCompile(`\s+`)
-	sentencePattern    = regexp.MustCompile(`(?m)([^.!?。！？]*[^.!?。！？]*[.!?。！？])`)
+	sentencePattern    = regexp.MustCompile(`(?m)([^.!?ã€‚ï¼ï¼Ÿ]*[^.!?ã€‚ï¼ï¼Ÿ]*[.!?ã€‚ï¼ï¼Ÿ])`)
 	titlePattern       = regexp.MustCompile(`(?is)<title[^>]*>(.*?)</title>`)
 )
 

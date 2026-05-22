@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 type JsonObject = Record<string, unknown>;
 type ParsedArgs = { flags: Record<string, string>; params: Record<string, string>; positionals: string[] };
@@ -12,7 +12,7 @@ const ROBOTS_URL = "https://www.bundeshaushalt.de/robots.txt";
 const BMF_BUDGET_URL = "https://www.bundesfinanzministerium.de/Web/DE/Themen/Oeffentliche_Finanzen/Bundeshaushalt/bundeshaushalt.html";
 const BMF_DATA_USE_URL = "https://www.bundesfinanzministerium.de/Datenportal/Nutzungshinweise/nutzungshinweise.html";
 const OPENAPI_WRAPPER_URL = "https://github.com/anetz89/bundeshaushalt-api";
-const USER_AGENT = "democracy-researcher/bundeshaushaltctl-node-2.0";
+const USER_AGENT = "germany-skills/bundeshaushaltctl-node-2.0";
 const KNOWN_YEARS = Array.from({ length: 15 }, (_, index) => 2012 + index);
 const EARLIEST_KNOWN_YEAR = 2012;
 const LATEST_TARGET_YEAR = 2026;

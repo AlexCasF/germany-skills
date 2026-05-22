@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import json
 import re
 import sys
@@ -403,7 +403,7 @@ def fetch_catalog():
 
 
 def fetch_json(request_url):
-    req = urllib.request.Request(request_url, headers={"User-Agent": "democracy-researcher/regionalatlasctl-python-2.0"})
+    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/regionalatlasctl-python-2.0"})
     try:
         with urllib.request.urlopen(req, timeout=45) as response:
             body = response.read().decode("utf-8")

@@ -1,4 +1,4 @@
-const APP_NAME = "bundestagctl";
+﻿const APP_NAME = "bundestagctl";
 const BASE_URL = "https://www.bundestag.de";
 const SPEAKER_URL = `${BASE_URL}/static/appdata/plenum/v2/speaker.xml`;
 const CONFERENCES_URL = `${BASE_URL}/static/appdata/plenum/v2/conferences.xml`;
@@ -78,7 +78,7 @@ Purpose
 Fast paths
   bundestagctl doctor
   bundestagctl members search --name "Amthor" --limit 3
-  bundestagctl members dossier --name "Amthor" --grep "Tätigkeiten"
+  bundestagctl members dossier --name "Amthor" --grep "TÃ¤tigkeiten"
   bundestagctl committees search --term "Arbeit" --limit 5
   bundestagctl committees dossier --id a11 --member-limit 5
   bundestagctl plenum conferences --limit 2 --item-limit 3
@@ -99,7 +99,7 @@ Endpoint-compatible commands
 function printHelp(path: string[]): void {
   const joined = path.join(" ");
   if (joined === "members search") console.log('bundestagctl members search --name "Amthor" --limit 3');
-  else if (joined === "members dossier") console.log('bundestagctl members dossier --id 2022 --grep "Tätigkeiten"');
+  else if (joined === "members dossier") console.log('bundestagctl members dossier --id 2022 --grep "TÃ¤tigkeiten"');
   else if (joined === "committees dossier") console.log("bundestagctl committees dossier --id a11 --member-limit 5 --news-limit 3");
   else if (joined === "article page") console.log('bundestagctl article page --url "https://www.bundestag.de/..." --grep "term"');
   else printRootHelp();
@@ -110,7 +110,7 @@ function printExamples(): void {
 
 1. bundestagctl doctor
 2. bundestagctl members search --name "Amthor" --limit 3
-3. bundestagctl members dossier --id 2022 --grep "Tätigkeiten"
+3. bundestagctl members dossier --id 2022 --grep "TÃ¤tigkeiten"
 4. bundestagctl committees search --term "Arbeit" --limit 5
 5. bundestagctl committees dossier --id a11 --member-limit 5 --news-limit 3
 6. bundestagctl plenum conferences --limit 2 --item-limit 5
@@ -191,7 +191,7 @@ async function runMemberBiography(argv: string[]): Promise<void> {
   payload.items = [memberEvidence(body, grep)];
   payload.sources = sourcesForMember(body, requestUrl);
   payload.warnings = defaultWarnings();
-  payload.nextActions = [`bundestagctl members dossier --id ${id} --grep Tätigkeiten`];
+  payload.nextActions = [`bundestagctl members dossier --id ${id} --grep TÃ¤tigkeiten`];
   if (flagBool(parsed, "include-raw")) payload.rawXml = body;
   emit(payload);
 }
@@ -490,7 +490,7 @@ async function fetchXmlWithParams(base: string, params: Record<string, string>):
 }
 
 async function fetchRaw(requestUrl: string): Promise<{ status: number; contentType: string; body: string }> {
-  const response = await fetch(requestUrl, { headers: { "User-Agent": "democracy-researcher/bundestagctl-node-2.0" }, signal: AbortSignal.timeout(45000) });
+  const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/bundestagctl-node-2.0" }, signal: AbortSignal.timeout(45000) });
   return { status: response.status, contentType: response.headers.get("content-type") ?? "", body: await response.text() };
 }
 

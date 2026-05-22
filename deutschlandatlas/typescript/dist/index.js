@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 const APP_NAME = "deutschlandatlasctl";
 const PORTAL_SEARCH_BASE = "https://www.karto365.de/portal/sharing/rest/search";
 const HOSTING_BASE = "https://www.karto365.de/hosting/rest/services";
@@ -391,7 +391,7 @@ async function resolveLayer(table, parsed) {
     throw new CLIError(1, "no_feature_layer", "service metadata did not expose a feature layer");
 }
 async function fetchJson(requestUrl) {
-    const response = await fetch(requestUrl, { headers: { "User-Agent": "democracy-researcher/deutschlandatlasctl-node-2.0" } });
+    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/deutschlandatlasctl-node-2.0" } });
     const text = await response.text();
     if (!response.ok)
         throw new Error(`HTTP ${response.status} from ${requestUrl}: ${text.slice(0, 300)}`);

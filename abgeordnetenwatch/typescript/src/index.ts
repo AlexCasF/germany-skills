@@ -1,4 +1,4 @@
-import * as https from "node:https";
+﻿import * as https from "node:https";
 import { URL, URLSearchParams } from "node:url";
 
 const APP_NAME = "abgeordnetenwatchctl";
@@ -104,7 +104,7 @@ Purpose
 Fast paths
   abgeordnetenwatchctl doctor
   abgeordnetenwatchctl politicians search --name "Alice Weidel" --limit 3
-  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep Nebentätigkeiten
+  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
 
 Legacy endpoint commands
   <entity> list|get
@@ -130,7 +130,7 @@ mandates, side jobs, source URLs, page metadata, optional profile-page snippets,
 warnings, and next actions.
 
 Examples
-  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep Nebentätigkeiten
+  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
   abgeordnetenwatchctl politicians dossier --id 108379 --limit 5
 `);
     return;
@@ -182,7 +182,7 @@ async function runDoctor(): Promise<void> {
   payload.warnings = standardWarnings();
   payload.nextActions = [
     "abgeordnetenwatchctl politicians search --name \"Alice Weidel\" --limit 3",
-    "abgeordnetenwatchctl politicians dossier --id 108379 --grep Nebentätigkeiten"
+    "abgeordnetenwatchctl politicians dossier --id 108379 --grep NebentÃ¤tigkeiten"
   ];
   emit(payload);
 }
@@ -307,7 +307,7 @@ async function runPoliticianDossier(argv: string[]): Promise<void> {
   ];
   payload.nextActions = [
     `abgeordnetenwatchctl sidejobs for-politician --id ${id} --limit ${limit}`,
-    `abgeordnetenwatchctl politicians page --id ${id} --grep Nebentätigkeiten`
+    `abgeordnetenwatchctl politicians page --id ${id} --grep NebentÃ¤tigkeiten`
   ];
   emit(payload);
 }
@@ -345,7 +345,7 @@ async function runSidejobsForPolitician(argv: string[]): Promise<void> {
   payload.items = summarizeRecords(sidejobs, limit);
   payload.sources = [{ kind: "api", title: "Sidejobs endpoint", url: BASE_URL + "/sidejobs" }];
   payload.warnings = [...standardWarnings(), "Side-job data is disclosure data; interpret categories and income fields cautiously."];
-  payload.nextActions = [`abgeordnetenwatchctl politicians dossier --id ${id} --grep Nebentätigkeiten`];
+  payload.nextActions = [`abgeordnetenwatchctl politicians dossier --id ${id} --grep NebentÃ¤tigkeiten`];
   emit(payload);
 }
 
@@ -468,7 +468,7 @@ function httpGet(rawUrl: string, accept: string): Promise<ApiResponse> {
     const req = https.request(rawUrl, {
       headers: {
         "Accept": accept,
-        "User-Agent": APP_NAME + "/2.0 (+https://github.com/AlexCasF/democracy-researcher)"
+        "User-Agent": APP_NAME + "/2.0 (+https://github.com/AlexCasF/germany-skills)"
       },
       timeout: 30000
     }, (res) => {
@@ -640,7 +640,7 @@ function nextForPoliticianItems(items: Record<string, any>[]): string[] {
       continue;
     }
     out.push(`abgeordnetenwatchctl politicians dossier --id ${item.id}`);
-    out.push(`abgeordnetenwatchctl politicians page --id ${item.id} --grep Nebentätigkeiten`);
+    out.push(`abgeordnetenwatchctl politicians page --id ${item.id} --grep NebentÃ¤tigkeiten`);
     if (out.length >= 4) {
       break;
     }

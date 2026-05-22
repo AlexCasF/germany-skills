@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import json
 import sys
 import time
@@ -391,7 +391,7 @@ def resolve_layer(table, parsed):
 
 
 def fetch_json(request_url):
-    req = urllib.request.Request(request_url, headers={"User-Agent": "democracy-researcher/deutschlandatlasctl-python-2.0"})
+    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/deutschlandatlasctl-python-2.0"})
     try:
         with urllib.request.urlopen(req, timeout=30) as response:
             body = response.read().decode("utf-8")

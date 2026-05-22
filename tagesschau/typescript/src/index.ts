@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 type JsonObject = Record<string, unknown>;
 type ParsedArgs = { flags: Record<string, string>; params: Record<string, string>; positionals: string[] };
@@ -13,7 +13,7 @@ const API_DOCS_URL = "https://github.com/bundesAPI/tagesschau-api";
 const OPENAPI_URL = "https://github.com/bundesAPI/tagesschau-api/raw/refs/heads/main/openapi.yaml";
 const CC_URL = "https://www.tagesschau.de/multimedia/video/creative-commons-index-100.html";
 const RSS_INFO_URL = "https://www.tagesschau.de/infoservices/rssfeeds";
-const USER_AGENT = "democracy-researcher/tagesschauctl-node-2.0";
+const USER_AGENT = "germany-skills/tagesschauctl-node-2.0";
 const DEFAULT_LIMIT = 10;
 const MAX_LIMIT = 30;
 
@@ -165,7 +165,7 @@ function runFields(_argv: string[]): void {
       { command: "search", meaning: "Search feed with searchText, resultPage, and pageSize." },
     ],
     ressorts: ["inland", "ausland", "wirtschaft", "sport", "video", "investigativ", "wissen"],
-    regions: { "1": "Baden-Württemberg", "2": "Bayern", "3": "Berlin", "4": "Brandenburg", "5": "Bremen", "6": "Hamburg", "7": "Hessen", "8": "Mecklenburg-Vorpommern", "9": "Niedersachsen", "10": "Nordrhein-Westfalen", "11": "Rheinland-Pfalz", "12": "Saarland", "13": "Sachsen", "14": "Sachsen-Anhalt", "15": "Schleswig-Holstein", "16": "Thüringen" },
+    regions: { "1": "Baden-WÃ¼rttemberg", "2": "Bayern", "3": "Berlin", "4": "Brandenburg", "5": "Bremen", "6": "Hamburg", "7": "Hessen", "8": "Mecklenburg-Vorpommern", "9": "Niedersachsen", "10": "Nordrhein-Westfalen", "11": "Rheinland-Pfalz", "12": "Saarland", "13": "Sachsen", "14": "Sachsen-Anhalt", "15": "Schleswig-Holstein", "16": "ThÃ¼ringen" },
     coreArticleFields: ["title", "topline", "date", "details", "detailsweb", "shareURL", "firstSentence", "ressort", "type", "tags"],
   };
   payload.sources = defaultSources();

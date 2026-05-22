@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+﻿import { readFileSync } from "node:fs";
 
 const APP_NAME = "regionalatlasctl";
 const MAP_SERVER_URL = "https://www.gis-idmz.nrw.de/arcgis/rest/services/stba/regionalatlas/MapServer";
@@ -462,7 +462,7 @@ async function fetchCatalog(): Promise<any[]> {
 
 async function fetchJson(requestUrl: string): Promise<JsonObject> {
   const response = await fetch(requestUrl, {
-    headers: { "User-Agent": "democracy-researcher/regionalatlasctl-node-2.0" },
+    headers: { "User-Agent": "germany-skills/regionalatlasctl-node-2.0" },
     signal: AbortSignal.timeout(45000)
   });
   const body = await response.text();

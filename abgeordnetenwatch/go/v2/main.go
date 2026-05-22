@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"context"
@@ -133,7 +133,7 @@ Fast paths
     abgeordnetenwatchctl politicians search --name "Alice Weidel" --limit 3
 
   Build a source-backed person bundle:
-    abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep Nebentätigkeiten
+    abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
 
 Legacy endpoint commands
   <entity> list|get
@@ -176,7 +176,7 @@ Inputs
   --limit    Max records per related collection, default 10
 
 Examples
-  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep Nebentätigkeiten
+  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
   abgeordnetenwatchctl politicians dossier --id 108379 --limit 5
 
 Next action
@@ -195,7 +195,7 @@ Inputs
   --grep     Optional snippet term
 
 Example
-  abgeordnetenwatchctl politicians page --name "Alice Weidel" --grep Nebentätigkeiten`)
+  abgeordnetenwatchctl politicians page --name "Alice Weidel" --grep NebentÃ¤tigkeiten`)
 	case "politicians search":
 		fmt.Println(`abgeordnetenwatchctl politicians search
 
@@ -252,7 +252,7 @@ func runDoctor() error {
 	}
 	payload["nextActions"] = []string{
 		`abgeordnetenwatchctl politicians search --name "Alice Weidel" --limit 3`,
-		`abgeordnetenwatchctl politicians dossier --id 108379 --grep Nebentätigkeiten`,
+		`abgeordnetenwatchctl politicians dossier --id 108379 --grep NebentÃ¤tigkeiten`,
 	}
 	emit(payload)
 	return nil
@@ -421,7 +421,7 @@ func runPoliticianDossier(args []string) error {
 		"Do not equate outside income or mandates with corruption without independent evidence.")
 	payload["nextActions"] = []string{
 		fmt.Sprintf(`abgeordnetenwatchctl sidejobs for-politician --id %s --limit %d`, id, limit),
-		fmt.Sprintf(`abgeordnetenwatchctl politicians page --id %s --grep Nebentätigkeiten`, id),
+		fmt.Sprintf(`abgeordnetenwatchctl politicians page --id %s --grep NebentÃ¤tigkeiten`, id),
 	}
 	emit(payload)
 	return nil
@@ -485,7 +485,7 @@ func runSidejobsForPolitician(args []string) error {
 	payload["items"] = summarizeRecords(sidejobs, limit)
 	payload["sources"] = []map[string]string{{"kind": "api", "title": "Sidejobs endpoint", "url": baseURL + "/sidejobs"}}
 	payload["warnings"] = append(standardWarnings(), "Side-job data is disclosure data; interpret categories and income fields cautiously.")
-	payload["nextActions"] = []string{fmt.Sprintf(`abgeordnetenwatchctl politicians dossier --id %s --grep Nebentätigkeiten`, id)}
+	payload["nextActions"] = []string{fmt.Sprintf(`abgeordnetenwatchctl politicians dossier --id %s --grep NebentÃ¤tigkeiten`, id)}
 	emit(payload)
 	return nil
 }
@@ -651,7 +651,7 @@ func httpGet(rawURL string, accept string) (*apiResponse, error) {
 		return nil, cliError{2, "bad_url", err.Error()}
 	}
 	req.Header.Set("Accept", accept)
-	req.Header.Set("User-Agent", appName+"/2.0 (+https://github.com/AlexCasF/democracy-researcher)")
+	req.Header.Set("User-Agent", appName+"/2.0 (+https://github.com/AlexCasF/germany-skills)")
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, cliError{1, "request_failed", err.Error()}
@@ -863,7 +863,7 @@ func nextForPoliticianItems(items []map[string]any) []string {
 		}
 		out = append(out,
 			fmt.Sprintf("abgeordnetenwatchctl politicians dossier --id %s", id),
-			fmt.Sprintf("abgeordnetenwatchctl politicians page --id %s --grep Nebentätigkeiten", id),
+			fmt.Sprintf("abgeordnetenwatchctl politicians page --id %s --grep NebentÃ¤tigkeiten", id),
 		)
 		if len(out) >= 4 {
 			break

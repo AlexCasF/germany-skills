@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_fs_1 = require("node:fs");
 const APP_NAME = "regionalatlasctl";
@@ -469,7 +469,7 @@ async function fetchCatalog() {
 }
 async function fetchJson(requestUrl) {
     const response = await fetch(requestUrl, {
-        headers: { "User-Agent": "democracy-researcher/regionalatlasctl-node-2.0" },
+        headers: { "User-Agent": "germany-skills/regionalatlasctl-node-2.0" },
         signal: AbortSignal.timeout(45000)
     });
     const body = await response.text();

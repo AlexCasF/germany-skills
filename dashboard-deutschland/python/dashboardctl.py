@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import json
 import re
 import sys
@@ -303,7 +303,7 @@ def fetch_json(request_url):
 
 
 def fetch_raw(request_url):
-    req = urllib.request.Request(request_url, headers={"User-Agent": "democracy-researcher/dashboardctl-python-2.0"})
+    req = urllib.request.Request(request_url, headers={"User-Agent": "germany-skills/dashboardctl-python-2.0"})
     try:
         with urllib.request.urlopen(req, timeout=45) as response:
             return response.status, response.headers.get("Content-Type", ""), response.read().decode("utf-8", "replace")

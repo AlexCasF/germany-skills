@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Agent-friendly Tagesschau public JSON feed CLI mirror."""
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ API_DOCS_URL = "https://github.com/bundesAPI/tagesschau-api"
 OPENAPI_URL = "https://github.com/bundesAPI/tagesschau-api/raw/refs/heads/main/openapi.yaml"
 CC_URL = "https://www.tagesschau.de/multimedia/video/creative-commons-index-100.html"
 RSS_INFO_URL = "https://www.tagesschau.de/infoservices/rssfeeds"
-USER_AGENT = "democracy-researcher/tagesschauctl-python-2.0"
+USER_AGENT = "germany-skills/tagesschauctl-python-2.0"
 DEFAULT_LIMIT = 10
 MAX_LIMIT = 30
 

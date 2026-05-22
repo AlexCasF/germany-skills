@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"encoding/json"
@@ -26,7 +26,7 @@ const (
 	openAPIURL       = "https://github.com/bundesAPI/tagesschau-api/raw/refs/heads/main/openapi.yaml"
 	ccURL            = "https://www.tagesschau.de/multimedia/video/creative-commons-index-100.html"
 	rssInfoURL       = "https://www.tagesschau.de/infoservices/rssfeeds"
-	defaultUserAgent = "democracy-researcher/tagesschauctl-2.0"
+	defaultUserAgent = "germany-skills/tagesschauctl-2.0"
 	defaultLimit     = 10
 	maxLimit         = 30
 	defaultTimeout   = 35 * time.Second
@@ -257,8 +257,8 @@ func runFields(argv []string) error {
 		},
 		"ressorts": []string{"inland", "ausland", "wirtschaft", "sport", "video", "investigativ", "wissen"},
 		"regions": map[string]string{
-			"1": "Baden-Württemberg", "2": "Bayern", "3": "Berlin", "4": "Brandenburg", "5": "Bremen", "6": "Hamburg", "7": "Hessen", "8": "Mecklenburg-Vorpommern",
-			"9": "Niedersachsen", "10": "Nordrhein-Westfalen", "11": "Rheinland-Pfalz", "12": "Saarland", "13": "Sachsen", "14": "Sachsen-Anhalt", "15": "Schleswig-Holstein", "16": "Thüringen",
+			"1": "Baden-WÃ¼rttemberg", "2": "Bayern", "3": "Berlin", "4": "Brandenburg", "5": "Bremen", "6": "Hamburg", "7": "Hessen", "8": "Mecklenburg-Vorpommern",
+			"9": "Niedersachsen", "10": "Nordrhein-Westfalen", "11": "Rheinland-Pfalz", "12": "Saarland", "13": "Sachsen", "14": "Sachsen-Anhalt", "15": "Schleswig-Holstein", "16": "ThÃ¼ringen",
 		},
 		"coreArticleFields": []string{"title", "topline", "date", "details", "detailsweb", "shareURL", "firstSentence", "ressort", "type", "tags"},
 	}
