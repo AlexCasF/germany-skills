@@ -1,0 +1,16 @@
+{
+  "name": "bundesratctl",
+  "version": "2.0.0",
+  "private": true,
+  "type": "commonjs",
+  "bin": {
+    "bundesratctl": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "typescript": "^5.4.5"
+  }
+}

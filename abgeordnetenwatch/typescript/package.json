@@ -1,0 +1,16 @@
+{
+  "name": "abgeordnetenwatchctl",
+  "version": "2.0.0",
+  "private": true,
+  "description": "TypeScript/Node.js implementation of the abgeordnetenwatch CLI.",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test:manual": "node dist/index.js doctor"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0"
+  }
+}
