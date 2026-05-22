@@ -1,5 +1,5 @@
 import { request } from "node:https";
-const APP_NAME = "dipctl";
+const APP_NAME = "dip-bundestag";
 const BASE_URL = "https://search.dip.bundestag.de/api/v1";
 const ENTITIES = new Set([
     "vorgang",
@@ -70,7 +70,7 @@ async function main(argv) {
     return 0;
 }
 function printRootHelp() {
-    console.log(`dipctl -- official Bundestag DIP research CLI
+    console.log(`dip-bundestag -- official Bundestag DIP research CLI
 
 Purpose
   Search and cite official parliamentary material from the Bundestag DIP API.
@@ -87,20 +87,20 @@ Do not use this when
 
 Fast paths
   Check auth and endpoint health:
-    dipctl doctor
+    dip-bundestag doctor
 
   Find a person:
-    dipctl person search --name "Gauweiler" --limit 3
+    dip-bundestag person search --name "Gauweiler" --limit 3
 
   Build an evidence bundle:
-    dipctl person dossier --name "Gauweiler"
+    dip-bundestag person dossier --name "Gauweiler"
 
 Legacy endpoint commands
-  dipctl vorgang list|get
-  dipctl drucksache list|get
-  dipctl plenarprotokoll list|get
-  dipctl person list|get
-  dipctl aktivitaet list|get
+  dip-bundestag vorgang list|get
+  dip-bundestag drucksache list|get
+  dip-bundestag plenarprotokoll list|get
+  dip-bundestag person list|get
+  dip-bundestag aktivitaet list|get
 
 Research commands
   doctor
@@ -118,7 +118,7 @@ Auth
 }
 function printHelpFor(path) {
     if (path[0] === "person" && path[1] === "dossier") {
-        console.log(`dipctl person dossier
+        console.log(`dip-bundestag person dossier
 
 What it does
   Builds a compact official-source evidence bundle for one person.
@@ -129,12 +129,12 @@ Inputs
   --limit   Related activity limit, default 10
 
 Examples
-  dipctl person dossier --id 760
-  dipctl person dossier --name "Gauweiler"
+  dip-bundestag person dossier --id 760
+  dip-bundestag person dossier --name "Gauweiler"
 `);
     }
     else if (path[0] === "doctor") {
-        console.log("dipctl doctor\n\nWhat it does\n  Checks auth and endpoint health without printing the API key.");
+        console.log("dip-bundestag doctor\n\nWhat it does\n  Checks auth and endpoint health without printing the API key.");
     }
     else {
         printRootHelp();
@@ -164,8 +164,8 @@ async function runDoctor(args) {
             "Use source attribution: Deutscher Bundestag/Bundesrat - DIP.",
         ],
         nextActions: [
-            'dipctl person search --name "Gauweiler"',
-            'dipctl plenarprotokoll text --document-number "20/139" --grep "Bürgergeld"',
+            'dip-bundestag person search --name "Gauweiler"',
+            'dip-bundestag plenarprotokoll text --document-number "20/139" --grep "Bürgergeld"',
         ],
     };
     if (!key) {
@@ -228,7 +228,7 @@ async function runPersonSearch(args) {
         items: docs.map(compactItem),
         sources: [{ title: "DIP API person endpoint", url: BASE_URL + "/person", kind: "api" }],
         warnings: [],
-        nextActions: ["dipctl person dossier --id <id>", 'dipctl aktivitaet list --param "f.person_id=<id>"'],
+        nextActions: ["dip-bundestag person dossier --id <id>", 'dip-bundestag aktivitaet list --param "f.person_id=<id>"'],
     });
 }
 async function runPersonDossier(args) {
@@ -273,7 +273,7 @@ async function runPersonDossier(args) {
         related: { activities },
         sources: dedupeSources([...extractSources(person), { title: "DIP API person detail", url: BASE_URL + "/person/" + id, kind: "api" }]),
         warnings,
-        nextActions: [`dipctl aktivitaet list --param "f.person_id=${id}"`, `dipctl plenary speech search --person-id ${id} --term <term>`],
+        nextActions: [`dip-bundestag aktivitaet list --param "f.person_id=${id}"`, `dip-bundestag plenary speech search --person-id ${id} --term <term>`],
     });
 }
 async function runVorgangDossier(args) {
@@ -306,7 +306,7 @@ async function runVorgangDossier(args) {
         related: { positions },
         sources: dedupeSources([...extractSources(record), { title: "DIP API proceeding detail", url: BASE_URL + "/vorgang/" + id, kind: "api" }]),
         warnings,
-        nextActions: [`dipctl vorgangsposition list --param "f.vorgang=${id}"`],
+        nextActions: [`dip-bundestag vorgangsposition list --param "f.vorgang=${id}"`],
     });
 }
 async function runSource(args) {
@@ -336,7 +336,7 @@ async function runSource(args) {
         },
         sources: dedupeSources(sources),
         warnings: ["Cite DIP as source. For BT plenary protocols use BT-PlPr. plus document number."],
-        nextActions: ["dipctl " + entity + " get --id <id>"],
+        nextActions: ["dip-bundestag " + entity + " get --id <id>"],
     });
 }
 async function runDocumentText(kind, args) {
@@ -360,7 +360,7 @@ async function runDocumentText(kind, args) {
         summary: { record: compactItem(record), textLength: text.length, grep: term, snippetCount: 0 },
         sources: dedupeSources(sources),
         warnings: ["Full text is official DIP text where available.", "Use source attribution: Deutscher Bundestag/Bundesrat - DIP."],
-        nextActions: ["dipctl source --type " + kind + " --id " + id],
+        nextActions: ["dip-bundestag source --type " + kind + " --id " + id],
     };
     if (term) {
         const snips = snippets(text, term, context);
@@ -409,7 +409,7 @@ async function runPlenarySpeechSearch(args) {
         items: matches,
         sources: [{ title: "DIP API activity endpoint", url: BASE_URL + "/aktivitaet", kind: "api" }],
         warnings: ["Activity search is official DIP metadata, not a full transcript search."],
-        nextActions: [`dipctl plenarprotokoll text --document-number <number> --grep "${term}"`],
+        nextActions: [`dip-bundestag plenarprotokoll text --document-number <number> --grep "${term}"`],
     });
 }
 async function resolveRecord(entity, id, documentNumber, key) {

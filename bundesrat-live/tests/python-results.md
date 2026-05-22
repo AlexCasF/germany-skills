@@ -3,7 +3,7 @@
 Runtime:
 
 ```text
-python skills\bundesrat-live\python\bundesratctl.py
+python skills\bundesrat-live\python\bundesrat-live.py
 ```
 
 ## Result Summary

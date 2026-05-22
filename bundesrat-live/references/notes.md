@@ -18,7 +18,7 @@ The most useful data areas are:
 
 ## Common Pitfalls
 
-- This is not the full parliamentary archive. Use `dipctl` for archive-grade proceedings and printed papers.
+- This is not the full parliamentary archive. Use `dip-bundestag` for archive-grade proceedings and printed papers.
 - Many fields are embedded HTML inside XML CDATA. Prefer normalized commands before raw XML.
 - Public pages and images can include copyright notices; preserve attribution.
 - Individual Bundesrat voting behavior by Land is not always recorded centrally by the Bundesrat.

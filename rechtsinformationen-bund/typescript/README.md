@@ -1,6 +1,6 @@
 # Rechtsinformationen CLI TypeScript/Node.js 2.0
 
-Node.js implementation of the `rechtsinformationenctl` 2.0 command surface.
+Node.js implementation of the `rechtsinformationen-bund` 2.0 command surface.
 
 ## Build
 

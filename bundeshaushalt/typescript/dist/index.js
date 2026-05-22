@@ -1,6 +1,6 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 "use strict";
-const APP_NAME = "bundeshaushaltctl";
+const APP_NAME = "bundeshaushalt";
 const BASE_URL = "https://bundeshaushalt.de";
 const BUDGET_DATA_URL = `${BASE_URL}/internalapi/budgetData`;
 const DIGITAL_URL = "https://www.bundeshaushalt.de/DE/Bundeshaushalt-digital/bundeshaushalt-digital.html";
@@ -9,7 +9,7 @@ const ROBOTS_URL = "https://www.bundeshaushalt.de/robots.txt";
 const BMF_BUDGET_URL = "https://www.bundesfinanzministerium.de/Web/DE/Themen/Oeffentliche_Finanzen/Bundeshaushalt/bundeshaushalt.html";
 const BMF_DATA_USE_URL = "https://www.bundesfinanzministerium.de/Datenportal/Nutzungshinweise/nutzungshinweise.html";
 const OPENAPI_WRAPPER_URL = "https://github.com/anetz89/bundeshaushalt-api";
-const USER_AGENT = "germany-skills/bundeshaushaltctl-node-2.0";
+const USER_AGENT = "germany-skills/bundeshaushalt-node-2.0";
 const KNOWN_YEARS = Array.from({ length: 15 }, (_, index) => 2012 + index);
 const EARLIEST_KNOWN_YEAR = 2012;
 const LATEST_TARGET_YEAR = 2026;
@@ -80,16 +80,16 @@ async function main(argv) {
     }
 }
 function printRootHelp() {
-    console.log(`bundeshaushaltctl 2.0 - Bundeshaushalt Digital research CLI
+    console.log(`bundeshaushalt 2.0 - Bundeshaushalt Digital research CLI
 
 Usage:
-  bundeshaushaltctl doctor
-  bundeshaushaltctl years list
-  bundeshaushaltctl budget tree --year 2026 --account expenses --quota target --unit single --limit 8
-  bundeshaushaltctl search --year 2025 --account expenses --term "Buergergeld" --limit 5
-  bundeshaushaltctl title get --year 2025 --account expenses --id 110168112
-  bundeshaushaltctl compare --years 2024,2025 --account expenses --id 110168112
-  bundeshaushaltctl budget-data --year 2025 --account expenses --quota target --unit single --raw
+  bundeshaushalt doctor
+  bundeshaushalt years list
+  bundeshaushalt budget tree --year 2026 --account expenses --quota target --unit single --limit 8
+  bundeshaushalt search --year 2025 --account expenses --term "Buergergeld" --limit 5
+  bundeshaushalt title get --year 2025 --account expenses --id 110168112
+  bundeshaushalt compare --years 2024,2025 --account expenses --id 110168112
+  bundeshaushalt budget-data --year 2025 --account expenses --quota target --unit single --raw
 
 Research commands:
   doctor          Check endpoint health, auth, live-year behavior, and fair-use hints.
@@ -123,13 +123,13 @@ function printHelp(args) {
 }
 function printExamples() {
     console.log(`Examples:
-  bundeshaushaltctl doctor
-  bundeshaushaltctl source
-  bundeshaushaltctl years list
-  bundeshaushaltctl budget tree --year 2026 --account expenses --quota target --unit single --limit 8
-  bundeshaushaltctl search --year 2025 --account expenses --term "Arbeit" --limit 5
-  bundeshaushaltctl title get --year 2025 --account expenses --id 110168112
-  bundeshaushaltctl compare --years 2024,2025 --account expenses --id 110168112`);
+  bundeshaushalt doctor
+  bundeshaushalt source
+  bundeshaushalt years list
+  bundeshaushalt budget tree --year 2026 --account expenses --quota target --unit single --limit 8
+  bundeshaushalt search --year 2025 --account expenses --term "Arbeit" --limit 5
+  bundeshaushalt title get --year 2025 --account expenses --id 110168112
+  bundeshaushalt compare --years 2024,2025 --account expenses --id 110168112`);
 }
 async function runDoctor(_argv) {
     const checks = [];
@@ -157,9 +157,9 @@ async function runDoctor(_argv) {
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
     payload.nextActions = [
-        "bundeshaushaltctl years list",
-        `bundeshaushaltctl budget tree --year ${LATEST_TARGET_YEAR} --account expenses --quota target --limit 8`,
-        'bundeshaushaltctl search --year 2025 --account expenses --term "Arbeit" --limit 5',
+        "bundeshaushalt years list",
+        `bundeshaushalt budget tree --year ${LATEST_TARGET_YEAR} --account expenses --quota target --limit 8`,
+        'bundeshaushalt search --year 2025 --account expenses --term "Arbeit" --limit 5',
     ];
     emit(payload);
 }
@@ -178,7 +178,7 @@ function runFields(_argv) {
     };
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
-    payload.nextActions = [`bundeshaushaltctl budget tree --year ${LATEST_TARGET_YEAR} --account expenses --limit 8`];
+    payload.nextActions = [`bundeshaushalt budget tree --year ${LATEST_TARGET_YEAR} --account expenses --limit 8`];
     emit(payload);
 }
 function runSource(_argv) {
@@ -192,7 +192,7 @@ function runSource(_argv) {
     };
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
-    payload.nextActions = ["bundeshaushaltctl fields", "bundeshaushaltctl years list"];
+    payload.nextActions = ["bundeshaushalt fields", "bundeshaushalt years list"];
     emit(payload);
 }
 function runYearsList(_argv) {
@@ -200,7 +200,7 @@ function runYearsList(_argv) {
         year,
         targetLikely: true,
         actualLikely: year <= LATEST_ACTUAL_YEAR,
-        exampleTargetCmd: `bundeshaushaltctl budget tree --year ${year} --account expenses --quota target --limit 8`,
+        exampleTargetCmd: `bundeshaushalt budget tree --year ${year} --account expenses --quota target --limit 8`,
     }));
     const payload = envelope("years list", BUDGET_DATA_URL, {});
     payload.summary = {
@@ -213,7 +213,7 @@ function runYearsList(_argv) {
     payload.items = items;
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
-    payload.nextActions = [`bundeshaushaltctl budget tree --year ${LATEST_TARGET_YEAR} --account expenses --quota target --limit 8`];
+    payload.nextActions = [`bundeshaushalt budget tree --year ${LATEST_TARGET_YEAR} --account expenses --quota target --limit 8`];
     emit(payload);
 }
 async function runBudgetTree(argv) {
@@ -292,7 +292,7 @@ async function runCompare(argv) {
     payload.status = items.every((item) => item.ok === true) ? "ok" : "partial";
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
-    payload.nextActions = ["bundeshaushaltctl source"];
+    payload.nextActions = ["bundeshaushalt source"];
     emit(payload);
 }
 async function runBudgetData(argv) {
@@ -410,8 +410,8 @@ function compactElement(element, meta, params) {
     };
     if (item.id) {
         item.nextActions = [
-            `bundeshaushaltctl title get --year ${item.year} --account ${item.account} --quota ${item.quota} --unit ${item.unit} --id ${item.id}`,
-            `bundeshaushaltctl budget tree --year ${item.year} --account ${item.account} --quota ${item.quota} --unit ${item.unit} --id ${item.id} --limit 10`,
+            `bundeshaushalt title get --year ${item.year} --account ${item.account} --quota ${item.quota} --unit ${item.unit} --id ${item.id}`,
+            `bundeshaushalt budget tree --year ${item.year} --account ${item.account} --quota ${item.quota} --unit ${item.unit} --id ${item.id} --limit 10`,
         ];
     }
     return item;
@@ -542,17 +542,17 @@ function defaultWarningsForResponse(data) {
     return warnings;
 }
 function nextActionsFromChildren(items) {
-    const actions = ["bundeshaushaltctl source"];
+    const actions = ["bundeshaushalt source"];
     for (const item of items.slice(0, 3)) {
         if (item.id)
-            actions.push(`bundeshaushaltctl budget tree --year ${item.year} --account ${item.account} --quota ${item.quota} --unit ${item.unit} --id ${item.id} --limit 10`);
+            actions.push(`bundeshaushalt budget tree --year ${item.year} --account ${item.account} --quota ${item.quota} --unit ${item.unit} --id ${item.id} --limit 10`);
     }
     return actions;
 }
 function nextActionsFromSearch(items, params) {
-    const actions = items.slice(0, 3).filter((item) => item.id).map((item) => `bundeshaushaltctl title get --year ${item.year} --account ${item.account} --quota ${item.quota} --unit ${item.unit} --id ${item.id}`);
+    const actions = items.slice(0, 3).filter((item) => item.id).map((item) => `bundeshaushalt title get --year ${item.year} --account ${item.account} --quota ${item.quota} --unit ${item.unit} --id ${item.id}`);
     if (actions.length === 0)
-        actions.push(`bundeshaushaltctl budget tree --year ${params.year} --account ${params.account} --limit 8`);
+        actions.push(`bundeshaushalt budget tree --year ${params.year} --account ${params.account} --limit 8`);
     return actions;
 }
 function withParams(base, params) {

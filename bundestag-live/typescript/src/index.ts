@@ -1,4 +1,4 @@
-﻿const APP_NAME = "bundestagctl";
+const APP_NAME = "bundestag-live";
 const BASE_URL = "https://www.bundestag.de";
 const SPEAKER_URL = `${BASE_URL}/static/appdata/plenum/v2/speaker.xml`;
 const CONFERENCES_URL = `${BASE_URL}/static/appdata/plenum/v2/conferences.xml`;
@@ -55,7 +55,7 @@ async function main(argv: string[]): Promise<number> {
     else if (matches(argv, "article", "page")) await runArticlePage(argv.slice(2));
     else if (matches(argv, "video", "feed")) await runVideoFeed(argv.slice(2));
     else if (argv[0] === "source") runSource(argv.slice(1));
-    else throw new CLIError(2, "unknown_command", "unknown command; run bundestagctl --help");
+    else throw new CLIError(2, "unknown_command", "unknown command; run bundestag-live --help");
   } catch (error) {
     if (error instanceof CLIError) {
       fail(error.exitCode, error.code, error.message);
@@ -68,7 +68,7 @@ async function main(argv: string[]): Promise<number> {
 }
 
 function printRootHelp(): void {
-  console.log(`bundestagctl -- Bundestag live/site XML research CLI
+  console.log(`bundestag-live -- Bundestag live/site XML research CLI
 
 Purpose
   Discover and normalize public Bundestag live/site XML feeds for current
@@ -76,13 +76,13 @@ Purpose
   feed metadata.
 
 Fast paths
-  bundestagctl doctor
-  bundestagctl members search --name "Amthor" --limit 3
-  bundestagctl members dossier --name "Amthor" --grep "TÃ¤tigkeiten"
-  bundestagctl committees search --term "Arbeit" --limit 5
-  bundestagctl committees dossier --id a11 --member-limit 5
-  bundestagctl plenum conferences --limit 2 --item-limit 3
-  bundestagctl article get --article-id 1174778
+  bundestag-live doctor
+  bundestag-live members search --name "Amthor" --limit 3
+  bundestag-live members dossier --name "Amthor" --grep "TÃ¤tigkeiten"
+  bundestag-live committees search --term "Arbeit" --limit 5
+  bundestag-live committees dossier --id a11 --member-limit 5
+  bundestag-live plenum conferences --limit 2 --item-limit 3
+  bundestag-live article get --article-id 1174778
 
 Endpoint-compatible commands
   plenum speaker
@@ -98,26 +98,26 @@ Endpoint-compatible commands
 
 function printHelp(path: string[]): void {
   const joined = path.join(" ");
-  if (joined === "members search") console.log('bundestagctl members search --name "Amthor" --limit 3');
-  else if (joined === "members dossier") console.log('bundestagctl members dossier --id 2022 --grep "TÃ¤tigkeiten"');
-  else if (joined === "committees dossier") console.log("bundestagctl committees dossier --id a11 --member-limit 5 --news-limit 3");
-  else if (joined === "article page") console.log('bundestagctl article page --url "https://www.bundestag.de/..." --grep "term"');
+  if (joined === "members search") console.log('bundestag-live members search --name "Amthor" --limit 3');
+  else if (joined === "members dossier") console.log('bundestag-live members dossier --id 2022 --grep "TÃ¤tigkeiten"');
+  else if (joined === "committees dossier") console.log("bundestag-live committees dossier --id a11 --member-limit 5 --news-limit 3");
+  else if (joined === "article page") console.log('bundestag-live article page --url "https://www.bundestag.de/..." --grep "term"');
   else printRootHelp();
 }
 
 function printExamples(): void {
-  console.log(`bundestagctl examples
+  console.log(`bundestag-live examples
 
-1. bundestagctl doctor
-2. bundestagctl members search --name "Amthor" --limit 3
-3. bundestagctl members dossier --id 2022 --grep "TÃ¤tigkeiten"
-4. bundestagctl committees search --term "Arbeit" --limit 5
-5. bundestagctl committees dossier --id a11 --member-limit 5 --news-limit 3
-6. bundestagctl plenum conferences --limit 2 --item-limit 5
-7. bundestagctl article get --article-id 1174778
-8. bundestagctl article page --url "https://www.bundestag.de/dokumente/textarchiv/2026/kw21-de-demokratie-1174778" --grep "Meinungsfreiheit"
-9. bundestagctl members biography --id 2022 --raw
-10. Use dipctl for full parliamentary proceedings and historical protocol research.
+1. bundestag-live doctor
+2. bundestag-live members search --name "Amthor" --limit 3
+3. bundestag-live members dossier --id 2022 --grep "TÃ¤tigkeiten"
+4. bundestag-live committees search --term "Arbeit" --limit 5
+5. bundestag-live committees dossier --id a11 --member-limit 5 --news-limit 3
+6. bundestag-live plenum conferences --limit 2 --item-limit 5
+7. bundestag-live article get --article-id 1174778
+8. bundestag-live article page --url "https://www.bundestag.de/dokumente/textarchiv/2026/kw21-de-demokratie-1174778" --grep "Meinungsfreiheit"
+9. bundestag-live members biography --id 2022 --raw
+10. Use dip-bundestag for full parliamentary proceedings and historical protocol research.
 `);
 }
 
@@ -143,7 +143,7 @@ async function runDoctor(argv: string[]): Promise<void> {
   payload.summary = summary;
   payload.sources = defaultSources();
   payload.warnings = defaultWarnings();
-  payload.nextActions = ['bundestagctl members search --name "Amthor" --limit 3', "bundestagctl committees search --term Arbeit --limit 5"];
+  payload.nextActions = ['bundestag-live members search --name "Amthor" --limit 3', "bundestag-live committees search --term Arbeit --limit 5"];
   emit(payload);
 }
 
@@ -158,7 +158,7 @@ async function runMembersList(argv: string[]): Promise<void> {
   payload.items = items.slice(0, limit).map((item) => compactMember(item, flagBool(parsed, "include-raw")));
   payload.sources = source("Bundestag member XML index", MEMBERS_URL, "api_endpoint");
   payload.warnings = defaultWarnings();
-  payload.nextActions = ['bundestagctl members search --name "Amthor" --limit 3'];
+  payload.nextActions = ['bundestag-live members search --name "Amthor" --limit 3'];
   emit(payload);
 }
 
@@ -175,7 +175,7 @@ async function runMembersSearch(argv: string[]): Promise<void> {
   payload.items = found.slice(0, limit).map((item) => compactMember(item, flagBool(parsed, "include-raw")));
   payload.sources = source("Bundestag member XML index", MEMBERS_URL, "api_endpoint");
   payload.warnings = defaultWarnings();
-  payload.nextActions = found.slice(0, 3).map((item) => `bundestagctl members dossier --id ${item.id}`);
+  payload.nextActions = found.slice(0, 3).map((item) => `bundestag-live members dossier --id ${item.id}`);
   emit(payload);
 }
 
@@ -191,7 +191,7 @@ async function runMemberBiography(argv: string[]): Promise<void> {
   payload.items = [memberEvidence(body, grep)];
   payload.sources = sourcesForMember(body, requestUrl);
   payload.warnings = defaultWarnings();
-  payload.nextActions = [`bundestagctl members dossier --id ${id} --grep TÃ¤tigkeiten`];
+  payload.nextActions = [`bundestag-live members dossier --id ${id} --grep TÃ¤tigkeiten`];
   if (flagBool(parsed, "include-raw")) payload.rawXml = body;
   emit(payload);
 }
@@ -213,7 +213,7 @@ async function runMemberDossier(argv: string[]): Promise<void> {
   payload.items = [memberEvidence(body, grep)];
   payload.sources = sourcesForMember(body, requestUrl);
   payload.warnings = [...defaultWarnings(), "Member biography and disclosure fields are based on Bundestag profile XML; disclosure text may reflect self-reported data and Bundestag publication rules."];
-  payload.nextActions = [`bundestagctl members biography --id ${id} --raw`];
+  payload.nextActions = [`bundestag-live members biography --id ${id} --raw`];
   if (resolved) payload.resolvedFromIndex = compactMember(resolved, false);
   if (flagBool(parsed, "include-raw")) payload.rawXml = body;
   emit(payload);
@@ -230,7 +230,7 @@ async function runCommitteesList(argv: string[]): Promise<void> {
   payload.items = items.slice(0, limit).map((item) => compactCommittee(item, flagBool(parsed, "include-raw")));
   payload.sources = source("Bundestag committee XML index", COMMITTEES_URL, "api_endpoint");
   payload.warnings = defaultWarnings();
-  payload.nextActions = ["bundestagctl committees search --term Arbeit --limit 5"];
+  payload.nextActions = ["bundestag-live committees search --term Arbeit --limit 5"];
   emit(payload);
 }
 
@@ -247,7 +247,7 @@ async function runCommitteesSearch(argv: string[]): Promise<void> {
   payload.items = found.slice(0, limit).map((item) => compactCommittee(item, flagBool(parsed, "include-raw")));
   payload.sources = source("Bundestag committee XML index", COMMITTEES_URL, "api_endpoint");
   payload.warnings = defaultWarnings();
-  payload.nextActions = found.slice(0, 3).map((item) => `bundestagctl committees dossier --id ${item.id} --member-limit 5`);
+  payload.nextActions = found.slice(0, 3).map((item) => `bundestag-live committees dossier --id ${item.id} --member-limit 5`);
   emit(payload);
 }
 
@@ -268,7 +268,7 @@ async function runCommitteeDossier(argv: string[]): Promise<void> {
   payload.sources = [{ title: "Bundestag committee detail XML", url: requestUrl, kind: "api_endpoint" }];
   if (tag(body, "ausschussSourceURL")) payload.sources.push({ title: "Bundestag committee page", url: tag(body, "ausschussSourceURL"), kind: "public_page" });
   payload.warnings = defaultWarnings();
-  payload.nextActions = [`bundestagctl committees dossier --id ${id} --member-limit 5`];
+  payload.nextActions = [`bundestag-live committees dossier --id ${id} --member-limit 5`];
   emit(payload);
 }
 
@@ -282,7 +282,7 @@ async function runPlenumSpeaker(argv: string[]): Promise<void> {
   payload.items = speakers;
   payload.sources = source("Bundestag current speaker XML", SPEAKER_URL, "api_endpoint");
   payload.warnings = [...defaultWarnings(), "The current speaker feed can be empty when no plenary sitting is live."];
-  payload.nextActions = ["bundestagctl plenum conferences --limit 2 --item-limit 5"];
+  payload.nextActions = ["bundestag-live plenum conferences --limit 2 --item-limit 5"];
   emit(payload);
 }
 
@@ -298,8 +298,8 @@ async function runPlenumConferences(argv: string[]): Promise<void> {
     const itemBlocks = blocks(day, "diskussionspunkt");
     const items = itemBlocks.slice(0, itemLimit).map((item) => {
       const articleId = tag(item, "articleId");
-      if (articleId && nextActions.length < 3) nextActions.push(`bundestagctl article get --article-id ${articleId}`);
-      return { startTime: tag(item, "startzeit"), endTime: tag(item, "endzeit"), status: tag(item, "status"), title: tag(item, "titel"), articleId, top: tag(item, "top"), nextActions: articleId ? [`bundestagctl article get --article-id ${articleId}`] : [] };
+      if (articleId && nextActions.length < 3) nextActions.push(`bundestag-live article get --article-id ${articleId}`);
+      return { startTime: tag(item, "startzeit"), endTime: tag(item, "endzeit"), status: tag(item, "status"), title: tag(item, "titel"), articleId, top: tag(item, "top"), nextActions: articleId ? [`bundestag-live article get --article-id ${articleId}`] : [] };
     });
     return { date: tag(day, "date"), active: tag(day, "active"), sessionNumber: tag(day, "sitzungsnummer"), name: tag(day, "name"), itemCount: itemBlocks.length, items };
   });
@@ -308,7 +308,7 @@ async function runPlenumConferences(argv: string[]): Promise<void> {
   payload.items = days;
   payload.sources = source("Bundestag plenary conference XML", CONFERENCES_URL, "api_endpoint");
   payload.warnings = [...defaultWarnings(), "Agenda article IDs point to Bundestag article XML/page records, not full plenary protocols."];
-  payload.nextActions = nextActions.length ? nextActions : ["bundestagctl plenum speaker"];
+  payload.nextActions = nextActions.length ? nextActions : ["bundestag-live plenum speaker"];
   emit(payload);
 }
 
@@ -326,7 +326,7 @@ async function runArticleGet(argv: string[]): Promise<void> {
   payload.sources = [{ title: "Bundestag article XML", url: requestUrl, kind: "api_endpoint" }];
   if (tag(body, "sourceURL")) {
     payload.sources.push({ title: "Bundestag public article page", url: tag(body, "sourceURL"), kind: "public_page" });
-    payload.nextActions = [`bundestagctl article page --url "${tag(body, "sourceURL")}"`];
+    payload.nextActions = [`bundestag-live article page --url "${tag(body, "sourceURL")}"`];
   }
   payload.warnings = defaultWarnings();
   emit(payload);
@@ -352,7 +352,7 @@ async function runArticlePage(argv: string[]): Promise<void> {
   payload.sources = source("Bundestag public article page", sourceUrl, "public_page");
   payload.warnings = [...defaultWarnings(), "Public HTML page extraction is best-effort; use article get for structured XML metadata when possible."];
   const articleId = articleIdFromUrl(sourceUrl);
-  payload.nextActions = articleId ? [`bundestagctl article get --article-id ${articleId}`] : [];
+  payload.nextActions = articleId ? [`bundestag-live article get --article-id ${articleId}`] : [];
   emit(payload);
 }
 
@@ -369,7 +369,7 @@ async function runVideoFeed(argv: string[]): Promise<void> {
   payload.items = groups;
   payload.sources = [{ title: "Bundestag WebTV feed", url: requestUrl, kind: "api_endpoint" }, { title: "Bundestag audio/video terms", url: MEDIA_TERMS_URL, kind: "terms" }];
   payload.warnings = [...defaultWarnings(), "Video/audio material is governed by Bundestag media terms; cite Deutscher Bundestag and avoid misleading edits."];
-  payload.nextActions = ["bundestagctl plenum conferences --limit 2 --item-limit 5"];
+  payload.nextActions = ["bundestag-live plenum conferences --limit 2 --item-limit 5"];
   emit(payload);
 }
 
@@ -382,7 +382,7 @@ function runSource(argv: string[]): void {
   payload.sources = source("Bundestag source", sourceUrl, sourceKind(sourceUrl));
   payload.warnings = defaultWarnings();
   const articleId = articleIdFromUrl(sourceUrl);
-  payload.nextActions = articleId ? [`bundestagctl article get --article-id ${articleId}`] : [];
+  payload.nextActions = articleId ? [`bundestag-live article get --article-id ${articleId}`] : [];
   emit(payload);
 }
 
@@ -396,7 +396,7 @@ function parseMembers(xml: string): JsonObject[] {
 function compactMember(item: JsonObject, includeRaw: boolean): JsonObject {
   const out: JsonObject = { id: item.id, status: item.status, name: item.name, fraction: item.fraction, state: item.state, constituency: item.constituency, electionType: item.electionType, bioUrl: item.bioUrl, infoXmlUrl: item.infoXmlUrl, lastChanged: item.lastChanged };
   out.sources = [{ title: "Bundestag member profile", url: item.bioUrl, kind: "public_profile" }, { title: "Bundestag member biography XML", url: item.infoXmlUrl, kind: "api_endpoint" }];
-  out.nextActions = [`bundestagctl members dossier --id ${item.id}`, `bundestagctl members biography --id ${item.id} --raw`];
+  out.nextActions = [`bundestag-live members dossier --id ${item.id}`, `bundestag-live members biography --id ${item.id} --raw`];
   if (includeRaw) out.raw = item.raw;
   return out;
 }
@@ -447,7 +447,7 @@ function parseCommittees(xml: string): JsonObject[] {
 function compactCommittee(item: JsonObject, includeRaw: boolean): JsonObject {
   const out: JsonObject = { id: item.id, name: item.name, shortName: item.shortName, teaser: item.teaser, detailXmlUrl: item.detailXmlUrl, imageUrl: item.imageUrl, imageSource: item.imageSource, lastChanged: item.lastChanged };
   out.sources = source("Bundestag committee XML", item.detailXmlUrl, "api_endpoint");
-  out.nextActions = [`bundestagctl committees dossier --id ${item.id} --member-limit 5`];
+  out.nextActions = [`bundestag-live committees dossier --id ${item.id} --member-limit 5`];
   if (includeRaw) out.raw = item.raw;
   return out;
 }
@@ -458,7 +458,7 @@ function committeeSearchText(item: JsonObject): string {
 
 function parseCommitteeMembers(xml: string): JsonObject[] {
   const outer = block(xml, "ausschussMitglieder");
-  return blocks(outer, "mdb").map((item) => { const id = tag(item, "mdbID"); return { id, name: tag(item, "mdbName"), fraction: attr(item.match(/^<mdb([^>]*)>/)?.[1] ?? "", "fraktion"), state: tag(item, "mdbLand"), role: tag(item, "role"), bioUrl: tag(item, "mdbBioURL"), infoXmlUrl: tag(item, "mdbInfoXMLURL"), lastChanged: tag(item, "lastChanged"), nextActions: [`bundestagctl members dossier --id ${id}`] }; });
+  return blocks(outer, "mdb").map((item) => { const id = tag(item, "mdbID"); return { id, name: tag(item, "mdbName"), fraction: attr(item.match(/^<mdb([^>]*)>/)?.[1] ?? "", "fraktion"), state: tag(item, "mdbLand"), role: tag(item, "role"), bioUrl: tag(item, "mdbBioURL"), infoXmlUrl: tag(item, "mdbInfoXMLURL"), lastChanged: tag(item, "lastChanged"), nextActions: [`bundestag-live members dossier --id ${id}`] }; });
 }
 
 function parseCommitteeNews(xml: string, grep: string): JsonObject[] {
@@ -468,7 +468,7 @@ function parseCommitteeNews(xml: string, grep: string): JsonObject[] {
     const item = match[2];
     const text = stripHtml(tag(item, "teaser"));
     if (grep && !`${text} ${tag(item, "title")}`.toLowerCase().includes(grep.toLowerCase())) return null;
-    return { articleId, date: tag(item, "date"), title: tag(item, "title"), teaser: truncate(text, 500), detailsXml: tag(item, "detailsXML"), videoUrl: tag(block(item, "video-stream"), "url"), fields: blocks(block(item, "politikfelder"), "politikfeld").map(stripHtml), changedDateTime: tag(item, "changedDateTime"), nextActions: [`bundestagctl article get --article-id ${articleId}`] };
+    return { articleId, date: tag(item, "date"), title: tag(item, "title"), teaser: truncate(text, 500), detailsXml: tag(item, "detailsXML"), videoUrl: tag(block(item, "video-stream"), "url"), fields: blocks(block(item, "politikfelder"), "politikfeld").map(stripHtml), changedDateTime: tag(item, "changedDateTime"), nextActions: [`bundestag-live article get --article-id ${articleId}`] };
   }).filter(Boolean);
 }
 
@@ -490,7 +490,7 @@ async function fetchXmlWithParams(base: string, params: Record<string, string>):
 }
 
 async function fetchRaw(requestUrl: string): Promise<{ status: number; contentType: string; body: string }> {
-  const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/bundestagctl-node-2.0" }, signal: AbortSignal.timeout(45000) });
+  const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/bundestag-live-node-2.0" }, signal: AbortSignal.timeout(45000) });
   return { status: response.status, contentType: response.headers.get("content-type") ?? "", body: await response.text() };
 }
 
@@ -581,7 +581,7 @@ function defaultSources(): JsonObject[] {
 }
 
 function defaultWarnings(): string[] {
-  return ["No exact public rate limit for these Bundestag XML feeds was found; use small limits and avoid repeated broad index pulls.", "This live/site XML surface is not the full parliamentary archive. Use dipctl for complete proceedings, printed papers, and plenary protocol research.", "Official Bundestag profile/disclosure data can include self-reported fields; preserve source URLs and timestamps in final citations.", "Website, image, and video materials may have separate usage terms; inspect the relevant source page/terms before republication."];
+  return ["No exact public rate limit for these Bundestag XML feeds was found; use small limits and avoid repeated broad index pulls.", "This live/site XML surface is not the full parliamentary archive. Use dip-bundestag for complete proceedings, printed papers, and plenary protocol research.", "Official Bundestag profile/disclosure data can include self-reported fields; preserve source URLs and timestamps in final citations.", "Website, image, and video materials may have separate usage terms; inspect the relevant source page/terms before republication."];
 }
 
 function limitFlag(parsed: ParsedArgs, fallback: number, maxValue: number): number {

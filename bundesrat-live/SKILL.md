@@ -7,7 +7,7 @@ description: Use this skill for current Bundesrat public app/XML data: news, dat
 
 ## Purpose
 
-Use `bundesratctl` to work with public Bundesrat XML feeds from `bundesrat.de`. The tool is optimized for current Bundesrat research: news, events, BundesratKOMPAKT plenary summaries, agenda TOPs, Drucksachen/DIP links embedded in plenary records, member roles and profiles, upcoming sessions, vote-distribution context, and presidium pages.
+Use `bundesrat-live` to work with public Bundesrat XML feeds from `bundesrat.de`. The tool is optimized for current Bundesrat research: news, events, BundesratKOMPAKT plenary summaries, agenda TOPs, Drucksachen/DIP links embedded in plenary records, member roles and profiles, upcoming sessions, vote-distribution context, and presidium pages.
 
 ## Use This Skill When
 
@@ -19,14 +19,14 @@ Use `bundesratctl` to work with public Bundesrat XML feeds from `bundesrat.de`. 
 
 ## Do Not Use This Skill When
 
-- The user needs complete parliamentary archives, Bundestag proceedings, printed papers, or historical plenary protocol search. Use `dipctl`.
-- The user needs federal law or court text. Use `rechtsinformationenctl`.
+- The user needs complete parliamentary archives, Bundestag proceedings, printed papers, or historical plenary protocol search. Use `dip-bundestag`.
+- The user needs federal law or court text. Use `rechtsinformationen-bund`.
 - The user needs statistical evidence. Use the relevant statistical CLI.
 - The user needs state-by-state voting behavior as a guaranteed structured dataset. Bundesrat sources note that individual Land voting behavior is not always recorded by the Bundesrat itself.
 
 ## Fast Workflow
 
-1. Run `bundesratctl doctor` if endpoint health, auth, or fair-use assumptions matter.
+1. Run `bundesrat-live doctor` if endpoint health, auth, or fair-use assumptions matter.
 2. Use small-limit list/search commands first.
 3. Expand one promising result with `page`, `news page`, `dates page`, `members dossier`, or `plenum compact/current`.
 4. Use `--grep` for source snippets instead of ad hoc shell filtering.
@@ -35,19 +35,19 @@ Use `bundesratctl` to work with public Bundesrat XML feeds from `bundesrat.de`. 
 ## High-Value Commands
 
 ```text
-bundesratctl doctor
-bundesratctl news --limit 5
-bundesratctl news search --term "Bovenschulte" --limit 3
-bundesratctl news page --url "https://www.bundesrat.de/SharedDocs/pm/2026/10_europaeischer_verdienstorden_merkel.html" --grep "Merkel"
-bundesratctl dates --limit 5
-bundesratctl members search --name "Özdemir" --limit 3
-bundesratctl members dossier --name "Özdemir" --grep "Bundesrat"
-bundesratctl plenum compact --limit 1 --top-limit 3
-bundesratctl plenum current --limit 1 --top-limit 5
-bundesratctl plenum next
-bundesratctl votes summary
-bundesratctl presidium --limit 3
-bundesratctl page --url "https://www.bundesrat.de/SharedDocs/personen/DE/laender/bw/oezdemir-cem.html" --grep "Ministerpräsident"
+bundesrat-live doctor
+bundesrat-live news --limit 5
+bundesrat-live news search --term "Bovenschulte" --limit 3
+bundesrat-live news page --url "https://www.bundesrat.de/SharedDocs/pm/2026/10_europaeischer_verdienstorden_merkel.html" --grep "Merkel"
+bundesrat-live dates --limit 5
+bundesrat-live members search --name "Özdemir" --limit 3
+bundesrat-live members dossier --name "Özdemir" --grep "Bundesrat"
+bundesrat-live plenum compact --limit 1 --top-limit 3
+bundesrat-live plenum current --limit 1 --top-limit 5
+bundesrat-live plenum next
+bundesrat-live votes summary
+bundesrat-live presidium --limit 3
+bundesrat-live page --url "https://www.bundesrat.de/SharedDocs/personen/DE/laender/bw/oezdemir-cem.html" --grep "Ministerpräsident"
 ```
 
 ## Output Shape

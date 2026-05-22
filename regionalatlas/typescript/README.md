@@ -1,4 +1,4 @@
-# regionalatlasctl TypeScript / Node.js 2.0
+# regionalatlas TypeScript / Node.js 2.0
 
 TypeScript / Node.js implementation of the Regionalatlas research CLI.
 

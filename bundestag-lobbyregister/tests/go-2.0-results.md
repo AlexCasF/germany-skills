@@ -3,7 +3,7 @@
 Implementation:
 
 ```powershell
-skills\bundestag-lobbyregister\bin\lobbyregisterctl-2.0.exe
+skills\bundestag-lobbyregister\bin\bundestag-lobbyregister-2.0.exe
 ```
 
 Environment:

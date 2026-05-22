@@ -16,15 +16,15 @@ Treat Tagesschau as a context layer. Do not use it as the sole evidence for parl
 Start with health and source/usage context:
 
 ```powershell
-& .\skills\tagesschau\bin\tagesschauctl-2.0.exe doctor
-& .\skills\tagesschau\bin\tagesschauctl-2.0.exe source
-& .\skills\tagesschau\bin\tagesschauctl-2.0.exe fields
+& .\skills\tagesschau\bin\tagesschau-2.0.exe doctor
+& .\skills\tagesschau\bin\tagesschau-2.0.exe source
+& .\skills\tagesschau\bin\tagesschau-2.0.exe fields
 ```
 
 Alternative runtimes:
 
 ```powershell
-python skills\tagesschau\python\tagesschauctl.py doctor
+python skills\tagesschau\python\tagesschau.py doctor
 node skills\tagesschau\typescript\dist\index.js doctor
 ```
 
@@ -57,12 +57,12 @@ Use this sequence:
 ## Examples
 
 ```powershell
-& .\skills\tagesschau\bin\tagesschauctl-2.0.exe homepage --limit 5
-& .\skills\tagesschau\bin\tagesschauctl-2.0.exe news --ressort inland --limit 5
-& .\skills\tagesschau\bin\tagesschauctl-2.0.exe search --text "Bundestag" --limit 5
-& .\skills\tagesschau\bin\tagesschauctl-2.0.exe search --param searchText=Bundestag --param pageSize=5
-& .\skills\tagesschau\bin\tagesschauctl-2.0.exe article source --url "https://www.tagesschau.de/inland/example-100.html"
-& .\skills\tagesschau\bin\tagesschauctl-2.0.exe article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Bundestag" --limit 3
+& .\skills\tagesschau\bin\tagesschau-2.0.exe homepage --limit 5
+& .\skills\tagesschau\bin\tagesschau-2.0.exe news --ressort inland --limit 5
+& .\skills\tagesschau\bin\tagesschau-2.0.exe search --text "Bundestag" --limit 5
+& .\skills\tagesschau\bin\tagesschau-2.0.exe search --param searchText=Bundestag --param pageSize=5
+& .\skills\tagesschau\bin\tagesschau-2.0.exe article source --url "https://www.tagesschau.de/inland/example-100.html"
+& .\skills\tagesschau\bin\tagesschau-2.0.exe article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Bundestag" --limit 3
 ```
 
 ## Interpretation And Safety Rules

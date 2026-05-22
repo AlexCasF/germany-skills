@@ -3,7 +3,7 @@
 Implementation:
 
 ```powershell
-python skills\destatis\python\destatisctl.py
+python skills\destatis\python\destatis.py
 ```
 
 Environment:

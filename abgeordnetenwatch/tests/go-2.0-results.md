@@ -1,11 +1,11 @@
 # Go 2.0 test results
 
-Implementation: `skills/abgeordnetenwatch/go/v2/main.go`
+Implementation: `skills/abgeordnetenwatch/go/main.go`
 
 Build command:
 
 ```powershell
-go build -o ..\..\bin\abgeordnetenwatchctl-2.0.exe .
+go build -o ..\bin\abgeordnetenwatch-2.0.exe .
 ```
 
 Result: pass.

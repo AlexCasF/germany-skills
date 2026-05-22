@@ -1,4 +1,4 @@
-# dashboardctl TypeScript / Node.js 2.0
+# dashboard-deutschland TypeScript / Node.js 2.0
 
 TypeScript / Node.js implementation of the Dashboard Deutschland research CLI.
 

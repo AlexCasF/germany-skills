@@ -1,9 +1,9 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 
 type JsonObject = Record<string, unknown>;
 type ParsedArgs = { flags: Record<string, string>; params: Record<string, string>; positionals: string[] };
 
-const APP_NAME = "tagesschauctl";
+const APP_NAME = "tagesschau";
 const BASE_URL = "https://www.tagesschau.de";
 const HOMEPAGE_URL = `${BASE_URL}/api2u/homepage`;
 const NEWS_URL = `${BASE_URL}/api2u/news`;
@@ -13,7 +13,7 @@ const API_DOCS_URL = "https://github.com/bundesAPI/tagesschau-api";
 const OPENAPI_URL = "https://github.com/bundesAPI/tagesschau-api/raw/refs/heads/main/openapi.yaml";
 const CC_URL = "https://www.tagesschau.de/multimedia/video/creative-commons-index-100.html";
 const RSS_INFO_URL = "https://www.tagesschau.de/infoservices/rssfeeds";
-const USER_AGENT = "germany-skills/tagesschauctl-node-2.0";
+const USER_AGENT = "germany-skills/tagesschau-node-2.0";
 const DEFAULT_LIMIT = 10;
 const MAX_LIMIT = 30;
 
@@ -72,16 +72,16 @@ async function main(argv: string[]): Promise<number> {
 }
 
 function printRootHelp(): void {
-  console.log(`tagesschauctl 2.0 - Tagesschau public JSON feed research CLI
+  console.log(`tagesschau 2.0 - Tagesschau public JSON feed research CLI
 
 Usage:
-  tagesschauctl doctor
-  tagesschauctl homepage --limit 5
-  tagesschauctl news --ressort inland --limit 5
-  tagesschauctl channels --limit 5
-  tagesschauctl search --text "Bundestag" --limit 5
-  tagesschauctl article get --url "https://www.tagesschau.de/...-100.html" --grep "Bundestag"
-  tagesschauctl article dossier --url "https://www.tagesschau.de/...-100.html"
+  tagesschau doctor
+  tagesschau homepage --limit 5
+  tagesschau news --ressort inland --limit 5
+  tagesschau channels --limit 5
+  tagesschau search --text "Bundestag" --limit 5
+  tagesschau article get --url "https://www.tagesschau.de/...-100.html" --grep "Bundestag"
+  tagesschau article dossier --url "https://www.tagesschau.de/...-100.html"
 
 Tagesschau is a current-news context source, not the sole official evidence for parliamentary, legal, fiscal, or statistical claims.`);
 }
@@ -99,12 +99,12 @@ function printHelp(args: string[]): void {
 
 function printExamples(): void {
   console.log(`Examples:
-  tagesschauctl doctor
-  tagesschauctl homepage --limit 5
-  tagesschauctl news --ressort inland --limit 5
-  tagesschauctl search --text "Bundestag" --limit 5
-  tagesschauctl search --param searchText=Bundestag --param pageSize=5
-  tagesschauctl article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Bundestag"`);
+  tagesschau doctor
+  tagesschau homepage --limit 5
+  tagesschau news --ressort inland --limit 5
+  tagesschau search --text "Bundestag" --limit 5
+  tagesschau search --param searchText=Bundestag --param pageSize=5
+  tagesschau article get --url "https://www.tagesschau.de/inland/example-100.html" --grep "Bundestag"`);
 }
 
 async function runDoctor(_argv: string[]): Promise<void> {
@@ -135,7 +135,7 @@ async function runDoctor(_argv: string[]): Promise<void> {
   };
   payload.sources = defaultSources();
   payload.warnings = defaultWarnings();
-  payload.nextActions = ['tagesschauctl search --text "Bundestag" --limit 5', "tagesschauctl homepage --limit 5", "tagesschauctl source"];
+  payload.nextActions = ['tagesschau search --text "Bundestag" --limit 5', "tagesschau homepage --limit 5", "tagesschau source"];
   emit(payload);
 }
 
@@ -151,7 +151,7 @@ function runSource(_argv: string[]): void {
   };
   payload.sources = defaultSources();
   payload.warnings = defaultWarnings();
-  payload.nextActions = ["tagesschauctl fields", 'tagesschauctl search --text "Bundestag" --limit 5'];
+  payload.nextActions = ["tagesschau fields", 'tagesschau search --text "Bundestag" --limit 5'];
   emit(payload);
 }
 
@@ -170,7 +170,7 @@ function runFields(_argv: string[]): void {
   };
   payload.sources = defaultSources();
   payload.warnings = defaultWarnings();
-  payload.nextActions = ['tagesschauctl search --text "Bundestag" --limit 5', "tagesschauctl homepage --limit 5"];
+  payload.nextActions = ['tagesschau search --text "Bundestag" --limit 5', "tagesschau homepage --limit 5"];
   emit(payload);
 }
 
@@ -252,8 +252,8 @@ async function runArticle(command: string, argv: string[], dossier: boolean): Pr
   payload.items = snippets;
   payload.sources = [{ kind: "api_request", title: "Tagesschau article JSON", url: urls.apiUrl }, { kind: "public_article", title: "Tagesschau public article", url: urls.publicUrl }, ...defaultSources()];
   payload.warnings = defaultWarnings();
-  payload.nextActions = [`tagesschauctl article source --url "${urls.publicUrl}"`];
-  if (dossier) (payload.nextActions as string[]).push("tagesschauctl source");
+  payload.nextActions = [`tagesschau article source --url "${urls.publicUrl}"`];
+  if (dossier) (payload.nextActions as string[]).push("tagesschau source");
   if (flagBool(parsed, "include-raw")) payload.raw = data;
   emit(payload);
 }
@@ -274,7 +274,7 @@ function runArticleSource(argv: string[]): void {
   };
   payload.sources = [{ kind: "api_request", title: "Tagesschau article JSON", url: urls.apiUrl }, { kind: "public_article", title: "Tagesschau public article", url: urls.publicUrl }, ...defaultSources()];
   payload.warnings = defaultWarnings();
-  payload.nextActions = [`tagesschauctl article get --url "${urls.publicUrl}" --limit 5`];
+  payload.nextActions = [`tagesschau article get --url "${urls.publicUrl}" --limit 5`];
   emit(payload);
 }
 
@@ -309,7 +309,7 @@ function compactArticle(obj: JsonObject): JsonObject {
   };
   if (publicUrl) {
     item.sourceUrl = publicUrl;
-    item.nextActions = [`tagesschauctl article get --url "${publicUrl}" --limit 5`, `tagesschauctl article source --url "${publicUrl}"`];
+    item.nextActions = [`tagesschau article get --url "${publicUrl}" --limit 5`, `tagesschau article source --url "${publicUrl}"`];
   }
   return item;
 }
@@ -424,8 +424,8 @@ function feedCounts(data: JsonObject): Record<string, number> {
 }
 
 function nextActionsFromItems(items: JsonObject[]): string[] {
-  const actions = items.slice(0, 3).filter((item) => item.sourceUrl).map((item) => `tagesschauctl article get --url "${item.sourceUrl}" --limit 5`);
-  return actions.length ? actions : ["tagesschauctl source"];
+  const actions = items.slice(0, 3).filter((item) => item.sourceUrl).map((item) => `tagesschau article get --url "${item.sourceUrl}" --limit 5`);
+  return actions.length ? actions : ["tagesschau source"];
 }
 
 function withParams(base: string, params: Record<string, string>): string {

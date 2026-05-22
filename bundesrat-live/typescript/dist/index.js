@@ -1,6 +1,6 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 "use strict";
-const APP_NAME = "bundesratctl";
+const APP_NAME = "bundesrat-live";
 const BASE_URL = "https://www.bundesrat.de";
 const OPENAPI_URL = "https://github.com/bundesAPI/bundesrat-api";
 const SERVICE_BUND_URL = "https://www.service.bund.de/Content/DE/DEBehoerden/B/BR/Bundesrat.html";
@@ -85,7 +85,7 @@ async function main(argv) {
         else if (argv[0] === "source")
             runSource(argv.slice(1));
         else
-            throw new CLIError(2, "unknown_command", "unknown command; run bundesratctl --help");
+            throw new CLIError(2, "unknown_command", "unknown command; run bundesrat-live --help");
     }
     catch (error) {
         if (error instanceof CLIError) {
@@ -98,7 +98,7 @@ async function main(argv) {
     return 0;
 }
 function printRootHelp() {
-    console.log(`bundesratctl -- Bundesrat live/app XML research CLI
+    console.log(`bundesrat-live -- Bundesrat live/app XML research CLI
 
 Purpose
   Discover and normalize public Bundesrat app XML feeds for news, dates,
@@ -106,14 +106,14 @@ Purpose
   presidium/context pages, and source URLs.
 
 Fast paths
-  bundesratctl doctor
-  bundesratctl news --limit 5
-  bundesratctl news search --term "Bovenschulte" --limit 3
-  bundesratctl members search --name "Ã–zdemir" --limit 3
-  bundesratctl members dossier --name "Ã–zdemir" --grep "Bundesrat"
-  bundesratctl plenum compact --limit 1 --top-limit 3
-  bundesratctl plenum current --limit 1 --top-limit 5
-  bundesratctl plenum next
+  bundesrat-live doctor
+  bundesrat-live news --limit 5
+  bundesrat-live news search --term "Bovenschulte" --limit 3
+  bundesrat-live members search --name "Ã–zdemir" --limit 3
+  bundesrat-live members dossier --name "Ã–zdemir" --grep "Bundesrat"
+  bundesrat-live plenum compact --limit 1 --top-limit 3
+  bundesrat-live plenum current --limit 1 --top-limit 5
+  bundesrat-live plenum next
 
 Endpoint-compatible commands
   startlist
@@ -131,29 +131,29 @@ Endpoint-compatible commands
 function printHelp(path) {
     const joined = path.join(" ");
     if (joined === "news search" || joined === "dates search")
-        console.log('bundesratctl news search --term "Bovenschulte" --limit 3');
+        console.log('bundesrat-live news search --term "Bovenschulte" --limit 3');
     else if (joined === "members search")
-        console.log('bundesratctl members search --name "Ã–zdemir" --limit 3');
+        console.log('bundesrat-live members search --name "Ã–zdemir" --limit 3');
     else if (joined === "members dossier")
-        console.log('bundesratctl members dossier --name "Ã–zdemir" --grep "Bundesrat"');
+        console.log('bundesrat-live members dossier --name "Ã–zdemir" --grep "Bundesrat"');
     else if (["page", "news page", "dates page"].includes(joined))
-        console.log('bundesratctl page --url "https://www.bundesrat.de/..." --grep "term"');
+        console.log('bundesrat-live page --url "https://www.bundesrat.de/..." --grep "term"');
     else
         printRootHelp();
 }
 function printExamples() {
-    console.log(`bundesratctl examples
+    console.log(`bundesrat-live examples
 
-1. bundesratctl doctor
-2. bundesratctl startlist --limit 12
-3. bundesratctl news --limit 5
-4. bundesratctl news search --term "Bovenschulte" --limit 3
-5. bundesratctl dates --limit 5
-6. bundesratctl members search --name "Ã–zdemir" --limit 3
-7. bundesratctl members dossier --name "Ã–zdemir" --grep "Bundesrat"
-8. bundesratctl plenum compact --limit 1 --top-limit 3
-9. bundesratctl plenum current --limit 1 --top-limit 5
-10. bundesratctl plenum compact --raw
+1. bundesrat-live doctor
+2. bundesrat-live startlist --limit 12
+3. bundesrat-live news --limit 5
+4. bundesrat-live news search --term "Bovenschulte" --limit 3
+5. bundesrat-live dates --limit 5
+6. bundesrat-live members search --name "Ã–zdemir" --limit 3
+7. bundesrat-live members dossier --name "Ã–zdemir" --grep "Bundesrat"
+8. bundesrat-live plenum compact --limit 1 --top-limit 3
+9. bundesrat-live plenum current --limit 1 --top-limit 5
+10. bundesrat-live plenum compact --raw
 `);
 }
 async function runDoctor(argv) {
@@ -180,7 +180,7 @@ async function runDoctor(argv) {
     payload.summary = summary;
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
-    payload.nextActions = ["bundesratctl news --limit 5", 'bundesratctl members search --name "Ã–zdemir" --limit 3', "bundesratctl plenum compact --limit 1 --top-limit 3"];
+    payload.nextActions = ["bundesrat-live news --limit 5", 'bundesrat-live members search --name "Ã–zdemir" --limit 3', "bundesrat-live plenum compact --limit 1 --top-limit 3"];
     emit(payload);
 }
 async function runFeed(key, argv) {
@@ -219,7 +219,7 @@ async function runMembers(argv) {
     payload.items = items;
     payload.sources = source("Bundesrat member XML feed", requestUrl, "api_endpoint");
     payload.warnings = defaultWarnings();
-    payload.nextActions = ['bundesratctl members search --name "Ã–zdemir" --limit 3'];
+    payload.nextActions = ['bundesrat-live members search --name "Ã–zdemir" --limit 3'];
     emit(payload);
 }
 async function runMembersSearch(argv) {
@@ -256,7 +256,7 @@ async function runMemberDossier(argv) {
     payload.sources = [{ title: "Bundesrat member XML feed", url: requestUrl, kind: "api_endpoint" }];
     if (item.url) {
         payload.sources.push({ title: "Bundesrat member profile", url: item.url, kind: "public_profile" });
-        payload.nextActions = [`bundesratctl page --url "${item.url}" --grep "${firstNonEmpty(grep, "Bundesrat")}"`];
+        payload.nextActions = [`bundesrat-live page --url "${item.url}" --grep "${firstNonEmpty(grep, "Bundesrat")}"`];
     }
     payload.warnings = defaultWarnings();
     emit(payload);
@@ -292,7 +292,7 @@ async function runPlenumNext(argv) {
     payload.items = items;
     payload.sources = source("Bundesrat next plenary sessions XML feed", requestUrl, "api_endpoint");
     payload.warnings = defaultWarnings();
-    payload.nextActions = ["bundesratctl plenum current --limit 1 --top-limit 5", "bundesratctl plenum compact --limit 1 --top-limit 5"];
+    payload.nextActions = ["bundesrat-live plenum current --limit 1 --top-limit 5", "bundesrat-live plenum compact --limit 1 --top-limit 5"];
     emit(payload);
 }
 async function runPage(command, argv) {
@@ -310,7 +310,7 @@ async function runPage(command, argv) {
     payload.items = grepSnippets(text, grep, 8, 650);
     payload.sources = source("Bundesrat public source page", sourceUrl, "public_page");
     payload.warnings = [...defaultWarnings(), "Public HTML extraction is best-effort; prefer XML feed fields for structured metadata."];
-    payload.nextActions = [`bundesratctl source --url "${sourceUrl}"`];
+    payload.nextActions = [`bundesrat-live source --url "${sourceUrl}"`];
     emit(payload);
 }
 function runSource(argv) {
@@ -323,7 +323,7 @@ function runSource(argv) {
     payload.sources = source("Bundesrat source", sourceUrl, sourceKind(sourceUrl));
     payload.warnings = defaultWarnings();
     if (sourceUrl.startsWith(`${BASE_URL}/`))
-        payload.nextActions = [`bundesratctl page --url "${sourceUrl}"`];
+        payload.nextActions = [`bundesrat-live page --url "${sourceUrl}"`];
     emit(payload);
 }
 async function fetchEndpoint(key, params) {
@@ -336,7 +336,7 @@ async function fetchEndpoint(key, params) {
     return { body: raw.body, requestUrl };
 }
 async function fetchRaw(requestUrl) {
-    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/bundesratctl-node-2.0" }, signal: AbortSignal.timeout(45000) });
+    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/bundesrat-live-node-2.0" }, signal: AbortSignal.timeout(45000) });
     return { status: response.status, contentType: response.headers.get("content-type") ?? "", body: await response.text() };
 }
 function withDefaultView(base, params) {
@@ -455,25 +455,25 @@ function nextActionsFromItems(items, key) {
             return actions;
     }
     if (key === "news")
-        return ['bundesratctl news search --term "Bovenschulte" --limit 3'];
+        return ['bundesrat-live news search --term "Bovenschulte" --limit 3'];
     if (key === "dates")
-        return ['bundesratctl dates search --term "Ausschuss" --limit 5'];
-    return ["bundesratctl plenum compact --limit 1 --top-limit 3"];
+        return ['bundesrat-live dates search --term "Ausschuss" --limit 5'];
+    return ["bundesrat-live plenum compact --limit 1 --top-limit 3"];
 }
 function nextActionsFromEmployees(items) {
-    const actions = items.slice(0, 3).filter((item) => item.name).map((item) => `bundesratctl members dossier --name "${item.name}"`);
-    return actions.length ? actions : ['bundesratctl members search --name "Ã–zdemir" --limit 3'];
+    const actions = items.slice(0, 3).filter((item) => item.name).map((item) => `bundesrat-live members dossier --name "${item.name}"`);
+    return actions.length ? actions : ['bundesrat-live members search --name "Ã–zdemir" --limit 3'];
 }
 function nextActionsForUrl(sourceUrl, key) {
     if (!sourceUrl)
         return [];
     const actions = [];
     if (sourceUrl.startsWith(`${BASE_URL}/`))
-        actions.push(`bundesratctl page --url "${sourceUrl}"`);
+        actions.push(`bundesrat-live page --url "${sourceUrl}"`);
     if (key === "news")
-        actions.push(`bundesratctl news page --url "${sourceUrl}"`);
+        actions.push(`bundesrat-live news page --url "${sourceUrl}"`);
     if (key === "dates")
-        actions.push(`bundesratctl dates page --url "${sourceUrl}"`);
+        actions.push(`bundesrat-live dates page --url "${sourceUrl}"`);
     return actions;
 }
 function defaultSources() {

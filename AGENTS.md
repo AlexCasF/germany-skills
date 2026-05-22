@@ -28,18 +28,18 @@ Use progressive disclosure:
 
 | Folder | CLI | Typical first command |
 | --- | --- | --- |
-| `abgeordnetenwatch` | `abgeordnetenwatchctl` | `abgeordnetenwatchctl doctor` |
-| `bundeshaushalt` | `bundeshaushaltctl` | `bundeshaushaltctl doctor` |
-| `bundesrat-live` | `bundesratctl` | `bundesratctl doctor` |
-| `bundestag-live` | `bundestagctl` | `bundestagctl doctor` |
-| `bundestag-lobbyregister` | `lobbyregisterctl` | `lobbyregisterctl doctor` |
-| `dashboard-deutschland` | `dashboardctl` | `dashboardctl doctor` |
-| `destatis` | `destatisctl` | `destatisctl doctor` |
-| `deutschlandatlas` | `deutschlandatlasctl` | `deutschlandatlasctl doctor` |
-| `dip-bundestag` | `dipctl` | `dipctl doctor` |
-| `rechtsinformationen-bund` | `rechtsinformationenctl` | `rechtsinformationenctl doctor` |
-| `regionalatlas` | `regionalatlasctl` | `regionalatlasctl doctor` |
-| `tagesschau` | `tagesschauctl` | `tagesschauctl doctor` |
+| `abgeordnetenwatch` | `abgeordnetenwatch` | `abgeordnetenwatch doctor` |
+| `bundeshaushalt` | `bundeshaushalt` | `bundeshaushalt doctor` |
+| `bundesrat-live` | `bundesrat-live` | `bundesrat-live doctor` |
+| `bundestag-live` | `bundestag-live` | `bundestag-live doctor` |
+| `bundestag-lobbyregister` | `bundestag-lobbyregister` | `bundestag-lobbyregister doctor` |
+| `dashboard-deutschland` | `dashboard-deutschland` | `dashboard-deutschland doctor` |
+| `destatis` | `destatis` | `destatis doctor` |
+| `deutschlandatlas` | `deutschlandatlas` | `deutschlandatlas doctor` |
+| `dip-bundestag` | `dip-bundestag` | `dip-bundestag doctor` |
+| `rechtsinformationen-bund` | `rechtsinformationen-bund` | `rechtsinformationen-bund doctor` |
+| `regionalatlas` | `regionalatlas` | `regionalatlas doctor` |
+| `tagesschau` | `tagesschau` | `tagesschau doctor` |
 
 ## CLI Flavor One-Liners
 
@@ -48,13 +48,13 @@ Use `dip-bundestag` as the example pattern; replace the folder and binary names 
 Go from source:
 
 ```bash
-git clone https://github.com/AlexCasF/germany-skills.git && cd germany-skills/dip-bundestag/go/v2 && go run . doctor
+git clone https://github.com/AlexCasF/germany-skills.git && cd germany-skills/dip-bundestag/go && go run . doctor
 ```
 
 Python:
 
 ```bash
-git clone https://github.com/AlexCasF/germany-skills.git && cd germany-skills && python dip-bundestag/python/dipctl.py doctor
+git clone https://github.com/AlexCasF/germany-skills.git && cd germany-skills && python dip-bundestag/python/dip-bundestag.py doctor
 ```
 
 TypeScript/Node.js:
@@ -66,7 +66,7 @@ git clone https://github.com/AlexCasF/germany-skills.git && cd germany-skills &&
 Windows binary, where available:
 
 ```powershell
-git clone https://github.com/AlexCasF/germany-skills.git; cd germany-skills; .\dip-bundestag\bin\dipctl-2.0.exe doctor
+git clone https://github.com/AlexCasF/germany-skills.git; cd germany-skills; .\dip-bundestag\bin\dip-bundestag-2.0.exe doctor
 ```
 
 ## Agent Installation Patterns

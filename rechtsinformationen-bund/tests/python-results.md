@@ -1,11 +1,11 @@
 # Python test results
 
-Implementation: `skills/rechtsinformationen-bund/python/rechtsinformationenctl.py`
+Implementation: `skills/rechtsinformationen-bund/python/rechtsinformationen-bund.py`
 
 Validation command:
 
 ```powershell
-python -m py_compile skills\rechtsinformationen-bund\python\rechtsinformationenctl.py
+python -m py_compile skills\rechtsinformationen-bund\python\rechtsinformationen-bund.py
 ```
 
 Result: pass.

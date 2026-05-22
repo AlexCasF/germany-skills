@@ -2,8 +2,8 @@
 
 Run these tests against each implementation:
 
-- Go 2.0: `skills/dip-bundestag/bin/dipctl-2.0.exe`
-- Python: `python skills/dip-bundestag/python/dipctl.py`
+- Go 2.0: `skills/dip-bundestag/bin/dip-bundestag-2.0.exe`
+- Python: `python skills/dip-bundestag/python/dip-bundestag.py`
 - TypeScript/Node.js: `node skills/dip-bundestag/typescript/dist/index.js`
 
 Load `DIP_API_KEY` from the local environment before running authenticated

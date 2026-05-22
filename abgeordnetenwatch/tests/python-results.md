@@ -1,11 +1,11 @@
 # Python test results
 
-Implementation: `skills/abgeordnetenwatch/python/abgeordnetenwatchctl.py`
+Implementation: `skills/abgeordnetenwatch/python/abgeordnetenwatch.py`
 
 Validation command:
 
 ```powershell
-python -m py_compile skills\abgeordnetenwatch\python\abgeordnetenwatchctl.py
+python -m py_compile skills\abgeordnetenwatch\python\abgeordnetenwatch.py
 ```
 
 Result: pass.

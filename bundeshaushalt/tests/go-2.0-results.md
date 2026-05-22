@@ -3,7 +3,7 @@
 Runtime:
 
 ```text
-skills\bundeshaushalt\bin\bundeshaushaltctl-2.0.exe
+skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe
 ```
 
 | # | Case | Exit | Result | Note |

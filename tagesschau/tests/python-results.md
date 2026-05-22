@@ -3,7 +3,7 @@
 Runtime:
 
 ```powershell
-python skills\tagesschau\python\tagesschauctl.py
+python skills\tagesschau\python\tagesschau.py
 ```
 
 | # | Case | Exit | Result | Note |

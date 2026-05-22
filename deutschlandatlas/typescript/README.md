@@ -1,6 +1,6 @@
 # Deutschlandatlas TypeScript / Node.js CLI
 
-TypeScript/Node.js parity implementation for `deutschlandatlasctl`.
+TypeScript/Node.js parity implementation for `deutschlandatlas`.
 
 ## Build
 

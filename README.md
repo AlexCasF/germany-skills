@@ -10,18 +10,18 @@ The core idea is progressive disclosure. Instead of putting every OpenAPI schema
 
 | Skill folder | Main CLI | Data focus |
 | --- | --- | --- |
-| `abgeordnetenwatch` | `abgeordnetenwatchctl` | Politician profiles, mandates, side jobs, voting and transparency data from abgeordnetenwatch.de. |
-| `bundeshaushalt` | `bundeshaushaltctl` | German federal budget hierarchy, revenue and spending lines. |
-| `bundesrat-live` | `bundesratctl` | Bundesrat public website data, dates, news, members, and plenary context. |
-| `bundestag-live` | `bundestagctl` | Bundestag live/public website feeds, agenda, members, and committee context. |
-| `bundestag-lobbyregister` | `lobbyregisterctl` | Bundestag Lobbyregister entries and interest-representation metadata. |
-| `dashboard-deutschland` | `dashboardctl` | Dashboard Deutschland indicators and chart-oriented public metrics. |
-| `destatis` | `destatisctl` | Official German statistics from Destatis GENESIS-style endpoints. |
-| `deutschlandatlas` | `deutschlandatlasctl` | Deutschlandatlas regional indicators and map-service data. |
-| `dip-bundestag` | `dipctl` | Official Bundestag DIP materials, printed papers, proceedings, activities, and plenary protocol text. |
-| `rechtsinformationen-bund` | `rechtsinformationenctl` | Official German federal legal information trial API: legislation, case law, and legal documents. |
-| `regionalatlas` | `regionalatlasctl` | Regionalatlas Deutschland indicators across administrative regions. |
-| `tagesschau` | `tagesschauctl` | Tagesschau public news feeds, search, channels, and article expansion. |
+| `abgeordnetenwatch` | `abgeordnetenwatch` | Politician profiles, mandates, side jobs, voting and transparency data from abgeordnetenwatch.de. |
+| `bundeshaushalt` | `bundeshaushalt` | German federal budget hierarchy, revenue and spending lines. |
+| `bundesrat-live` | `bundesrat-live` | Bundesrat public website data, dates, news, members, and plenary context. |
+| `bundestag-live` | `bundestag-live` | Bundestag live/public website feeds, agenda, members, and committee context. |
+| `bundestag-lobbyregister` | `bundestag-lobbyregister` | Bundestag Lobbyregister entries and interest-representation metadata. |
+| `dashboard-deutschland` | `dashboard-deutschland` | Dashboard Deutschland indicators and chart-oriented public metrics. |
+| `destatis` | `destatis` | Official German statistics from Destatis GENESIS-style endpoints. |
+| `deutschlandatlas` | `deutschlandatlas` | Deutschlandatlas regional indicators and map-service data. |
+| `dip-bundestag` | `dip-bundestag` | Official Bundestag DIP materials, printed papers, proceedings, activities, and plenary protocol text. |
+| `rechtsinformationen-bund` | `rechtsinformationen-bund` | Official German federal legal information trial API: legislation, case law, and legal documents. |
+| `regionalatlas` | `regionalatlas` | Regionalatlas Deutschland indicators across administrative regions. |
+| `tagesschau` | `tagesschau` | Tagesschau public news feeds, search, channels, and article expansion. |
 
 ## Repository Layout
 
@@ -32,7 +32,7 @@ Each skill folder follows the same general shape:
   SKILL.md                 agent-facing usage guidance
   README.md                human-facing tool notes, where available
   references/              OpenAPI files, research notes, rate-limit notes
-  go/v2/                   standalone Go CLI source
+  go/                   standalone Go CLI source
   python/                  Python CLI implementation
   typescript/              TypeScript/Node.js CLI implementation
   bin/                     locally built Windows binaries, where available
@@ -51,13 +51,13 @@ cd germany-skills
 Run a Go CLI directly from source:
 
 ```bash
-cd dip-bundestag/go/v2 && go run . doctor
+cd dip-bundestag/go && go run . doctor
 ```
 
 Run the Python flavor:
 
 ```bash
-python dip-bundestag/python/dipctl.py doctor
+python dip-bundestag/python/dip-bundestag.py doctor
 ```
 
 Build and run the TypeScript/Node.js flavor:
@@ -69,7 +69,7 @@ npm --prefix dip-bundestag/typescript ci && npm --prefix dip-bundestag/typescrip
 Run a prebuilt Windows binary where available:
 
 ```powershell
-.\dip-bundestag\bin\dipctl-2.0.exe doctor
+.\dip-bundestag\bin\dip-bundestag-2.0.exe doctor
 ```
 
 ## For Agents
@@ -88,7 +88,7 @@ The safest default workflow is:
 
 Most data sources are unauthenticated public APIs. Some endpoints require credentials or have documented fair-use expectations. Check each skill's `references/rate-limits-and-terms.md` before high-volume use.
 
-For DIP Bundestag, set `DIP_API_KEY` when using `dipctl`:
+For DIP Bundestag, set `DIP_API_KEY` when using `dip-bundestag`:
 
 ```bash
 export DIP_API_KEY="your-key"

@@ -3,7 +3,7 @@
 Implementation:
 
 ```powershell
-skills\destatis\bin\destatisctl-2.0.exe
+skills\destatis\bin\destatis-2.0.exe
 ```
 
 Environment:

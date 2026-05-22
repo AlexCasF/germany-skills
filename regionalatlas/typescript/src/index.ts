@@ -1,6 +1,6 @@
-﻿import { readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 
-const APP_NAME = "regionalatlasctl";
+const APP_NAME = "regionalatlas";
 const MAP_SERVER_URL = "https://www.gis-idmz.nrw.de/arcgis/rest/services/stba/regionalatlas/MapServer";
 const QUERY_ENDPOINT = `${MAP_SERVER_URL}/dynamicLayer/query`;
 const CATALOG_URL = "https://regionalatlas.statistikportal.de/taskrunner/services.json";
@@ -51,7 +51,7 @@ async function main(argv: string[]): Promise<number> {
     else if (argv[0] === "query-builder") await runQueryBuilder(argv.slice(1));
     else if (argv[0] === "explain-field") await runExplainField(argv.slice(1));
     else if (argv[0] === "query") await runRawQuery(argv.slice(1));
-    else throw new CLIError(2, "unknown_command", "unknown command; run regionalatlasctl --help");
+    else throw new CLIError(2, "unknown_command", "unknown command; run regionalatlas --help");
   } catch (error) {
     if (error instanceof CLIError) {
       fail(error.exitCode, error.code, error.message);
@@ -65,18 +65,18 @@ async function main(argv: string[]): Promise<number> {
 }
 
 function printRootHelp(): void {
-  console.log(`regionalatlasctl -- Regionalatlas Deutschland research CLI
+  console.log(`regionalatlas -- Regionalatlas Deutschland research CLI
 
 Purpose
   Discover and query official Regionalatlas indicators from the statistical
   offices of the German federation and states.
 
 Fast paths
-  regionalatlasctl doctor
-  regionalatlasctl indicators search --term "Arbeitslosenquote" --limit 5
-  regionalatlasctl fields --indicator AI008-1-5
-  regionalatlasctl sample --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
-  regionalatlasctl dossier --indicator AI008-1-5 --field AI0801 --year 2024
+  regionalatlas doctor
+  regionalatlas indicators search --term "Arbeitslosenquote" --limit 5
+  regionalatlas fields --indicator AI008-1-5
+  regionalatlas sample --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
+  regionalatlas dossier --indicator AI008-1-5 --field AI0801 --year 2024
 
 Legacy-compatible command
   query --layer <dynamic-layer-json> [--param key=value]
@@ -99,7 +99,7 @@ Research commands
 function printHelp(scope: string[]): void {
   const topic = scope.join(" ");
   if (topic === "sample") {
-    console.log(`regionalatlasctl sample --indicator <code> [--field <field>] [--year <yyyy>] [--region-level 1|2|3|5]
+    console.log(`regionalatlas sample --indicator <code> [--field <field>] [--year <yyyy>] [--region-level 1|2|3|5]
 
 Fetches a small ArcGIS dynamic-layer sample. Defaults:
   --region-level 1
@@ -118,14 +118,14 @@ Useful flags
     return;
   }
   if (topic === "query") {
-    console.log(`regionalatlasctl query --layer <dynamic-layer-json> [--param key=value]
+    console.log(`regionalatlas query --layer <dynamic-layer-json> [--param key=value]
 
 Raw compatibility wrapper around the ArcGIS dynamicLayer/query endpoint.
 Use query-builder first if you need a safe generated layer payload.
 
 Examples
-  regionalatlasctl query --layer-file layer.json --param outFields=ags,gen,ai0801
-  regionalatlasctl query --layer <json> --param resultRecordCount=5
+  regionalatlas query --layer-file layer.json --param outFields=ags,gen,ai0801
+  regionalatlas query --layer <json> --param resultRecordCount=5
 
 On Windows shells, prefer --layer-file because raw JSON quoting is fragile.
 `);
@@ -177,8 +177,8 @@ async function runDoctor(argv: string[]): Promise<void> {
   payload.sources = defaultSources();
   payload.warnings = warnings;
   payload.nextActions = [
-    'regionalatlasctl indicators search --term "Arbeitslosenquote" --limit 5',
-    "regionalatlasctl fields --indicator AI008-1-5"
+    'regionalatlas indicators search --term "Arbeitslosenquote" --limit 5',
+    "regionalatlas fields --indicator AI008-1-5"
   ];
   emit(payload);
 }
@@ -194,7 +194,7 @@ async function runIndicatorsList(argv: string[]): Promise<void> {
   payload.items = compactIndicators(flat, limit);
   payload.sources = defaultSources();
   payload.warnings = defaultWarnings();
-  payload.nextActions = ['regionalatlasctl indicators search --term "Arbeitslosenquote" --limit 5'];
+  payload.nextActions = ['regionalatlas indicators search --term "Arbeitslosenquote" --limit 5'];
   emit(payload);
 }
 
@@ -224,8 +224,8 @@ async function runIndicatorGet(argv: string[]): Promise<void> {
   payload.sources = sourcesForIndicator(item.node, field, year);
   payload.warnings = defaultWarnings();
   payload.nextActions = [
-    `regionalatlasctl fields --indicator ${item.node.code}`,
-    `regionalatlasctl sample --indicator ${item.node.code} --field ${field} --year ${year} --region-level 1 --limit 5`
+    `regionalatlas fields --indicator ${item.node.code}`,
+    `regionalatlas sample --indicator ${item.node.code} --field ${field} --year ${year} --region-level 1 --limit 5`
   ];
   emit(payload);
 }
@@ -250,8 +250,8 @@ async function runFields(argv: string[]): Promise<void> {
   payload.sources = sourcesForIndicator(node, field, latestYear(node));
   payload.warnings = defaultWarnings();
   payload.nextActions = [
-    `regionalatlasctl explain-field --indicator ${node.code} --field ${field}`,
-    `regionalatlasctl sample --indicator ${node.code} --field ${field} --year ${latestYear(node)} --region-level 1 --limit 5`
+    `regionalatlas explain-field --indicator ${node.code} --field ${field}`,
+    `regionalatlas sample --indicator ${node.code} --field ${field} --year ${latestYear(node)} --region-level 1 --limit 5`
   ];
   emit(payload);
 }
@@ -285,8 +285,8 @@ async function runSample(argv: string[]): Promise<void> {
   payload.sources = sourcesForIndicator(item.node, field, year);
   payload.warnings = warnings;
   payload.nextActions = [
-    `regionalatlasctl query-builder --indicator ${item.node.code} --field ${field.toUpperCase()} --year ${year} --region-level ${regionLevel} --limit ${limit}`,
-    `regionalatlasctl explain-field --indicator ${item.node.code} --field ${field.toUpperCase()}`
+    `regionalatlas query-builder --indicator ${item.node.code} --field ${field.toUpperCase()} --year ${year} --region-level ${regionLevel} --limit ${limit}`,
+    `regionalatlas explain-field --indicator ${item.node.code} --field ${field.toUpperCase()}`
   ];
   if (flagBool(parsed, "include-raw")) payload.raw = data;
   emit(payload);
@@ -302,7 +302,7 @@ async function runSource(argv: string[]): Promise<void> {
   payload.summary = { indicator: node.code, title: node.title_short, field: field.toUpperCase(), year, regionalDbTable: node.code, authRequired: false };
   payload.sources = sourcesForIndicator(node, field, year);
   payload.warnings = defaultWarnings();
-  payload.nextActions = [`regionalatlasctl dossier --indicator ${node.code} --field ${field.toUpperCase()} --year ${year}`];
+  payload.nextActions = [`regionalatlas dossier --indicator ${node.code} --field ${field.toUpperCase()} --year ${year}`];
   emit(payload);
 }
 
@@ -342,8 +342,8 @@ async function runDossier(argv: string[]): Promise<void> {
   payload.sources = sourcesForIndicator(item.node, field, year);
   payload.warnings = warnings;
   payload.nextActions = [
-    `regionalatlasctl explain-field --indicator ${item.node.code} --field ${field.toUpperCase()} --grep Quelle`,
-    `regionalatlasctl query-builder --indicator ${item.node.code} --field ${field.toUpperCase()} --year ${year} --region-level ${regionLevel}`
+    `regionalatlas explain-field --indicator ${item.node.code} --field ${field.toUpperCase()} --grep Quelle`,
+    `regionalatlas query-builder --indicator ${item.node.code} --field ${field.toUpperCase()} --year ${year} --region-level ${regionLevel}`
   ];
   emit(payload);
 }
@@ -367,7 +367,7 @@ async function runQueryBuilder(argv: string[]): Promise<void> {
   };
   payload.sources = sourcesForIndicator(item.node, field, year);
   payload.warnings = defaultWarnings();
-  payload.nextActions = [`regionalatlasctl sample --indicator ${item.node.code} --field ${field.toUpperCase()} --year ${year} --region-level ${regionLevel} --limit ${limit}`];
+  payload.nextActions = [`regionalatlas sample --indicator ${item.node.code} --field ${field.toUpperCase()} --year ${year} --region-level ${regionLevel} --limit ${limit}`];
   emit(payload);
 }
 
@@ -390,7 +390,7 @@ async function runExplainField(argv: string[]): Promise<void> {
   payload.items = metaSnippets(attr.meta ?? "", grep, 10);
   payload.sources = sourcesForIndicator(node, attr.code ?? "", latestYear(node));
   payload.warnings = defaultWarnings();
-  payload.nextActions = [`regionalatlasctl sample --indicator ${node.code} --field ${String(attr.code ?? "").toUpperCase()} --year ${latestYear(node)} --region-level 1 --limit 5`];
+  payload.nextActions = [`regionalatlas sample --indicator ${node.code} --field ${String(attr.code ?? "").toUpperCase()} --year ${latestYear(node)} --region-level 1 --limit 5`];
   emit(payload);
 }
 
@@ -462,7 +462,7 @@ async function fetchCatalog(): Promise<any[]> {
 
 async function fetchJson(requestUrl: string): Promise<JsonObject> {
   const response = await fetch(requestUrl, {
-    headers: { "User-Agent": "germany-skills/regionalatlasctl-node-2.0" },
+    headers: { "User-Agent": "germany-skills/regionalatlas-node-2.0" },
     signal: AbortSignal.timeout(45000)
   });
   const body = await response.text();
@@ -571,8 +571,8 @@ function compactIndicators(items: FlatIndicator[], limit: number): JsonObject[] 
       availableYears: availableYears(node),
       attributes: compactAttributes(node.attributes ?? [], 8),
       nextActions: [
-        `regionalatlasctl fields --indicator ${node.code}`,
-        `regionalatlasctl sample --indicator ${node.code} --field ${field} --year ${year} --region-level 1 --limit 5`
+        `regionalatlas fields --indicator ${node.code}`,
+        `regionalatlas sample --indicator ${node.code} --field ${field} --year ${year} --region-level 1 --limit 5`
       ]
     };
   });
@@ -733,9 +733,9 @@ function defaultWarnings(): string[] {
 function nextActionsForIndicators(items: FlatIndicator[]): string[] {
   const actions = items.slice(0, 3).map((item) => {
     const node = item.node;
-    return `regionalatlasctl dossier --indicator ${node.code} --field ${firstAttributeCode(node)} --year ${latestYear(node)} --region-level 1`;
+    return `regionalatlas dossier --indicator ${node.code} --field ${firstAttributeCode(node)} --year ${latestYear(node)} --region-level 1`;
   });
-  return actions.length ? actions : ['regionalatlasctl indicators search --term "Bevoelkerung" --limit 5'];
+  return actions.length ? actions : ['regionalatlas indicators search --term "Bevoelkerung" --limit 5'];
 }
 
 function mapServerSummary(data: JsonObject): JsonObject {

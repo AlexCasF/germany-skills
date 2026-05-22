@@ -1,6 +1,6 @@
 import * as https from "node:https";
 import { URL, URLSearchParams } from "node:url";
-const APP_NAME = "lobbyregisterctl";
+const APP_NAME = "bundestag-lobbyregister";
 const BASE_URL = "https://api.lobbyregister.bundestag.de/rest/v2";
 const PUBLIC_URL = "https://www.lobbyregister.bundestag.de";
 const LEGACY_V1_URL = "https://www.lobbyregister.bundestag.de/sucheDetailJson";
@@ -66,17 +66,17 @@ async function main(argv) {
     return 0;
 }
 function printRootHelp() {
-    console.log(`lobbyregisterctl -- Bundestag Lobbyregister research CLI
+    console.log(`bundestag-lobbyregister -- Bundestag Lobbyregister research CLI
 
 Purpose
   Search and cite public lobby-register data for interests represented
   toward the German Bundestag and Federal Government.
 
 Fast paths
-  lobbyregisterctl doctor
-  lobbyregisterctl search --term "Bundesverband Soziokultur" --limit 3
-  lobbyregisterctl entry dossier --register-number R001255 --grep "Foerderung"
-  lobbyregisterctl financial summary --register-number R001255
+  bundestag-lobbyregister doctor
+  bundestag-lobbyregister search --term "Bundesverband Soziokultur" --limit 3
+  bundestag-lobbyregister entry dossier --register-number R001255 --grep "Foerderung"
+  bundestag-lobbyregister financial summary --register-number R001255
 
 Research commands
   doctor
@@ -99,26 +99,26 @@ Auth
 function printHelp(path) {
     const joined = path.join(" ");
     if (joined === "entry dossier") {
-        console.log(`lobbyregisterctl entry dossier
+        console.log(`bundestag-lobbyregister entry dossier
 
 Builds a compact evidence bundle for one register entry.
 
 Examples
-  lobbyregisterctl entry dossier --register-number R001255 --grep "Laerm"
-  lobbyregisterctl entry dossier --name "Bundesverband Soziokultur"
+  bundestag-lobbyregister entry dossier --register-number R001255 --grep "Laerm"
+  bundestag-lobbyregister entry dossier --name "Bundesverband Soziokultur"
 `);
         return;
     }
     if (joined === "search") {
-        console.log("lobbyregisterctl search\n\nSafe V2 free-text search with compact summaries and a small default limit.");
+        console.log("bundestag-lobbyregister search\n\nSafe V2 free-text search with compact summaries and a small default limit.");
         return;
     }
     if (joined === "entry get") {
-        console.log("lobbyregisterctl entry get\n\nFetch one official V2 register entry by register number.");
+        console.log("bundestag-lobbyregister entry get\n\nFetch one official V2 register entry by register number.");
         return;
     }
     if (joined === "financial summary") {
-        console.log("lobbyregisterctl financial summary\n\nNormalize financial ranges, funding, donations, membership fees, public allowances, annual-report links, and caveats.");
+        console.log("bundestag-lobbyregister financial summary\n\nNormalize financial ranges, funding, donations, membership fees, public allowances, annual-report links, and caveats.");
         return;
     }
     printRootHelp();
@@ -143,7 +143,7 @@ async function runDoctor(argv) {
     payload.warnings = standardWarnings();
     if (!key) {
         payload.warnings.push("LOBBYREGISTER_API_KEY is not configured; live V2 calls will fail.");
-        payload.nextActions = ["Set LOBBYREGISTER_API_KEY, then run: lobbyregisterctl statistics"];
+        payload.nextActions = ["Set LOBBYREGISTER_API_KEY, then run: bundestag-lobbyregister statistics"];
         emit(payload);
         return;
     }
@@ -166,8 +166,8 @@ async function runDoctor(argv) {
         };
     }
     payload.nextActions = [
-        'lobbyregisterctl search --term "Bundesverband" --limit 3',
-        "lobbyregisterctl entry dossier --register-number R001255"
+        'bundestag-lobbyregister search --term "Bundesverband" --limit 3',
+        "bundestag-lobbyregister entry dossier --register-number R001255"
     ];
     emit(payload);
 }
@@ -187,7 +187,7 @@ async function runStatistics(argv) {
     if (flagBool(parsed, "include-raw"))
         payload.raw = data;
     payload.sources = defaultSources();
-    payload.nextActions = ['lobbyregisterctl search --term "Energie" --limit 5'];
+    payload.nextActions = ['bundestag-lobbyregister search --term "Energie" --limit 5'];
     emit(payload);
 }
 async function runSearch(argv) {
@@ -486,9 +486,9 @@ function nextActionsForEntry(entry) {
     if (!rn)
         return [];
     return [
-        `lobbyregisterctl entry source --register-number ${rn}`,
-        `lobbyregisterctl financial summary --register-number ${rn}`,
-        `lobbyregisterctl statements list --register-number ${rn} --grep <term>`
+        `bundestag-lobbyregister entry source --register-number ${rn}`,
+        `bundestag-lobbyregister financial summary --register-number ${rn}`,
+        `bundestag-lobbyregister statements list --register-number ${rn} --grep <term>`
     ];
 }
 function searchNextActions(items) {
@@ -496,7 +496,7 @@ function searchNextActions(items) {
         .map((item) => asString(item.registerNumber))
         .filter(Boolean)
         .slice(0, 5)
-        .map((rn) => `lobbyregisterctl entry dossier --register-number ${rn}`);
+        .map((rn) => `bundestag-lobbyregister entry dossier --register-number ${rn}`);
 }
 function parseArgs(argv) {
     const out = { flags: {}, params: {}, positionals: [] };

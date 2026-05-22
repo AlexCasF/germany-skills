@@ -30,7 +30,7 @@ Use it as a current Bundestag source layer:
 
 Do not use it as a replacement for DIP. It is not optimized for full legislative process research, archival plenary protocols, Drucksachen, Vorgänge, or complete speech search.
 
-Use `dipctl` for:
+Use `dip-bundestag` for:
 
 - parliamentary proceedings
 - printed papers

@@ -1,5 +1,5 @@
 {
-  "name": "rechtsinformationenctl",
+  "name": "rechtsinformationen-bund",
   "version": "2.0.0",
   "private": true,
   "description": "TypeScript/Node.js implementation of the Rechtsinformationen des Bundes CLI.",

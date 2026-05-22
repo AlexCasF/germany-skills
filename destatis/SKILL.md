@@ -1,5 +1,5 @@
 ---
-name: api-destatis
+name: destatis
 description: Use this skill for official German statistics from Destatis GENESIS-Online, including catalogue search, table and time-series codes, metadata, variables, source links, and cautious statistical data retrieval.
 ---
 
@@ -44,17 +44,17 @@ Prefer the 2.0 CLI contract.
 Use the local executable when available:
 
 ```powershell
-skills\destatis\bin\destatisctl-2.0.exe doctor
+skills\destatis\bin\destatis-2.0.exe doctor
 ```
 
 Portable fallbacks:
 
 ```powershell
-python skills\destatis\python\destatisctl.py doctor
+python skills\destatis\python\destatis.py doctor
 node skills\destatis\typescript\dist\index.js doctor
 ```
 
-If the runtime exposes the binary as `destatisctl`, use that shorter name.
+If the runtime exposes the binary as `destatis`, use that shorter name.
 
 ## Auth
 
@@ -88,37 +88,37 @@ return `401 Unauthorized`.
 Health:
 
 ```powershell
-destatisctl doctor
+destatis doctor
 ```
 
 Discovery:
 
 ```powershell
-destatisctl search --term "Arbeitslose" --limit 5
-destatisctl find search --param "term=Arbeitslose" --limit 5
+destatis search --term "Arbeitslose" --limit 5
+destatis find search --param "term=Arbeitslose" --limit 5
 ```
 
 Source and metadata:
 
 ```powershell
-destatisctl table source --name 12211-0900
-destatisctl table dossier --name 12211-0900
-destatisctl variables explain --table 12211-0900
+destatis table source --name 12211-0900
+destatis table dossier --name 12211-0900
+destatis variables explain --table 12211-0900
 ```
 
 Data sample:
 
 ```powershell
-destatisctl table sample --name 12211-0900
+destatis table sample --name 12211-0900
 ```
 
 Legacy raw endpoint access remains available:
 
 ```powershell
-destatisctl catalogue statistics --limit 10
-destatisctl catalogue tables --param "selection=arbeit" --limit 10
-destatisctl metadata table --param "name=12211-0900"
-destatisctl data table --param "name=12211-0900" --param "area=all"
+destatis catalogue statistics --limit 10
+destatis catalogue tables --param "selection=arbeit" --limit 10
+destatis metadata table --param "name=12211-0900"
+destatis data table --param "name=12211-0900" --param "area=all"
 ```
 
 ## Output expectations

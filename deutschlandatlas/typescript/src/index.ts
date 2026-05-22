@@ -1,4 +1,4 @@
-﻿const APP_NAME = "deutschlandatlasctl";
+const APP_NAME = "deutschlandatlas";
 const PORTAL_SEARCH_BASE = "https://www.karto365.de/portal/sharing/rest/search";
 const HOSTING_BASE = "https://www.karto365.de/hosting/rest/services";
 const OFFICIAL_HOME_URL = "https://www.deutschlandatlas.bund.de/DE/Home/home_node.html";
@@ -39,7 +39,7 @@ async function main(argv: string[]): Promise<number> {
     else if (matches(argv, "indicator", "dossier")) await runIndicatorDossier(argv.slice(2));
     else if (argv[0] === "query-builder") await runQueryBuilder(argv.slice(1));
     else if (argv[0] === "explain-field") await runExplainField(argv.slice(1));
-    else throw new CLIError(2, "unknown_command", "unknown command; run deutschlandatlasctl --help");
+    else throw new CLIError(2, "unknown_command", "unknown command; run deutschlandatlas --help");
   } catch (error) {
     if (error instanceof CLIError) {
       fail(error.exitCode, error.code, error.message);
@@ -52,18 +52,18 @@ async function main(argv: string[]): Promise<number> {
 }
 
 function printRootHelp(): void {
-  console.log(`deutschlandatlasctl -- Deutschlandatlas ArcGIS research CLI
+  console.log(`deutschlandatlas -- Deutschlandatlas ArcGIS research CLI
 
 Purpose
   Discover and query public Deutschlandatlas indicator map services for
   regional living-condition indicators in Germany.
 
 Fast paths
-  deutschlandatlasctl doctor
-  deutschlandatlasctl tables search --term "Arbeitslosenquote" --limit 5
-  deutschlandatlasctl table fields --table alq_HA2023
-  deutschlandatlasctl table sample --table alq_HA2023 --limit 5
-  deutschlandatlasctl indicator dossier --table alq_HA2023
+  deutschlandatlas doctor
+  deutschlandatlas tables search --term "Arbeitslosenquote" --limit 5
+  deutschlandatlas table fields --table alq_HA2023
+  deutschlandatlas table sample --table alq_HA2023 --limit 5
+  deutschlandatlas indicator dossier --table alq_HA2023
 
 Legacy-compatible command
   table query --table <table> [--param key=value] [--layer auto|0|5]
@@ -83,25 +83,25 @@ Research commands
 function printHelp(path: string[]): void {
   const joined = path.join(" ");
   if (joined === "table sample") {
-    console.log(`deutschlandatlasctl table sample
+    console.log(`deutschlandatlas table sample
 
 Fetch a small bounded sample from one Deutschlandatlas ArcGIS table.
 
 Examples
-  deutschlandatlasctl table sample --table alq_HA2023 --limit 5
-  deutschlandatlasctl table sample --table alq_HA2023 --fields name,alq --where "alq > 10"
+  deutschlandatlas table sample --table alq_HA2023 --limit 5
+  deutschlandatlas table sample --table alq_HA2023 --fields name,alq --where "alq > 10"
 `);
     return;
   }
   if (joined === "indicator dossier") {
-    console.log(`deutschlandatlasctl indicator dossier
+    console.log(`deutschlandatlas indicator dossier
 
 Bundle metadata, selected layer, fields, source URLs, warnings, and a tiny sample.
 `);
     return;
   }
   if (joined === "tables search") {
-    console.log(`deutschlandatlasctl tables search
+    console.log(`deutschlandatlas tables search
 
 Search the public ArcGIS portal for Deutschlandatlas table services.
 `);
@@ -145,7 +145,7 @@ async function runDoctor(argv: string[]): Promise<void> {
   payload.summary = summary;
   payload.sources = defaultSources();
   payload.warnings = warnings;
-  payload.nextActions = ['deutschlandatlasctl tables search --term "Arbeitslosenquote" --limit 5', "deutschlandatlasctl indicator dossier --table alq_HA2023"];
+  payload.nextActions = ['deutschlandatlas tables search --term "Arbeitslosenquote" --limit 5', "deutschlandatlas indicator dossier --table alq_HA2023"];
   emit(payload);
 }
 
@@ -208,7 +208,7 @@ async function runTableFields(argv: string[]): Promise<void> {
   payload.items = fields;
   payload.sources = sourcesForTable(table, layer);
   payload.warnings = defaultWarnings();
-  payload.nextActions = [`deutschlandatlasctl table sample --table ${table} --fields name,${firstLikelyIndicator(fields)} --limit 5`, `deutschlandatlasctl indicator dossier --table ${table}`];
+  payload.nextActions = [`deutschlandatlas table sample --table ${table} --fields name,${firstLikelyIndicator(fields)} --limit 5`, `deutschlandatlas indicator dossier --table ${table}`];
   emit(payload);
 }
 
@@ -236,7 +236,7 @@ async function runTableSample(argv: string[]): Promise<void> {
   payload.items = items;
   payload.sources = sourcesForTable(table, layer);
   payload.warnings = warnings;
-  payload.nextActions = [`deutschlandatlasctl table fields --table ${table}`, `deutschlandatlasctl query-builder --table ${table} --where "name LIKE '%Berlin%'" --fields name,* --limit 10`];
+  payload.nextActions = [`deutschlandatlas table fields --table ${table}`, `deutschlandatlas query-builder --table ${table} --where "name LIKE '%Berlin%'" --fields name,* --limit 10`];
   if (flagBool(parsed, "include-raw")) payload.raw = data;
   emit(payload);
 }
@@ -249,7 +249,7 @@ async function runTableSource(argv: string[]): Promise<void> {
   payload.summary = { table, selectedLayer: layer, layerSource, authRequired: false, apiStyle: "ArcGIS REST MapServer query endpoint", rateLimitFound: false };
   payload.sources = sourcesForTable(table, layer);
   payload.warnings = defaultWarnings();
-  payload.nextActions = [`deutschlandatlasctl table fields --table ${table}`, `deutschlandatlasctl table sample --table ${table} --limit 5`];
+  payload.nextActions = [`deutschlandatlas table fields --table ${table}`, `deutschlandatlas table sample --table ${table} --limit 5`];
   emit(payload);
 }
 
@@ -283,7 +283,7 @@ async function runIndicatorDossier(argv: string[]): Promise<void> {
   }
   payload.sources = sourcesForTable(table, layer);
   payload.warnings = warnings;
-  payload.nextActions = [`deutschlandatlasctl table fields --table ${table}`, `deutschlandatlasctl table sample --table ${table} --fields name,* --where "1=1" --limit 10`, `deutschlandatlasctl explain-field --table ${table} --field ${firstLikelyIndicator(fields)}`];
+  payload.nextActions = [`deutschlandatlas table fields --table ${table}`, `deutschlandatlas table sample --table ${table} --fields name,* --where "1=1" --limit 10`, `deutschlandatlas explain-field --table ${table} --field ${firstLikelyIndicator(fields)}`];
   emit(payload);
 }
 
@@ -302,7 +302,7 @@ async function runQueryBuilder(argv: string[]): Promise<void> {
   payload.sources = sourcesForTable(table, layer);
   payload.warnings = defaultWarnings();
   if (parsed.flags.year) payload.warnings.push("Generic Deutschlandatlas services do not expose one standard year parameter; choose a year-specific table.");
-  payload.nextActions = [`deutschlandatlasctl table query --table ${table} --layer ${layer} --param where=${JSON.stringify(where)} --param outFields=${JSON.stringify(params.outFields)} --limit ${limit}`];
+  payload.nextActions = [`deutschlandatlas table query --table ${table} --layer ${layer} --param where=${JSON.stringify(where)} --param outFields=${JSON.stringify(params.outFields)} --limit ${limit}`];
   emit(payload);
 }
 
@@ -319,7 +319,7 @@ async function runExplainField(argv: string[]): Promise<void> {
   payload.summary = { table, layer, field: match, interpretationHint: "Use the alias, table title/snippet from tables search, and official downloads/method notes for statistical meaning and units." };
   payload.sources = sourcesForTable(table, layer);
   payload.warnings = defaultWarnings();
-  payload.nextActions = [`deutschlandatlasctl table sample --table ${table} --fields name,${fieldName} --limit 10`];
+  payload.nextActions = [`deutschlandatlas table sample --table ${table} --fields name,${fieldName} --limit 10`];
   emit(payload);
 }
 
@@ -375,7 +375,7 @@ async function resolveLayer(table: string, parsed: ParsedArgs): Promise<[number,
 }
 
 async function fetchJson(requestUrl: string): Promise<JsonObject> {
-  const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/deutschlandatlasctl-node-2.0" } });
+  const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/deutschlandatlas-node-2.0" } });
   const text = await response.text();
   if (!response.ok) throw new Error(`HTTP ${response.status} from ${requestUrl}: ${text.slice(0, 300)}`);
   const data = JSON.parse(text);
@@ -413,7 +413,7 @@ function compactPortalResults(data: JsonObject, limit: number): JsonObject[] {
       access: item.access,
       tags: item.tags,
       modifiedUtc: millisToUtc(item.modified),
-      nextActions: [`deutschlandatlasctl table fields --table ${table}`, `deutschlandatlasctl indicator dossier --table ${table}`]
+      nextActions: [`deutschlandatlas table fields --table ${table}`, `deutschlandatlas indicator dossier --table ${table}`]
     };
   });
 }
@@ -479,8 +479,8 @@ function defaultWarnings(): string[] {
 }
 
 function nextActionsForTables(items: JsonObject[]): string[] {
-  const actions = items.slice(0, 3).filter((item) => item.table).map((item) => `deutschlandatlasctl indicator dossier --table ${item.table}`);
-  return actions.length ? actions : ['deutschlandatlasctl tables search --term "Apotheken" --limit 5'];
+  const actions = items.slice(0, 3).filter((item) => item.table).map((item) => `deutschlandatlas indicator dossier --table ${item.table}`);
+  return actions.length ? actions : ['deutschlandatlas tables search --term "Apotheken" --limit 5'];
 }
 
 function envelope(command: string, requestUrl: string, request: any): JsonObject {

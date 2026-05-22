@@ -1,10 +1,10 @@
 {
-  "name": "bundesratctl",
+  "name": "bundesrat-live",
   "version": "2.0.0",
   "private": true,
   "type": "commonjs",
   "bin": {
-    "bundesratctl": "dist/index.js"
+    "bundesrat-live": "dist/index.js"
   },
   "scripts": {
     "build": "tsc"

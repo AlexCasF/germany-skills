@@ -12,9 +12,8 @@ table/statistic codes, then request metadata or data with small bounds.
 
 | Implementation | Path | Notes |
 | --- | --- | --- |
-| Legacy Go | `go/v1/main.go` | Original thin wrapper around selected GENESIS endpoints. |
-| Go 2.0 | `go/v2/main.go` | Agent-friendly CLI with env auth, doctor, search alias, source, dossier, sample, and variable helpers. |
-| Python | `python/destatisctl.py` | Python parity implementation. |
+| Go 2.0 | `go/main.go` | Agent-friendly CLI with env auth, doctor, search alias, source, dossier, sample, and variable helpers. |
+| Python | `python/destatis.py` | Python parity implementation. |
 | TypeScript / Node.js | `typescript/src/index.ts` | TypeScript source compiled to Node.js JavaScript. |
 
 ## Runtime data

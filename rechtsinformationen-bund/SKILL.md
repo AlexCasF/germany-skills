@@ -1,5 +1,5 @@
 ---
-name: api-rechtsinformationen-bund
+name: rechtsinformationen-bund
 description: Use this skill for official German federal legislation, federal case law, legal literature, administrative directives, ELI/ECLI citation work, and source-backed legal research through the Rechtsinformationen des Bundes trial API.
 ---
 
@@ -33,17 +33,17 @@ Prefer the 2.0 CLI contract.
 Use the local executable when available:
 
 ```powershell
-skills\rechtsinformationen-bund\bin\rechtsinformationenctl-2.0.exe doctor
+skills\rechtsinformationen-bund\bin\rechtsinformationen-bund-2.0.exe doctor
 ```
 
 Portable fallbacks:
 
 ```powershell
-python skills\rechtsinformationen-bund\python\rechtsinformationenctl.py doctor
+python skills\rechtsinformationen-bund\python\rechtsinformationen-bund.py doctor
 node skills\rechtsinformationen-bund\typescript\dist\index.js doctor
 ```
 
-If the runtime exposes the binary as `rechtsinformationenctl`, use that shorter name.
+If the runtime exposes the binary as `rechtsinformationen-bund`, use that shorter name.
 
 ## When to use
 
@@ -75,45 +75,45 @@ Do not use this skill as legal advice. Use it to retrieve and cite official mate
 Health:
 
 ```powershell
-rechtsinformationenctl doctor
+rechtsinformationen-bund doctor
 ```
 
 Search:
 
 ```powershell
-rechtsinformationenctl documents search --search-term "Bürgergeld" --limit 3
-rechtsinformationenctl documents search-case-law --search-term "Revision" --limit 3
-rechtsinformationenctl legislation list --search-term "Bürgergeld" --limit 3
+rechtsinformationen-bund documents search --search-term "Bürgergeld" --limit 3
+rechtsinformationen-bund documents search-case-law --search-term "Revision" --limit 3
+rechtsinformationen-bund legislation list --search-term "Bürgergeld" --limit 3
 ```
 
 Source expansion:
 
 ```powershell
-rechtsinformationenctl source --type case-law --document-number KORE600422026
-rechtsinformationenctl documents source --type legislation --eli "eli/bund/bgbl-1/2007/s2942/2024-01-01/1/deu"
+rechtsinformationen-bund source --type case-law --document-number KORE600422026
+rechtsinformationen-bund documents source --type legislation --eli "eli/bund/bgbl-1/2007/s2942/2024-01-01/1/deu"
 ```
 
 Text and snippets:
 
 ```powershell
-rechtsinformationenctl documents text --type case-law --document-number KORE600422026 --grep Revision
+rechtsinformationen-bund documents text --type case-law --document-number KORE600422026 --grep Revision
 ```
 
 Evidence bundle:
 
 ```powershell
-rechtsinformationenctl documents dossier --type case-law --document-number KORE600422026 --grep Revision
-rechtsinformationenctl documents dossier --search-term "Bürgergeld" --grep Bürgergeld
+rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision
+rechtsinformationen-bund documents dossier --search-term "Bürgergeld" --grep Bürgergeld
 ```
 
 Raw endpoint access remains available:
 
 ```powershell
-rechtsinformationenctl statistics
-rechtsinformationenctl case-law get --document-number KORE600422026
-rechtsinformationenctl case-law html --document-number KORE600422026
-rechtsinformationenctl case-law xml --document-number KORE600422026
-rechtsinformationenctl legislation get --jurisdiction bund --agent bgbl-1 --year 2007 --natural-identifier s2942 --point-in-time 2024-01-01 --version 1 --language deu
+rechtsinformationen-bund statistics
+rechtsinformationen-bund case-law get --document-number KORE600422026
+rechtsinformationen-bund case-law html --document-number KORE600422026
+rechtsinformationen-bund case-law xml --document-number KORE600422026
+rechtsinformationen-bund legislation get --jurisdiction bund --agent bgbl-1 --year 2007 --natural-identifier s2942 --point-in-time 2024-01-01 --version 1 --language deu
 ```
 
 ## Output expectations

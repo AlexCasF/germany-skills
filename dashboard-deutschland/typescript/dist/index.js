@@ -1,5 +1,5 @@
-﻿"use strict";
-const APP_NAME = "dashboardctl";
+"use strict";
+const APP_NAME = "dashboard-deutschland";
 const BASE_URL = "https://www.dashboard-deutschland.de";
 const DASHBOARDS_URL = `${BASE_URL}/api/dashboard/get`;
 const INDICATORS_URL = `${BASE_URL}/api/tile/indicators`;
@@ -52,7 +52,7 @@ async function main(argv) {
         else if (argv[0] === "geo")
             await runGeo(argv.slice(1));
         else
-            throw new CLIError(2, "unknown_command", "unknown command; run dashboardctl --help");
+            throw new CLIError(2, "unknown_command", "unknown command; run dashboard-deutschland --help");
     }
     catch (error) {
         if (error instanceof CLIError) {
@@ -65,18 +65,18 @@ async function main(argv) {
     return 0;
 }
 function printRootHelp() {
-    console.log(`dashboardctl -- Dashboard Deutschland research CLI
+    console.log(`dashboard-deutschland -- Dashboard Deutschland research CLI
 
 Purpose
   Discover and normalize curated Dashboard Deutschland indicators.
 
 Fast paths
-  dashboardctl doctor
-  dashboardctl dashboards list --limit 5
-  dashboardctl indicator search --term "Arbeitslosigkeit" --limit 5
-  dashboardctl indicator get --id tile_1666958835081
-  dashboardctl indicator data --id tile_1666958835081 --limit 5
-  dashboardctl dashboard dossier --id arbeitsmarkt --indicator-limit 3
+  dashboard-deutschland doctor
+  dashboard-deutschland dashboards list --limit 5
+  dashboard-deutschland indicator search --term "Arbeitslosigkeit" --limit 5
+  dashboard-deutschland indicator get --id tile_1666958835081
+  dashboard-deutschland indicator data --id tile_1666958835081 --limit 5
+  dashboard-deutschland dashboard dossier --id arbeitsmarkt --indicator-limit 3
 
 Legacy-compatible commands
   dashboard get [--param key=value]
@@ -87,18 +87,18 @@ Legacy-compatible commands
 function printHelp(path) {
     const joined = path.join(" ");
     if (joined === "indicator data") {
-        console.log(`dashboardctl indicator data --id <indicator-id> [--limit n]
+        console.log(`dashboard-deutschland indicator data --id <indicator-id> [--limit n]
 
 Extract chart-ready series from an indicator tile. Use --series to filter
 series names and --from-start for earliest points.`);
     }
     else if (joined === "dashboard dossier") {
-        console.log(`dashboardctl dashboard dossier --id <dashboard-id> [--indicator-limit n]
+        console.log(`dashboard-deutschland dashboard dossier --id <dashboard-id> [--indicator-limit n]
 
 Bundle dashboard metadata and a small set of normalized indicator summaries.`);
     }
     else if (joined === "geo") {
-        console.log(`dashboardctl geo
+        console.log(`dashboard-deutschland geo
 
 Legacy GeoJSON endpoint wrapper. The endpoint returned 403 AccessDenied in live tests.`);
     }
@@ -142,7 +142,7 @@ async function runDoctor(argv) {
     payload.summary = summary;
     payload.sources = defaultSources();
     payload.warnings = warnings;
-    payload.nextActions = ['dashboardctl indicator search --term "Arbeitslosigkeit" --limit 5', "dashboardctl dashboards list --limit 5"];
+    payload.nextActions = ['dashboard-deutschland indicator search --term "Arbeitslosigkeit" --limit 5', "dashboard-deutschland dashboards list --limit 5"];
     emit(payload);
 }
 async function runIndicatorsRaw(argv) {
@@ -177,7 +177,7 @@ async function runDashboardsList(argv) {
     payload.items = compactDashboards(filtered, limit);
     payload.sources = defaultSources();
     payload.warnings = defaultWarnings();
-    payload.nextActions = ["dashboardctl dashboard dossier --id arbeitsmarkt --indicator-limit 3"];
+    payload.nextActions = ["dashboard-deutschland dashboard dossier --id arbeitsmarkt --indicator-limit 3"];
     emit(payload);
 }
 async function runIndicatorSearch(argv) {
@@ -209,7 +209,7 @@ async function runIndicatorGet(argv) {
     payload.items = [{ summary: indicatorSummary(indicator, config), textSnippets: textSnippets(config, "", 5), widgets: widgets(config), chartSeries: seriesSummaries(config) }];
     payload.sources = sourcesForIndicator(indicator, config);
     payload.warnings = defaultWarnings();
-    payload.nextActions = [`dashboardctl indicator data --id ${id} --limit 10`, `dashboardctl indicator source --id ${id}`];
+    payload.nextActions = [`dashboard-deutschland indicator data --id ${id} --limit 10`, `dashboard-deutschland indicator source --id ${id}`];
     if (flagBool(parsed, "include-raw"))
         payload.raw = { indicator, config };
     emit(payload);
@@ -227,7 +227,7 @@ async function runIndicatorData(argv) {
     payload.items = series;
     payload.sources = sourcesForIndicator(indicator, config);
     payload.warnings = defaultWarnings();
-    payload.nextActions = [`dashboardctl indicator source --id ${id}`];
+    payload.nextActions = [`dashboard-deutschland indicator source --id ${id}`];
     if (flagBool(parsed, "include-raw"))
         payload.raw = config;
     emit(payload);
@@ -241,7 +241,7 @@ async function runIndicatorSource(argv) {
     payload.summary = { id, title: firstNonEmpty(config.title, indicator.title), sourceCount: sourcesForIndicator(indicator, config).length };
     payload.sources = sourcesForIndicator(indicator, config);
     payload.warnings = defaultWarnings();
-    payload.nextActions = [`dashboardctl indicator data --id ${id} --limit 10`];
+    payload.nextActions = [`dashboard-deutschland indicator data --id ${id} --limit 10`];
     emit(payload);
 }
 async function runDashboardDossier(argv) {
@@ -256,7 +256,7 @@ async function runDashboardDossier(argv) {
     payload.items = compactIndicators(indicators, indicators.length);
     payload.sources = sourcesForDashboard();
     payload.warnings = defaultWarnings();
-    payload.nextActions = ids.slice(0, 3).map((id) => `dashboardctl indicator data --id ${id} --limit 10`);
+    payload.nextActions = ids.slice(0, 3).map((id) => `dashboard-deutschland indicator data --id ${id} --limit 10`);
     emit(payload);
 }
 async function fetchDashboards() {
@@ -288,7 +288,7 @@ async function fetchJson(requestUrl) {
     return JSON.parse(raw.body);
 }
 async function fetchRaw(requestUrl) {
-    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/dashboardctl-node-2.0" }, signal: AbortSignal.timeout(45000) });
+    const response = await fetch(requestUrl, { headers: { "User-Agent": "germany-skills/dashboard-deutschland-node-2.0" }, signal: AbortSignal.timeout(45000) });
     return { status: response.status, contentType: response.headers.get("content-type") ?? "", body: await response.text() };
 }
 function parseTileConfig(indicator) {
@@ -301,7 +301,7 @@ function compactDashboards(dashboards, limit) {
 }
 function compactDashboard(dashboard) {
     const ids = dashboardIndicatorIds(dashboard);
-    return { id: dashboard.id, name: dashboard.name, nameEn: dashboard.nameEn, description: truncate(stripHtml(dashboard.description ?? ""), 420), category: compactCategory(dashboard.category ?? {}), tags: dashboard.tags ?? [], indicatorCount: ids.length, indicatorIds: ids.slice(0, 12), nextActions: [`dashboardctl dashboard dossier --id ${dashboard.id} --indicator-limit 3`] };
+    return { id: dashboard.id, name: dashboard.name, nameEn: dashboard.nameEn, description: truncate(stripHtml(dashboard.description ?? ""), 420), category: compactCategory(dashboard.category ?? {}), tags: dashboard.tags ?? [], indicatorCount: ids.length, indicatorIds: ids.slice(0, 12), nextActions: [`dashboard-deutschland dashboard dossier --id ${dashboard.id} --indicator-limit 3`] };
 }
 function compactIndicators(indicators, limit) {
     return indicators.slice(0, limit).map((indicator) => {
@@ -311,7 +311,7 @@ function compactIndicators(indicators, limit) {
         }
         catch { }
         const summary = indicatorSummary(indicator, config);
-        summary.nextActions = [`dashboardctl indicator data --id ${indicator.id} --limit 10`, `dashboardctl indicator source --id ${indicator.id}`];
+        summary.nextActions = [`dashboard-deutschland indicator data --id ${indicator.id} --limit 10`, `dashboard-deutschland indicator source --id ${indicator.id}`];
         return summary;
     });
 }
@@ -407,8 +407,8 @@ function indicatorSearchText(indicator) {
     return [indicator.id, indicator.title, config.title, config.category, config.source, config.dataVersionDate, config.dateUpload, ...(config.tags ?? []), ...sourceEntries(config).flatMap((source) => [source.title, source.url]), ...textSnippets(config, "", 8).map((snippet) => snippet.text)].join(" ");
 }
 function nextActionsForIndicators(items) {
-    const actions = items.slice(0, 3).flatMap((item) => [`dashboardctl indicator get --id ${item.id}`, `dashboardctl indicator data --id ${item.id} --limit 10`]);
-    return actions.length ? actions : ['dashboardctl indicator search --term "Arbeitsmarkt" --limit 5'];
+    const actions = items.slice(0, 3).flatMap((item) => [`dashboard-deutschland indicator get --id ${item.id}`, `dashboard-deutschland indicator data --id ${item.id} --limit 10`]);
+    return actions.length ? actions : ['dashboard-deutschland indicator search --term "Arbeitsmarkt" --limit 5'];
 }
 function parseArgs(args) {
     const parsed = { flags: {}, params: {}, positionals: [] };

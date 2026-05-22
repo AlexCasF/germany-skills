@@ -14,9 +14,8 @@ public detail pages, PDFs, and statistics.
 
 | Implementation | Path | Notes |
 | --- | --- | --- |
-| Legacy Go | `go/v1/main.go` | Original thin wrapper around the old `sucheDetailJson` surface. |
-| Go 2.0 | `go/v2/main.go` | Agent-friendly V2 CLI with auth, safe search, source, dossier, statistics, financial, and statement helpers. |
-| Python | `python/lobbyregisterctl.py` | Python parity implementation. |
+| Go 2.0 | `go/main.go` | Agent-friendly V2 CLI with auth, safe search, source, dossier, statistics, financial, and statement helpers. |
+| Python | `python/bundestag-lobbyregister.py` | Python parity implementation. |
 | TypeScript / Node.js | `typescript/src/index.ts` | TypeScript source compiled to Node.js JavaScript. |
 
 ## Runtime data

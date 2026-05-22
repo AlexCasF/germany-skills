@@ -16,15 +16,15 @@ The tool reads the Bundeshaushalt Digital internal JSON endpoint. It is best for
 Start narrow and let the CLI teach you the next command.
 
 ```powershell
-skills\bundeshaushalt\bin\bundeshaushaltctl-2.0.exe doctor
-skills\bundeshaushalt\bin\bundeshaushaltctl-2.0.exe fields
-skills\bundeshaushalt\bin\bundeshaushaltctl-2.0.exe years list
+skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe doctor
+skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe fields
+skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe years list
 ```
 
 If you need a Python or TypeScript/Node equivalent:
 
 ```powershell
-python skills\bundeshaushalt\python\bundeshaushaltctl.py doctor
+python skills\bundeshaushalt\python\bundeshaushalt.py doctor
 node skills\bundeshaushalt\typescript\dist\index.js doctor
 ```
 
@@ -56,12 +56,12 @@ Use this sequence for most questions:
 ## Common Examples
 
 ```powershell
-skills\bundeshaushalt\bin\bundeshaushaltctl-2.0.exe budget tree --year 2026 --account expenses --quota target --unit single --limit 8
-skills\bundeshaushalt\bin\bundeshaushaltctl-2.0.exe budget tree --year 2025 --account expenses --id 11 --limit 8
-skills\bundeshaushalt\bin\bundeshaushaltctl-2.0.exe search --year 2025 --account expenses --term "Bürgergeld" --limit 5
-skills\bundeshaushalt\bin\bundeshaushaltctl-2.0.exe title get --year 2025 --account expenses --id 110168112
-skills\bundeshaushalt\bin\bundeshaushaltctl-2.0.exe compare --years 2024,2025 --account expenses --id 110168112
-skills\bundeshaushalt\bin\bundeshaushaltctl-2.0.exe budget-data --param year=2025 --param account=expenses --param quota=target --param unit=single --raw
+skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe budget tree --year 2026 --account expenses --quota target --unit single --limit 8
+skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe budget tree --year 2025 --account expenses --id 11 --limit 8
+skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe search --year 2025 --account expenses --term "Bürgergeld" --limit 5
+skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe title get --year 2025 --account expenses --id 110168112
+skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe compare --years 2024,2025 --account expenses --id 110168112
+skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe budget-data --param year=2025 --param account=expenses --param quota=target --param unit=single --raw
 ```
 
 ## Interpretation Rules

@@ -3,7 +3,7 @@
 Runtime:
 
 ```powershell
-& .\skills\tagesschau\bin\tagesschauctl-2.0.exe
+& .\skills\tagesschau\bin\tagesschau-2.0.exe
 ```
 
 | # | Case | Exit | Result | Note |

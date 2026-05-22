@@ -3,7 +3,7 @@
 Runtime:
 
 ```text
-python skills\bundeshaushalt\python\bundeshaushaltctl.py
+python skills\bundeshaushalt\python\bundeshaushalt.py
 ```
 
 | # | Case | Exit | Result | Note |

@@ -1,5 +1,5 @@
 ---
-name: api-bundestag-lobbyregister
+name: bundestag-lobbyregister
 description: Use this skill for official Bundestag Lobbyregister research, including registered interest representatives, lobby finance ranges, funding, donations, regulatory projects, statements, public register pages, and register-wide statistics.
 ---
 
@@ -51,17 +51,17 @@ Prefer the 2.0 CLI contract.
 Use the local executable when available:
 
 ```powershell
-skills\bundestag-lobbyregister\bin\lobbyregisterctl-2.0.exe doctor
+skills\bundestag-lobbyregister\bin\bundestag-lobbyregister-2.0.exe doctor
 ```
 
 Portable fallbacks:
 
 ```powershell
-python skills\bundestag-lobbyregister\python\lobbyregisterctl.py doctor
+python skills\bundestag-lobbyregister\python\bundestag-lobbyregister.py doctor
 node skills\bundestag-lobbyregister\typescript\dist\index.js doctor
 ```
 
-If the runtime exposes the binary as `lobbyregisterctl`, use that shorter name.
+If the runtime exposes the binary as `bundestag-lobbyregister`, use that shorter name.
 
 ## Auth
 
@@ -86,51 +86,51 @@ not appear in command previews. Normalized output redacts key material.
 Health:
 
 ```powershell
-lobbyregisterctl doctor
+bundestag-lobbyregister doctor
 ```
 
 Statistics:
 
 ```powershell
-lobbyregisterctl statistics
+bundestag-lobbyregister statistics
 ```
 
 Search:
 
 ```powershell
-lobbyregisterctl search --term "Bundesverband Soziokultur" --limit 3
-lobbyregisterctl search --term "Energie" --limit 5
+bundestag-lobbyregister search --term "Bundesverband Soziokultur" --limit 3
+bundestag-lobbyregister search --term "Energie" --limit 5
 ```
 
 Exact entry:
 
 ```powershell
-lobbyregisterctl entry get --register-number R001255
-lobbyregisterctl entry source --register-number R001255
+bundestag-lobbyregister entry get --register-number R001255
+bundestag-lobbyregister entry source --register-number R001255
 ```
 
 Evidence bundle:
 
 ```powershell
-lobbyregisterctl entry dossier --register-number R001255 --grep Soziokultur --limit 5
+bundestag-lobbyregister entry dossier --register-number R001255 --grep Soziokultur --limit 5
 ```
 
 Finance:
 
 ```powershell
-lobbyregisterctl financial summary --register-number R001255
+bundestag-lobbyregister financial summary --register-number R001255
 ```
 
 Statements:
 
 ```powershell
-lobbyregisterctl statements list --register-number R001255 --grep Soziokultur --limit 5
+bundestag-lobbyregister statements list --register-number R001255 --grep Soziokultur --limit 5
 ```
 
 Legacy V1 wrapper remains available for comparison:
 
 ```powershell
-lobbyregisterctl v1 search --param "q=Bundesverband"
+bundestag-lobbyregister v1 search --param "q=Bundesverband"
 ```
 
 ## Output expectations

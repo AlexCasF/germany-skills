@@ -3,7 +3,7 @@
 Runtime:
 
 ```text
-skills\bundesrat-live\bin\bundesratctl-2.0.exe
+skills\bundesrat-live\bin\bundesrat-live-2.0.exe
 ```
 
 ## Result Summary

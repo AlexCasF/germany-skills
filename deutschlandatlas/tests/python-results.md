@@ -4,7 +4,7 @@ Run date: 2026-05-18
 
 Command prefix:
 
-`python skills\deutschlandatlas\python\deutschlandatlasctl.py`
+`python skills\deutschlandatlas\python\deutschlandatlas.py`
 
 | # | Test | Result | Notes |
 | --- | --- | --- | --- |

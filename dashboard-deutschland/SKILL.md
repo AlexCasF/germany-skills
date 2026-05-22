@@ -1,5 +1,5 @@
 ---
-name: api-dashboard-deutschland
+name: dashboard-deutschland
 description: Use this skill for curated Dashboard Deutschland indicators, dashboard sections, chart-ready tile data, source links, and endpoint diagnostics from the public dashboard API.
 ---
 
@@ -9,20 +9,20 @@ description: Use this skill for curated Dashboard Deutschland indicators, dashbo
 
 Use this skill when a task needs curated high-level indicators from Dashboard Deutschland. The dashboard combines official and selected non-official sources into chart tiles on topics such as labor market, energy, prices, foreign trade, housing, mobility, finance, health, and economic activity.
 
-Use `destatisctl` instead when the user needs deep configurable GENESIS tables or full statistical metadata beyond the dashboard tile.
+Use `destatis` instead when the user needs deep configurable GENESIS tables or full statistical metadata beyond the dashboard tile.
 
 ## Primary Tool
 
 Use the Go 2.0 binary first:
 
 ```powershell
-skills\dashboard-deutschland\bin\dashboardctl-2.0.exe --help
+skills\dashboard-deutschland\bin\dashboard-deutschland-2.0.exe --help
 ```
 
 Alternative implementations with the same command surface:
 
 ```powershell
-python skills\dashboard-deutschland\python\dashboardctl.py --help
+python skills\dashboard-deutschland\python\dashboard-deutschland.py --help
 node skills\dashboard-deutschland\typescript\dist\index.js --help
 ```
 
@@ -31,34 +31,34 @@ node skills\dashboard-deutschland\typescript\dist\index.js --help
 1. Check endpoint health and caveats:
 
 ```powershell
-dashboardctl doctor
+dashboard-deutschland doctor
 ```
 
 2. Discover dashboards or indicators:
 
 ```powershell
-dashboardctl dashboards list --limit 5
-dashboardctl indicator search --term "Arbeitslosigkeit" --limit 5
+dashboard-deutschland dashboards list --limit 5
+dashboard-deutschland indicator search --term "Arbeitslosigkeit" --limit 5
 ```
 
 3. Inspect one indicator:
 
 ```powershell
-dashboardctl indicator get --id tile_1666958835081
-dashboardctl indicator source --id tile_1666958835081
+dashboard-deutschland indicator get --id tile_1666958835081
+dashboard-deutschland indicator source --id tile_1666958835081
 ```
 
 4. Extract chart-ready points:
 
 ```powershell
-dashboardctl indicator data --id tile_1666958835081 --limit 10
-dashboardctl indicator data --id tile_1666958835081 --series "Arbeitslose" --limit 5
+dashboard-deutschland indicator data --id tile_1666958835081 --limit 10
+dashboard-deutschland indicator data --id tile_1666958835081 --series "Arbeitslose" --limit 5
 ```
 
 5. Use a dashboard dossier when starting from a theme:
 
 ```powershell
-dashboardctl dashboard dossier --id arbeitsmarkt --indicator-limit 3
+dashboard-deutschland dashboard dossier --id arbeitsmarkt --indicator-limit 3
 ```
 
 ## Command Map

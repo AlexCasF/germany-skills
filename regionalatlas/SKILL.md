@@ -1,5 +1,5 @@
 ---
-name: api-regionalatlas
+name: regionalatlas
 description: Use this skill for official Regionalatlas Deutschland indicators across Laender, Regierungsbezirke/statistical regions, Kreise, kreisfreie Staedte, and Gemeinden through the Regionalatlas catalog and ArcGIS dynamic-layer query endpoint.
 ---
 
@@ -9,20 +9,20 @@ description: Use this skill for official Regionalatlas Deutschland indicators ac
 
 Use this skill when a task needs official regional statistical indicators for Germany at administrative levels below or across the national level.
 
-The Regionalatlas is useful for comparing regions by population, labor market, education, land use, economy, housing, transport, environment, and related topics. It is not a general-purpose full GENESIS table client; use `destatisctl` when the user needs broader statistical tables outside the atlas/map context.
+The Regionalatlas is useful for comparing regions by population, labor market, education, land use, economy, housing, transport, environment, and related topics. It is not a general-purpose full GENESIS table client; use `destatis` when the user needs broader statistical tables outside the atlas/map context.
 
 ## Primary Tool
 
 Use the Go 2.0 binary first:
 
 ```powershell
-skills\regionalatlas\bin\regionalatlasctl-2.0.exe --help
+skills\regionalatlas\bin\regionalatlas-2.0.exe --help
 ```
 
 Alternative implementations with the same command surface:
 
 ```powershell
-python skills\regionalatlas\python\regionalatlasctl.py --help
+python skills\regionalatlas\python\regionalatlas.py --help
 node skills\regionalatlas\typescript\dist\index.js --help
 ```
 
@@ -31,32 +31,32 @@ node skills\regionalatlas\typescript\dist\index.js --help
 1. Check service status and fair-use hints:
 
 ```powershell
-regionalatlasctl doctor
+regionalatlas doctor
 ```
 
 2. Search the indicator catalog:
 
 ```powershell
-regionalatlasctl indicators search --term "Arbeitslosenquote" --limit 5
+regionalatlas indicators search --term "Arbeitslosenquote" --limit 5
 ```
 
 3. Inspect fields, units, available years, and metadata:
 
 ```powershell
-regionalatlasctl fields --indicator AI008-1-5
-regionalatlasctl explain-field --indicator AI008-1-5 --field AI0801 --grep Quelle
+regionalatlas fields --indicator AI008-1-5
+regionalatlas explain-field --indicator AI008-1-5 --field AI0801 --grep Quelle
 ```
 
 4. Fetch a small bounded sample:
 
 ```powershell
-regionalatlasctl sample --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
+regionalatlas sample --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
 ```
 
 5. Use `dossier` when you need an evidence bundle:
 
 ```powershell
-regionalatlasctl dossier --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
+regionalatlas dossier --indicator AI008-1-5 --field AI0801 --year 2024 --region-level 1 --limit 5
 ```
 
 ## Command Map

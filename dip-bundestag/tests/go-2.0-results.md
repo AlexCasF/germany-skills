@@ -1,6 +1,6 @@
 # Go 2.0 test results
 
-Implementation: `skills/dip-bundestag/bin/dipctl-2.0.exe`
+Implementation: `skills/dip-bundestag/bin/dip-bundestag-2.0.exe`
 
 Run date: 2026-05-18
 
@@ -9,8 +9,8 @@ Auth: `DIP_API_KEY` loaded from local environment. The key was not printed.
 Build:
 
 ```text
-cd skills/dip-bundestag/go/v2
-go build -o ..\..\bin\dipctl-2.0.exe .
+cd skills/dip-bundestag/go
+go build -o ..\bin\dip-bundestag-2.0.exe .
 ```
 
 Result: passed.
@@ -19,16 +19,16 @@ Result: passed.
 
 | Test | Command | Result | Notes |
 | --- | --- | --- | --- |
-| 1 | `dipctl-2.0.exe --help` | Pass | Root help contains purpose, use cases, fast paths, legacy endpoint commands, research commands, auth notes, and output notes. |
-| 2 | `dipctl-2.0.exe person dossier --help` | Pass | Command help explains dossier behavior, inputs, examples, and source orientation. |
-| 3 | `dipctl-2.0.exe doctor` | Pass | Returned `status=ok`, endpoint health, auth source, docs links, and fair-use warnings. |
-| 4 | `dipctl-2.0.exe person list --param "f.person=Gauweiler" --limit 1` | Pass | Legacy path still works and returned one upstream-style document. |
-| 5 | `dipctl-2.0.exe person search --name "Gauweiler" --limit 3` | Pass | Returned normalized envelope with one compact person item and next actions. |
-| 6 | `dipctl-2.0.exe person get --id 760` | Pass | Legacy exact lookup still returns upstream-style JSON. |
-| 7 | `dipctl-2.0.exe source --type plenarprotokoll --document-number "20/139"` | Pass | Returned normalized source envelope with API/PDF/XML source links. |
-| 8 | `dipctl-2.0.exe person dossier --id 760 --limit 3` | Pass | Returned person record, related activities, source data, warnings, and next actions. |
-| 9 | `dipctl-2.0.exe plenarprotokoll text --document-number "20/139" --grep "Bürgergeld"` | Pass | Returned normalized envelope with 10 bounded snippets and source links. |
-| 10 | `dipctl-2.0.exe person get --id 760 --apikey BAD_KEY` | Pass | Returned nonzero exit with structured JSON error and did not echo the supplied key. |
+| 1 | `dip-bundestag-2.0.exe --help` | Pass | Root help contains purpose, use cases, fast paths, legacy endpoint commands, research commands, auth notes, and output notes. |
+| 2 | `dip-bundestag-2.0.exe person dossier --help` | Pass | Command help explains dossier behavior, inputs, examples, and source orientation. |
+| 3 | `dip-bundestag-2.0.exe doctor` | Pass | Returned `status=ok`, endpoint health, auth source, docs links, and fair-use warnings. |
+| 4 | `dip-bundestag-2.0.exe person list --param "f.person=Gauweiler" --limit 1` | Pass | Legacy path still works and returned one upstream-style document. |
+| 5 | `dip-bundestag-2.0.exe person search --name "Gauweiler" --limit 3` | Pass | Returned normalized envelope with one compact person item and next actions. |
+| 6 | `dip-bundestag-2.0.exe person get --id 760` | Pass | Legacy exact lookup still returns upstream-style JSON. |
+| 7 | `dip-bundestag-2.0.exe source --type plenarprotokoll --document-number "20/139"` | Pass | Returned normalized source envelope with API/PDF/XML source links. |
+| 8 | `dip-bundestag-2.0.exe person dossier --id 760 --limit 3` | Pass | Returned person record, related activities, source data, warnings, and next actions. |
+| 9 | `dip-bundestag-2.0.exe plenarprotokoll text --document-number "20/139" --grep "Bürgergeld"` | Pass | Returned normalized envelope with 10 bounded snippets and source links. |
+| 10 | `dip-bundestag-2.0.exe person get --id 760 --apikey BAD_KEY` | Pass | Returned nonzero exit with structured JSON error and did not echo the supplied key. |
 
 ## Notes
 

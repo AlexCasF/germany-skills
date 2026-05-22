@@ -1,4 +1,4 @@
-const APP_NAME = "destatisctl";
+const APP_NAME = "destatis";
 const BASE_URL = "https://www-genesis.destatis.de/genesisWS/rest/2020";
 const UI_URL = "https://www-genesis.destatis.de/datenbank/online";
 const DOCS_URL = "https://www.destatis.de/DE/Service/OpenData/genesis-api-webservice-oberflaeche.html";
@@ -58,16 +58,16 @@ async function main(argv: string[]): Promise<number> {
 }
 
 function printRootHelp(): void {
-  console.log(`destatisctl -- Destatis GENESIS-Online statistics CLI
+  console.log(`destatis -- Destatis GENESIS-Online statistics CLI
 
 Purpose
   Search and retrieve official German statistics from Destatis GENESIS-Online.
 
 Fast paths
-  destatisctl doctor
-  destatisctl search --term "Arbeitslose" --limit 5
-  destatisctl table source --name 12211-0900
-  destatisctl table dossier --name 12211-0900
+  destatis doctor
+  destatis search --term "Arbeitslose" --limit 5
+  destatis table source --name 12211-0900
+  destatis table dossier --name 12211-0900
 
 Legacy endpoint commands
   catalogue statistics|tables|variables
@@ -94,7 +94,7 @@ Auth
 function printHelp(path: string[]): void {
   const joined = path.join(" ");
   if (joined === "table dossier") {
-    console.log(`destatisctl table dossier
+    console.log(`destatis table dossier
 
 Build a cautious evidence bundle for one GENESIS table code. With full
 credentials it tries metadata and a small data sample; with guest credentials it
@@ -103,12 +103,12 @@ returns source metadata and structured warnings if protected endpoints return 40
     return;
   }
   if (joined === "search") {
-    console.log(`destatisctl search
+    console.log(`destatis search
 
 Friendly alias for the GENESIS find endpoint. Keeps output compact.
 
 Example
-  destatisctl search --term "Arbeitslose" --limit 5
+  destatis search --term "Arbeitslose" --limit 5
 `);
     return;
   }
@@ -148,7 +148,7 @@ async function runDoctor(argv: string[]): Promise<void> {
   } catch (error) {
     (payload.summary as JsonObject).findCheck = { ok: false, error: redact(error instanceof Error ? error.message : String(error)) };
   }
-  payload.nextActions = ['destatisctl search --term "Arbeitslose" --limit 5', "destatisctl table source --name 12211-0900"];
+  payload.nextActions = ['destatis search --term "Arbeitslose" --limit 5', "destatis table source --name 12211-0900"];
   emit(payload);
 }
 
@@ -192,7 +192,7 @@ async function runTableSource(argv: string[]): Promise<void> {
   payload.summary = tableSourceSummary(name);
   payload.sources = sourcesForTable(name);
   payload.warnings = ["Source URLs identify official GENESIS locations; table availability and metadata detail can depend on credentials."];
-  payload.nextActions = [`destatisctl table dossier --name ${name}`, `destatisctl metadata table --param name=${name}`];
+  payload.nextActions = [`destatis table dossier --name ${name}`, `destatis metadata table --param name=${name}`];
   emit(payload);
 }
 
@@ -204,7 +204,7 @@ async function runTableDossier(argv: string[]): Promise<void> {
   payload.summary = tableSourceSummary(name);
   payload.sources = sourcesForTable(name);
   payload.warnings = standardWarnings(cred);
-  payload.nextActions = [`destatisctl table sample --name ${name}`, `destatisctl variables explain --table ${name}`];
+  payload.nextActions = [`destatis table sample --name ${name}`, `destatis variables explain --table ${name}`];
   try {
     const metadata = await apiPost("/metadata/table", { name, language: parsed.flags.language || "de" }, cred);
     payload.metadata = summarizeDestatisPayload(metadata);
@@ -288,7 +288,7 @@ async function runVariablesExplain(argv: string[]): Promise<void> {
     payload.status = "partial";
     payload.variables = { available: false, error: redact(error instanceof Error ? error.message : String(error)) };
   }
-  payload.nextActions = [`destatisctl table dossier --name ${table}`];
+  payload.nextActions = [`destatis table dossier --name ${table}`];
   emit(payload);
 }
 
@@ -403,9 +403,9 @@ function nextActionsForFind(items: JsonObject[]): string[] {
   for (const item of items) {
     const code = asString(item.code);
     if (!code) continue;
-    if (item.kind === "table") actions.push(`destatisctl table dossier --name ${code}`);
-    else if (item.kind === "timeseries") actions.push(`destatisctl timeseries dossier --name ${code}`);
-    else if (item.kind === "statistic") actions.push(`destatisctl catalogue tables --param name=${code}`);
+    if (item.kind === "table") actions.push(`destatis table dossier --name ${code}`);
+    else if (item.kind === "timeseries") actions.push(`destatis timeseries dossier --name ${code}`);
+    else if (item.kind === "statistic") actions.push(`destatis catalogue tables --param name=${code}`);
     if (actions.length >= 5) break;
   }
   return actions;

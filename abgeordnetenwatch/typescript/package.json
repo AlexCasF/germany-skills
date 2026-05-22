@@ -1,5 +1,5 @@
 {
-  "name": "abgeordnetenwatchctl",
+  "name": "abgeordnetenwatch",
   "version": "2.0.0",
   "private": true,
   "description": "TypeScript/Node.js implementation of the abgeordnetenwatch CLI.",

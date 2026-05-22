@@ -1,11 +1,11 @@
 # Go 2.0 test results
 
-Implementation: `skills/rechtsinformationen-bund/go/v2/main.go`
+Implementation: `skills/rechtsinformationen-bund/go/main.go`
 
 Build command:
 
 ```powershell
-go build -o ..\..\bin\rechtsinformationenctl-2.0.exe .
+go build -o ..\bin\rechtsinformationen-bund-2.0.exe .
 ```
 
 Result: pass.

@@ -1,5 +1,5 @@
 ---
-name: api-abgeordnetenwatch
+name: abgeordnetenwatch
 description: Use this skill for public German politician profiles, mandates, candidacies, side jobs, voting/context data, and profile-page evidence from abgeordnetenwatch.de.
 ---
 
@@ -40,17 +40,17 @@ Prefer the 2.0 CLI contract.
 Use the local executable when available:
 
 ```powershell
-skills\abgeordnetenwatch\bin\abgeordnetenwatchctl-2.0.exe doctor
+skills\abgeordnetenwatch\bin\abgeordnetenwatch-2.0.exe doctor
 ```
 
 Portable fallbacks:
 
 ```powershell
-python skills\abgeordnetenwatch\python\abgeordnetenwatchctl.py doctor
+python skills\abgeordnetenwatch\python\abgeordnetenwatch.py doctor
 node skills\abgeordnetenwatch\typescript\dist\index.js doctor
 ```
 
-If the runtime exposes the binary as `abgeordnetenwatchctl`, use that shorter name.
+If the runtime exposes the binary as `abgeordnetenwatch`, use that shorter name.
 
 ## Preferred workflow
 
@@ -66,39 +66,39 @@ If the runtime exposes the binary as `abgeordnetenwatchctl`, use that shorter na
 Health:
 
 ```powershell
-abgeordnetenwatchctl doctor
+abgeordnetenwatch doctor
 ```
 
 Search:
 
 ```powershell
-abgeordnetenwatchctl politicians search --name "Alice Weidel" --limit 3
-abgeordnetenwatchctl politicians search --name "Gauweiler" --limit 3
+abgeordnetenwatch politicians search --name "Alice Weidel" --limit 3
+abgeordnetenwatch politicians search --name "Gauweiler" --limit 3
 ```
 
 Source/page:
 
 ```powershell
-abgeordnetenwatchctl politicians source --id 108379
-abgeordnetenwatchctl politicians page --id 108379 --grep Nebentätigkeiten
-abgeordnetenwatchctl politicians page --url https://www.abgeordnetenwatch.de/profile/alice-weidel --grep Nebentätigkeiten
+abgeordnetenwatch politicians source --id 108379
+abgeordnetenwatch politicians page --id 108379 --grep Nebentätigkeiten
+abgeordnetenwatch politicians page --url https://www.abgeordnetenwatch.de/profile/alice-weidel --grep Nebentätigkeiten
 ```
 
 Evidence bundle:
 
 ```powershell
-abgeordnetenwatchctl politicians dossier --id 108379 --grep Nebentätigkeiten --limit 5
-abgeordnetenwatchctl sidejobs for-politician --id 108379 --limit 5
-abgeordnetenwatchctl mandates for-politician --id 108379 --limit 5
+abgeordnetenwatch politicians dossier --id 108379 --grep Nebentätigkeiten --limit 5
+abgeordnetenwatch sidejobs for-politician --id 108379 --limit 5
+abgeordnetenwatch mandates for-politician --id 108379 --limit 5
 ```
 
 Raw endpoint access remains available:
 
 ```powershell
-abgeordnetenwatchctl parliaments list --limit 5
-abgeordnetenwatchctl politicians get --id 108379
-abgeordnetenwatchctl sidejobs list --limit 5
-abgeordnetenwatchctl sidejobs get --id 20846
+abgeordnetenwatch parliaments list --limit 5
+abgeordnetenwatch politicians get --id 108379
+abgeordnetenwatch sidejobs list --limit 5
+abgeordnetenwatch sidejobs get --id 20846
 ```
 
 ## Output expectations

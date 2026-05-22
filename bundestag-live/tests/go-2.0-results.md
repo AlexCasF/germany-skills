@@ -1,6 +1,6 @@
 # Go 2.0 Test Results
 
-Run from repository root with `skills\bundestag-live\bin\bundestagctl-2.0.exe`.
+Run from repository root with `skills\bundestag-live\bin\bundestag-live-2.0.exe`.
 
 | # | Test | Result | Notes |
 | --- | --- | --- | --- |

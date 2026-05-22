@@ -7,7 +7,7 @@ description: Use this skill for current Bundestag website/app XML feeds: live pl
 
 ## Purpose
 
-Use `bundestagctl` to work with public Bundestag live/site XML surfaces. This tool is best for current Bundestag presentation data: members, biographies, disclosure snippets, committees, agenda article IDs, Bundestag article pages, and media feed metadata.
+Use `bundestag-live` to work with public Bundestag live/site XML surfaces. This tool is best for current Bundestag presentation data: members, biographies, disclosure snippets, committees, agenda article IDs, Bundestag article pages, and media feed metadata.
 
 ## Use this skill when
 
@@ -19,14 +19,14 @@ Use `bundestagctl` to work with public Bundestag live/site XML surfaces. This to
 
 ## Do not use this skill when
 
-- The user needs complete parliamentary proceedings, legislative dossiers, printed papers, plenary protocols, or archival speech search. Use `dipctl` instead.
-- The user needs Bundesrat proceedings. Use `bundesratctl`.
+- The user needs complete parliamentary proceedings, legislative dossiers, printed papers, plenary protocols, or archival speech search. Use `dip-bundestag` instead.
+- The user needs Bundesrat proceedings. Use `bundesrat-live`.
 - The user needs statistical evidence. Use the relevant statistical CLI.
-- The user needs legal text. Use `rechtsinformationenctl`.
+- The user needs legal text. Use `rechtsinformationen-bund`.
 
 ## Fast workflow
 
-1. Run `bundestagctl doctor` if endpoint health or usage assumptions matter.
+1. Run `bundestag-live doctor` if endpoint health or usage assumptions matter.
 2. Search or list with small limits.
 3. Expand one result with `dossier`, `biography`, `committees dossier`, or `article get`.
 4. Use `article page` only when the public HTML page itself is needed for citation snippets.
@@ -35,14 +35,14 @@ Use `bundestagctl` to work with public Bundestag live/site XML surfaces. This to
 ## High-value commands
 
 ```text
-bundestagctl members search --name "Amthor" --limit 3
-bundestagctl members dossier --id 2022 --grep "Tätigkeiten"
-bundestagctl committees search --term "Arbeit" --limit 5
-bundestagctl committees dossier --id a11 --member-limit 5 --news-limit 3
-bundestagctl plenum conferences --limit 2 --item-limit 5
-bundestagctl article get --article-id 1174778 --grep "Meinungsfreiheit"
-bundestagctl article page --url "https://www.bundestag.de/dokumente/textarchiv/2026/kw21-de-demokratie-1174778" --grep "Meinungsfreiheit"
-bundestagctl video feed --content-id 7529016
+bundestag-live members search --name "Amthor" --limit 3
+bundestag-live members dossier --id 2022 --grep "Tätigkeiten"
+bundestag-live committees search --term "Arbeit" --limit 5
+bundestag-live committees dossier --id a11 --member-limit 5 --news-limit 3
+bundestag-live plenum conferences --limit 2 --item-limit 5
+bundestag-live article get --article-id 1174778 --grep "Meinungsfreiheit"
+bundestag-live article page --url "https://www.bundestag.de/dokumente/textarchiv/2026/kw21-de-demokratie-1174778" --grep "Meinungsfreiheit"
+bundestag-live video feed --content-id 7529016
 ```
 
 ## Output shape

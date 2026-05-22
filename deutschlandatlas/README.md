@@ -18,9 +18,9 @@ services.
 ## Quick start
 
 ```powershell
-skills\deutschlandatlas\bin\deutschlandatlasctl-2.0.exe doctor
-skills\deutschlandatlas\bin\deutschlandatlasctl-2.0.exe tables search --term "Arbeitslosenquote" --limit 5
-skills\deutschlandatlas\bin\deutschlandatlasctl-2.0.exe indicator dossier --table alq_HA2023 --limit 3
+skills\deutschlandatlas\bin\deutschlandatlas-2.0.exe doctor
+skills\deutschlandatlas\bin\deutschlandatlas-2.0.exe tables search --term "Arbeitslosenquote" --limit 5
+skills\deutschlandatlas\bin\deutschlandatlas-2.0.exe indicator dossier --table alq_HA2023 --limit 3
 ```
 
 ## Sources

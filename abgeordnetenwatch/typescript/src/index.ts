@@ -1,7 +1,7 @@
-﻿import * as https from "node:https";
+import * as https from "node:https";
 import { URL, URLSearchParams } from "node:url";
 
-const APP_NAME = "abgeordnetenwatchctl";
+const APP_NAME = "abgeordnetenwatch";
 const BASE_URL = "https://www.abgeordnetenwatch.de/api/v2";
 const ROOT_URL = "https://www.abgeordnetenwatch.de";
 
@@ -95,16 +95,16 @@ async function main(argv: string[]): Promise<number> {
 }
 
 function printRootHelp(): void {
-  console.log(`abgeordnetenwatchctl -- abgeordnetenwatch.de public transparency data
+  console.log(`abgeordnetenwatch -- abgeordnetenwatch.de public transparency data
 
 Purpose
   Search and cite public politician, mandate, voting, profile, and side-job
   data from abgeordnetenwatch.de.
 
 Fast paths
-  abgeordnetenwatchctl doctor
-  abgeordnetenwatchctl politicians search --name "Alice Weidel" --limit 3
-  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
+  abgeordnetenwatch doctor
+  abgeordnetenwatch politicians search --name "Alice Weidel" --limit 3
+  abgeordnetenwatch politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
 
 Legacy endpoint commands
   <entity> list|get
@@ -123,20 +123,20 @@ Research commands
 function printHelp(path: string[]): void {
   const joined = path.join(" ");
   if (joined === "politicians dossier") {
-    console.log(`abgeordnetenwatchctl politicians dossier
+    console.log(`abgeordnetenwatch politicians dossier
 
 Builds a compact evidence bundle for one politician with API profile data,
 mandates, side jobs, source URLs, page metadata, optional profile-page snippets,
 warnings, and next actions.
 
 Examples
-  abgeordnetenwatchctl politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
-  abgeordnetenwatchctl politicians dossier --id 108379 --limit 5
+  abgeordnetenwatch politicians dossier --name "Alice Weidel" --grep NebentÃ¤tigkeiten
+  abgeordnetenwatch politicians dossier --id 108379 --limit 5
 `);
     return;
   }
   if (joined === "politicians page") {
-    console.log(`abgeordnetenwatchctl politicians page
+    console.log(`abgeordnetenwatch politicians page
 
 Fetches a public profile page and extracts canonical URL, title, description,
 profile ID hints, text preview, and grep snippets.
@@ -144,7 +144,7 @@ profile ID hints, text preview, and grep snippets.
     return;
   }
   if (joined === "politicians search") {
-    console.log(`abgeordnetenwatchctl politicians search
+    console.log(`abgeordnetenwatch politicians search
 
 Searches politicians by name with a small default limit and normalized source URLs.
 `);
@@ -181,8 +181,8 @@ async function runDoctor(): Promise<void> {
   payload.sources = defaultSources();
   payload.warnings = standardWarnings();
   payload.nextActions = [
-    "abgeordnetenwatchctl politicians search --name \"Alice Weidel\" --limit 3",
-    "abgeordnetenwatchctl politicians dossier --id 108379 --grep NebentÃ¤tigkeiten"
+    "abgeordnetenwatch politicians search --name \"Alice Weidel\" --limit 3",
+    "abgeordnetenwatch politicians dossier --id 108379 --grep NebentÃ¤tigkeiten"
   ];
   emit(payload);
 }
@@ -250,8 +250,8 @@ async function runPoliticianSource(argv: string[]): Promise<void> {
   payload.sources = politicianSources(resolved.record);
   payload.warnings = standardWarnings();
   payload.nextActions = [
-    `abgeordnetenwatchctl politicians page --id ${resolved.record.id}`,
-    `abgeordnetenwatchctl politicians dossier --id ${resolved.record.id}`
+    `abgeordnetenwatch politicians page --id ${resolved.record.id}`,
+    `abgeordnetenwatch politicians dossier --id ${resolved.record.id}`
   ];
   emit(payload);
 }
@@ -268,7 +268,7 @@ async function runPoliticianPage(argv: string[]): Promise<void> {
   payload.summary = page;
   payload.sources = [{ kind: "profile", title: "Public profile page", url: page.url }];
   payload.warnings = standardWarnings();
-  payload.nextActions = [`abgeordnetenwatchctl politicians dossier --id ${resolved.record.id}`];
+  payload.nextActions = [`abgeordnetenwatch politicians dossier --id ${resolved.record.id}`];
   emit(payload);
 }
 
@@ -306,8 +306,8 @@ async function runPoliticianDossier(argv: string[]): Promise<void> {
     "Do not equate outside income or mandates with corruption without independent evidence."
   ];
   payload.nextActions = [
-    `abgeordnetenwatchctl sidejobs for-politician --id ${id} --limit ${limit}`,
-    `abgeordnetenwatchctl politicians page --id ${id} --grep NebentÃ¤tigkeiten`
+    `abgeordnetenwatch sidejobs for-politician --id ${id} --limit ${limit}`,
+    `abgeordnetenwatch politicians page --id ${id} --grep NebentÃ¤tigkeiten`
   ];
   emit(payload);
 }
@@ -323,7 +323,7 @@ async function runMandatesForPolitician(argv: string[]): Promise<void> {
   payload.items = summarizeRecords(mandates, limit);
   payload.sources = [{ kind: "api", title: "Candidacies/mandates endpoint", url: BASE_URL + "/candidacies-mandates" }];
   payload.warnings = standardWarnings();
-  payload.nextActions = [`abgeordnetenwatchctl sidejobs for-politician --id ${id}`];
+  payload.nextActions = [`abgeordnetenwatch sidejobs for-politician --id ${id}`];
   emit(payload);
 }
 
@@ -345,7 +345,7 @@ async function runSidejobsForPolitician(argv: string[]): Promise<void> {
   payload.items = summarizeRecords(sidejobs, limit);
   payload.sources = [{ kind: "api", title: "Sidejobs endpoint", url: BASE_URL + "/sidejobs" }];
   payload.warnings = [...standardWarnings(), "Side-job data is disclosure data; interpret categories and income fields cautiously."];
-  payload.nextActions = [`abgeordnetenwatchctl politicians dossier --id ${id} --grep NebentÃ¤tigkeiten`];
+  payload.nextActions = [`abgeordnetenwatch politicians dossier --id ${id} --grep NebentÃ¤tigkeiten`];
   emit(payload);
 }
 
@@ -639,8 +639,8 @@ function nextForPoliticianItems(items: Record<string, any>[]): string[] {
     if (item.id === undefined) {
       continue;
     }
-    out.push(`abgeordnetenwatchctl politicians dossier --id ${item.id}`);
-    out.push(`abgeordnetenwatchctl politicians page --id ${item.id} --grep NebentÃ¤tigkeiten`);
+    out.push(`abgeordnetenwatch politicians dossier --id ${item.id}`);
+    out.push(`abgeordnetenwatch politicians page --id ${item.id} --grep NebentÃ¤tigkeiten`);
     if (out.length >= 4) {
       break;
     }

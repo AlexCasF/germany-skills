@@ -5,7 +5,7 @@ Run date: 2026-05-19
 ## Build
 
 ```powershell
-go build -o ..\..\bin\regionalatlasctl-2.0.exe .
+go build -o ..\bin\regionalatlas-2.0.exe .
 ```
 
 Result: passed.

@@ -5,7 +5,7 @@ Run date: 2026-05-19
 ## Compile Check
 
 ```powershell
-python -m py_compile skills\dashboard-deutschland\python\dashboardctl.py
+python -m py_compile skills\dashboard-deutschland\python\dashboard-deutschland.py
 ```
 
 Result: passed.

@@ -29,21 +29,16 @@ statistical tables, use Destatis/Regionalatlas first.
 
 Primary Go binary:
 
-`skills/deutschlandatlas/bin/deutschlandatlasctl-2.0.exe`
+`skills/deutschlandatlas/bin/deutschlandatlas-2.0.exe`
 
 Alternative implementations:
 
-- Python: `python skills/deutschlandatlas/python/deutschlandatlasctl.py`
+- Python: `python skills/deutschlandatlas/python/deutschlandatlas.py`
 - TypeScript/Node.js: `node skills/deutschlandatlas/typescript/dist/index.js`
-
-Legacy preserved:
-
-- `skills/deutschlandatlas/go/v1/main.go`
-- `skills/deutschlandatlas/bin/deutschlandatlasctl-legacy.exe`
 
 ## Best workflow
 
-1. Run `deutschlandatlasctl doctor` if endpoint health or usage constraints matter.
+1. Run `deutschlandatlas doctor` if endpoint health or usage constraints matter.
 2. Search for the table name with `tables search --term`.
 3. Inspect fields with `table fields --table`.
 4. Fetch a bounded sample with `table sample --table --limit 5`.
@@ -54,31 +49,31 @@ Legacy preserved:
 
 Discovery:
 
-`deutschlandatlasctl tables search --term "Arbeitslosenquote" --limit 5`
+`deutschlandatlas tables search --term "Arbeitslosenquote" --limit 5`
 
 Field inspection:
 
-`deutschlandatlasctl table fields --table alq_HA2023`
+`deutschlandatlas table fields --table alq_HA2023`
 
 Safe sample:
 
-`deutschlandatlasctl table sample --table alq_HA2023 --fields name,alq --limit 5`
+`deutschlandatlas table sample --table alq_HA2023 --fields name,alq --limit 5`
 
 Dossier:
 
-`deutschlandatlasctl indicator dossier --table alq_HA2023 --limit 3`
+`deutschlandatlas indicator dossier --table alq_HA2023 --limit 3`
 
 Source/citation URLs:
 
-`deutschlandatlasctl table source --table alq_HA2023`
+`deutschlandatlas table source --table alq_HA2023`
 
 Build a query without fetching:
 
-`deutschlandatlasctl query-builder --table alq_HA2023 --region Berlin --fields name,alq --limit 3`
+`deutschlandatlas query-builder --table alq_HA2023 --region Berlin --fields name,alq --limit 3`
 
 Raw upstream query:
 
-`deutschlandatlasctl table query --table alq_HA2023 --layer 5 --param where=1=1 --param outFields=* --limit 2`
+`deutschlandatlas table query --table alq_HA2023 --layer 5 --param where=1=1 --param outFields=* --limit 2`
 
 ## Important behavior
 

@@ -1,5 +1,5 @@
 ---
-name: api-dip-bundestag
+name: dip-bundestag
 description: Use this skill for Bundestag parliamentary materials and DIP research, including proceedings, printed papers, plenary protocols, activities, and person master data.
 ---
 
@@ -18,12 +18,12 @@ This skill helps use the DIP Bundestag API for parliamentary process and documen
 
 ## CLI organization
 
-The CLI binary is `dipctl`.
+The CLI binary is `dip-bundestag`.
 
 Typical workflow:
 
-1. Inspect `dipctl --help`.
-2. Run `dipctl doctor` if auth or endpoint status is uncertain.
+1. Inspect `dip-bundestag --help`.
+2. Run `dip-bundestag doctor` if auth or endpoint status is uncertain.
 3. Choose the relevant entity family such as `vorgang`, `drucksache`, or `plenarprotokoll`.
 4. Prefer list/search endpoints before detail endpoints when exploring the corpus.
 5. Use `source`, `text`, or `dossier` commands before making evidence claims.
@@ -39,12 +39,12 @@ Typical workflow:
 
 ## Useful v2 commands
 
-- `dipctl doctor`
-- `dipctl person search --name "Name"`
-- `dipctl person dossier --id <id>`
-- `dipctl vorgang dossier --id <id>`
-- `dipctl source --type plenarprotokoll --document-number "20/139"`
-- `dipctl plenarprotokoll text --document-number "20/139" --grep "Suchbegriff"`
+- `dip-bundestag doctor`
+- `dip-bundestag person search --name "Name"`
+- `dip-bundestag person dossier --id <id>`
+- `dip-bundestag vorgang dossier --id <id>`
+- `dip-bundestag source --type plenarprotokoll --document-number "20/139"`
+- `dip-bundestag plenarprotokoll text --document-number "20/139" --grep "Suchbegriff"`
 
 ## References
 

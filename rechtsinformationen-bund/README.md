@@ -11,9 +11,8 @@ legal search, and HTML/XML source renditions.
 
 | Implementation | Path | Notes |
 | --- | --- | --- |
-| Legacy Go | `go/v1/main.go` | Original thin endpoint wrapper. |
-| Go 2.0 | `go/v2/main.go` | Agent-friendly CLI with doctor, source, text, dossier, and cite helpers. |
-| Python | `python/rechtsinformationenctl.py` | Python parity implementation. |
+| Go 2.0 | `go/main.go` | Agent-friendly CLI with doctor, source, text, dossier, and cite helpers. |
+| Python | `python/rechtsinformationen-bund.py` | Python parity implementation. |
 | TypeScript / Node.js | `typescript/src/index.ts` | TypeScript source compiled to Node.js JavaScript. |
 
 ## Runtime data

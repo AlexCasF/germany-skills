@@ -1,6 +1,6 @@
 # Python Test Results
 
-Run from repository root with `python skills\bundestag-live\python\bundestagctl.py`.
+Run from repository root with `python skills\bundestag-live\python\bundestag-live.py`.
 
 | # | Test | Result | Notes |
 | --- | --- | --- | --- |

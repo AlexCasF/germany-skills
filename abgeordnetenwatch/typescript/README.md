@@ -1,6 +1,6 @@
 # Abgeordnetenwatch CLI TypeScript/Node.js 2.0
 
-Node.js implementation of the `abgeordnetenwatchctl` 2.0 command surface.
+Node.js implementation of the `abgeordnetenwatch` 2.0 command surface.
 
 ## Build
 

@@ -11,9 +11,8 @@ and related full-text records.
 
 | Implementation | Path | Notes |
 | --- | --- | --- |
-| Legacy Go | `go/v1/main.go` | Original thin endpoint wrapper. |
-| Go 2.0 | `go/v2/main.go` | Agent-friendly CLI with env auth, doctor, source, text, and dossier helpers. |
-| Python | `python/dipctl.py` | Python parity implementation. |
+| Go 2.0 | `go/main.go` | Agent-friendly CLI with env auth, doctor, source, text, and dossier helpers. |
+| Python | `python/dip-bundestag.py` | Python parity implementation. |
 | TypeScript / Node.js | `typescript/src/index.ts` | TypeScript source compiled to Node.js JavaScript. |
 
 ## Runtime data

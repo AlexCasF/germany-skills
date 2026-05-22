@@ -4,7 +4,7 @@ Run date: 2026-05-18
 
 Command prefix:
 
-`skills\deutschlandatlas\bin\deutschlandatlasctl-2.0.exe`
+`skills\deutschlandatlas\bin\deutschlandatlas-2.0.exe`
 
 | # | Test | Result | Notes |
 | --- | --- | --- | --- |

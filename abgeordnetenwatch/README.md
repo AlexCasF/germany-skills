@@ -11,9 +11,8 @@ side-job organizations.
 
 | Implementation | Path | Notes |
 | --- | --- | --- |
-| Legacy Go | `go/v1/main.go` | Original thin endpoint wrapper. |
-| Go 2.0 | `go/v2/main.go` | Agent-friendly CLI with doctor, search, page, source, and dossier helpers. |
-| Python | `python/abgeordnetenwatchctl.py` | Python parity implementation. |
+| Go 2.0 | `go/main.go` | Agent-friendly CLI with doctor, search, page, source, and dossier helpers. |
+| Python | `python/abgeordnetenwatch.py` | Python parity implementation. |
 | TypeScript / Node.js | `typescript/src/index.ts` | TypeScript source compiled to Node.js JavaScript. |
 
 ## Runtime data

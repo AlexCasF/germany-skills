@@ -5,13 +5,13 @@ Bundeshaushalt Digital CLI skill for German federal budget research.
 Primary runtime:
 
 ```powershell
-skills\bundeshaushalt\bin\bundeshaushaltctl-2.0.exe doctor
+skills\bundeshaushalt\bin\bundeshaushalt-2.0.exe doctor
 ```
 
 Alternative runtimes:
 
 ```powershell
-python skills\bundeshaushalt\python\bundeshaushaltctl.py doctor
+python skills\bundeshaushalt\python\bundeshaushalt.py doctor
 node skills\bundeshaushalt\typescript\dist\index.js doctor
 ```
 

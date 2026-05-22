@@ -5,7 +5,7 @@ Run date: 2026-05-19
 ## Compile Check
 
 ```powershell
-python -m py_compile skills\regionalatlas\python\regionalatlasctl.py
+python -m py_compile skills\regionalatlas\python\regionalatlas.py
 ```
 
 Result: passed.

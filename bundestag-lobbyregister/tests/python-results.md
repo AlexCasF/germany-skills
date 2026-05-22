@@ -3,7 +3,7 @@
 Implementation:
 
 ```powershell
-python skills\bundestag-lobbyregister\python\lobbyregisterctl.py
+python skills\bundestag-lobbyregister\python\bundestag-lobbyregister.py
 ```
 
 Environment:

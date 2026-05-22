@@ -1,7 +1,7 @@
 import * as https from "node:https";
 import { URL, URLSearchParams } from "node:url";
 
-const APP_NAME = "rechtsinformationenctl";
+const APP_NAME = "rechtsinformationen-bund";
 const BASE_URL = "https://testphase.rechtsinformationen.bund.de/v1";
 const ROOT_URL = "https://testphase.rechtsinformationen.bund.de";
 
@@ -104,7 +104,7 @@ async function main(argv: string[]): Promise<number> {
 }
 
 function printRootHelp(): void {
-  console.log(`rechtsinformationenctl -- official German federal legal information preview API
+  console.log(`rechtsinformationen-bund -- official German federal legal information preview API
 
 Purpose
   Search and cite legal information from the Rechtsinformationen des Bundes
@@ -112,9 +112,9 @@ Purpose
   administrative directives.
 
 Fast paths
-  rechtsinformationenctl doctor
-  rechtsinformationenctl documents search --search-term "Buergergeld" --limit 3
-  rechtsinformationenctl documents dossier --type case-law --document-number KORE600422026 --grep Revision
+  rechtsinformationen-bund doctor
+  rechtsinformationen-bund documents search --search-term "Buergergeld" --limit 3
+  rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision
 
 Legacy endpoint commands
   statistics
@@ -135,19 +135,19 @@ Research commands
 
 function printHelp(path: string[]): void {
   if (path.join(" ") === "documents dossier") {
-    console.log(`rechtsinformationenctl documents dossier
+    console.log(`rechtsinformationen-bund documents dossier
 
 Builds a compact evidence bundle with metadata, source URLs, optional text
 snippets, warnings, and next actions.
 
 Examples
-  rechtsinformationenctl documents dossier --type case-law --document-number KORE600422026 --grep Revision
-  rechtsinformationenctl documents dossier --search-term "Buergergeld" --grep Buergergeld
+  rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision
+  rechtsinformationen-bund documents dossier --search-term "Buergergeld" --grep Buergergeld
 `);
     return;
   }
   if (path.join(" ") === "documents text") {
-    console.log(`rechtsinformationenctl documents text
+    console.log(`rechtsinformationen-bund documents text
 
 Fetches the best HTML/XML source rendition for a known document and extracts
 plain text plus optional grep snippets.
@@ -649,8 +649,8 @@ function envelope(command: string, summary: Record<string, any>, pathOrUrl: stri
       "Use existing official sources for production-grade legal research."
     ],
     nextActions: [
-      "rechtsinformationenctl documents search --search-term \"Buergergeld\" --limit 3",
-      "rechtsinformationenctl documents dossier --type case-law --document-number KORE600422026 --grep Revision"
+      "rechtsinformationen-bund documents search --search-term \"Buergergeld\" --limit 3",
+      "rechtsinformationen-bund documents dossier --type case-law --document-number KORE600422026 --grep Revision"
     ]
   };
 }

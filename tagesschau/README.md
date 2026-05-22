@@ -5,13 +5,13 @@ Tagesschau current-news context skill with feed search and bounded article expan
 Primary runtime:
 
 ```powershell
-& .\skills\tagesschau\bin\tagesschauctl-2.0.exe doctor
+& .\skills\tagesschau\bin\tagesschau-2.0.exe doctor
 ```
 
 Alternative runtimes:
 
 ```powershell
-python skills\tagesschau\python\tagesschauctl.py doctor
+python skills\tagesschau\python\tagesschau.py doctor
 node skills\tagesschau\typescript\dist\index.js doctor
 ```
 

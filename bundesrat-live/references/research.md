@@ -32,9 +32,9 @@ Use this tool for current Bundesrat research where the source trail matters:
 
 ## What It Should Not Be Used For
 
-- Full legislative proceeding history: use `dipctl`.
-- Full legal text: use `rechtsinformationenctl`.
-- Bundestag member/parliamentary data: use `bundestagctl` or `dipctl`.
+- Full legislative proceeding history: use `dip-bundestag`.
+- Full legal text: use `rechtsinformationen-bund`.
+- Bundestag member/parliamentary data: use `bundestag-live` or `dip-bundestag`.
 - Statistical evidence: use Destatis, Regionalatlas, Deutschlandatlas, Dashboard Deutschland, or related statistical tools.
 
 ## Research Sources
