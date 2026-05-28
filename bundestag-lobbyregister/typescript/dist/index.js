@@ -3,7 +3,7 @@ import { URL, URLSearchParams } from "node:url";
 const APP_NAME = "bundestag-lobbyregister";
 const BASE_URL = "https://api.lobbyregister.bundestag.de/rest/v2";
 const PUBLIC_URL = "https://www.lobbyregister.bundestag.de";
-const LEGACY_V1_URL = "https://www.lobbyregister.bundestag.de/sucheDetailJson";
+const RAW_SEARCH_URL = "https://www.lobbyregister.bundestag.de/sucheDetailJson";
 class CLIError extends Error {
     exitCode;
     code;
@@ -48,7 +48,7 @@ async function main(argv) {
             await runStatementsList(argv.slice(2));
         }
         else if (matches(argv, "raw", "search")) {
-            await runV1Search(argv.slice(2));
+            await runRawSearch(argv.slice(2));
         }
         else {
             throw new CLIError(2, "unknown_command", "unknown command path: " + argv.join(" "));
@@ -295,14 +295,14 @@ async function runStatementsList(argv) {
     payload.nextActions = nextActionsForEntry(entry);
     emit(payload);
 }
-async function runV1Search(argv) {
+async function runRawSearch(argv) {
     const parsed = parseArgs(argv);
     const params = new URLSearchParams(parsed.params);
     for (const [key, value] of Object.entries(parsed.flags)) {
         if (!["include-raw", "timeout"].includes(key))
             params.set(key, value);
     }
-    const url = `${LEGACY_V1_URL}?${params.toString()}`;
+    const url = `${RAW_SEARCH_URL}?${params.toString()}`;
     const body = await httpGetText(url, {});
     console.log(body);
 }

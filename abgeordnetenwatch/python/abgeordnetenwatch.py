@@ -17,7 +17,7 @@ if hasattr(sys.stdout, "reconfigure"):
 if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8")
 
-LEGACY_ENTITIES = {
+ENTITY_LABELS = {
     "parliaments": "Parliaments",
     "parliament-periods": "Parliament periods, legislatures, and elections",
     "politicians": "Politicians and candidate/person profile data",
@@ -172,7 +172,7 @@ def run_raw(argv):
     if len(argv) < 2:
         raise CLIError(2, "unknown_command", "expected <entity> list|get")
     entity, action = argv[0], argv[1]
-    if entity not in LEGACY_ENTITIES:
+    if entity not in ENTITY_LABELS:
         raise CLIError(2, "unknown_entity", "unknown entity: " + entity)
     parsed = parse_args(argv[2:])
     params = normalize_params(parsed)

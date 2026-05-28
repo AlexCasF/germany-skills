@@ -20,7 +20,7 @@ const (
 	appName     = "bundestag-lobbyregister"
 	baseURL     = "https://api.lobbyregister.bundestag.de/rest/v2"
 	publicURL   = "https://www.lobbyregister.bundestag.de"
-	rawV1URL = "https://www.lobbyregister.bundestag.de/sucheDetailJson"
+	rawSearchURL = "https://www.lobbyregister.bundestag.de/sucheDetailJson"
 )
 
 type parsedArgs struct {
@@ -76,7 +76,7 @@ func main() {
 	case match(args, "statements", "list"):
 		err = runStatementsList(args[2:])
 	case match(args, "raw", "search"):
-		err = runV1Search(args[2:])
+		err = runRawSearch(args[2:])
 	default:
 		err = cliError{2, "unknown_command", "unknown command path: " + strings.Join(args, " ")}
 	}
@@ -417,7 +417,7 @@ func runStatementsList(argv []string) error {
 	return nil
 }
 
-func runV1Search(argv []string) error {
+func runRawSearch(argv []string) error {
 	parsed := parseArgs(argv)
 	params := parsed.params
 	for k, v := range parsed.flags {
@@ -427,7 +427,7 @@ func runV1Search(argv []string) error {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), timeoutFlag(parsed))
 	defer cancel()
-	u, _ := url.Parse(rawV1URL)
+	u, _ := url.Parse(rawSearchURL)
 	u.RawQuery = params.Encode()
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
 	if err != nil {
@@ -440,7 +440,7 @@ func runV1Search(argv []string) error {
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode >= 400 {
-		return cliError{1, "http_error", fmt.Sprintf("raw V1 endpoint returned HTTP %d", resp.StatusCode)}
+		return cliError{1, "http_error", fmt.Sprintf("raw search endpoint returned HTTP %d", resp.StatusCode)}
 	}
 	os.Stdout.Write(body)
 	if len(body) == 0 || body[len(body)-1] != '\n' {

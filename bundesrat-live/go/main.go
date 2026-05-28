@@ -233,8 +233,8 @@ Flags
 Build a compact dossier for one Bundesrat member from the official member feed.
 
 Examples
-  bundesrat-live members dossier --name "Ã–zdemir"
-  bundesrat-live members dossier --url "https://www.bundesrat.de/SharedDocs/personen/DE/laender/bw/oezdemir-cem.html" --grep "MinisterprÃ¤sident"
+  bundesrat-live members dossier --name "Mustername"
+  bundesrat-live members dossier --url "https://www.bundesrat.de/SharedDocs/example/DE/example.html" --grep "Suchbegriff"
 
 Flags
   --name <text>       Resolve by member name

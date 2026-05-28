@@ -37,7 +37,7 @@ The response usually contains:
 
 - Target/Soll values were reachable through 2026 during testing.
 - Actual/Ist values were reachable through 2024 during testing.
-- The old OpenAPI enum stops at 2021 and should not be treated as authoritative for live year availability.
+- The bundled OpenAPI enum stops at 2021 and should not be treated as authoritative for live year availability.
 - Missing required query params return HTTP 400.
 - Transient HTTP 503 responses can happen under quick repeated node-level requests; the CLIs retry briefly.
 

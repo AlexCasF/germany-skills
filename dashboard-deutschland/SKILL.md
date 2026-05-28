@@ -68,7 +68,7 @@ dashboard-deutschland dashboard dossier --id arbeitsmarkt --indicator-limit 3
 - `dashboard dossier`: bundles one dashboard section and a few normalized indicator summaries.
 - `indicator search`: searches normalized tile titles, tags, text snippets, and source metadata.
 - `indicator get`: returns parsed tile metadata, widgets, text snippets, chart series summaries, and sources.
-- `indicator data`: extracts chart-ready series points from embedded Highcharts config.
+- `indicator data`: extracts chart-ready series points from embedded chart config.
 - `indicator source` / `source`: returns canonical API/source URLs for a tile.
 - `dashboard get`: preserved raw raw dashboard endpoint wrapper.
 - `indicators`: preserved raw raw indicator endpoint wrapper.

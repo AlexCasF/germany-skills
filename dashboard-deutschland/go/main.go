@@ -26,7 +26,7 @@ const (
 	bmweURL        = "https://www.bundeswirtschaftsministerium.de/Redaktion/DE/Dossier/WirtschaftlicheEntwicklung/dashboard-deutschland.html"
 	openDataURL    = "https://www.statistikportal.de/de/open-data"
 	pypiURL        = "https://pypi.org/project/de-dashboarddeutschland/"
-	openAPIRepoURL = "https://github.com/AndreasFischer1985/dashboard-deutschland-api"
+	openAPIRepoURL = "https://github.com/bundesAPI/dashboard-deutschland-api"
 	defaultTimeout = 45 * time.Second
 	defaultLimit   = 10
 	safeLimit      = 100
@@ -197,7 +197,7 @@ func runDoctor(argv []string) error {
 			"Use dashboards list or indicator search before fetching indicator data.",
 			"Fetch indicator data by explicit ID.",
 			"Use small --limit values for chart points.",
-			"Back off on 429, 5xx, or CloudFront/S3 errors.",
+			"Back off on 429, 5xx, or gateway/object-storage errors.",
 		},
 	}
 

@@ -47,7 +47,7 @@ bundesrat-live plenum current --limit 1 --top-limit 5
 bundesrat-live plenum next
 bundesrat-live votes summary
 bundesrat-live presidium --limit 3
-bundesrat-live page --url "https://www.bundesrat.de/SharedDocs/personen/DE/laender/bw/oezdemir-cem.html" --grep "Ministerpräsident"
+bundesrat-live page --url "https://www.bundesrat.de/SharedDocs/example/DE/example.html" --grep "Suchbegriff"
 ```
 
 ## Output Shape

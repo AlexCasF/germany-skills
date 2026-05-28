@@ -45,7 +45,7 @@ Live tests found:
 Each indicator item has a top-level `json` string. This string contains the important research payload:
 
 - chart components
-- Highcharts series and points
+- embedded chart series and points
 - compact widgets
 - explanatory text
 - source links
@@ -64,8 +64,7 @@ Observed normalized contents included:
 
 - chart series `Indikator`
 - chart series `gemeldete offene Stellen`
-- source link to Statistik der Bundesagentur fuer Arbeit
-- source link to Macrobond
+- source links to official and selected provider metadata
 - widgets for unemployment rate, month-over-month unemployed persons, and open vacancies
 - data version date `Maerz 2026`
 
@@ -97,4 +96,4 @@ Use another tool when the user needs:
 - Destatis dashboards page: https://www.destatis.de/DE/Ueber-uns/Aufgaben/dashboards.html
 - BMWE Dashboard Deutschland page: https://www.bundeswirtschaftsministerium.de/Redaktion/DE/Dossier/WirtschaftlicheEntwicklung/dashboard-deutschland.html
 - PyPI generated package docs: https://pypi.org/project/de-dashboarddeutschland/
-- Dashboard Deutschland OpenAPI wrapper: https://github.com/AndreasFischer1985/dashboard-deutschland-api
+- Dashboard Deutschland OpenAPI wrapper: https://github.com/bundesAPI/dashboard-deutschland-api

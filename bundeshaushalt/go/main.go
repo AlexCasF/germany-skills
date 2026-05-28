@@ -27,7 +27,7 @@ const (
 	robotsURL          = "https://www.bundeshaushalt.de/robots.txt"
 	bmfBudgetURL       = "https://www.bundesfinanzministerium.de/Web/DE/Themen/Oeffentliche_Finanzen/Bundeshaushalt/bundeshaushalt.html"
 	bmfDataUseURL      = "https://www.bundesfinanzministerium.de/Datenportal/Nutzungshinweise/nutzungshinweise.html"
-	openAPIWrapperURL  = "https://github.com/anetz89/bundeshaushalt-api"
+	openAPIWrapperURL  = "https://github.com/bundesAPI/bundeshaushalt-api"
 	defaultLimit       = 10
 	safeLimit          = 100
 	defaultTimeout     = 45 * time.Second
@@ -397,7 +397,7 @@ func runYearsList(argv []string) error {
 		"latestTargetYear":  latestTargetYear,
 		"latestActualYear":  latestActualYear,
 		"count":             len(items),
-		"note":              "Known from live endpoint probes and Bundeshaushalt Digital current behavior; the old OpenAPI enum stops at 2021.",
+		"note":              "Known from live endpoint probes and Bundeshaushalt Digital current behavior; the bundled OpenAPI enum stops at 2021.",
 	}
 	payload["items"] = items
 	payload["sources"] = defaultSources()
@@ -979,7 +979,7 @@ func defaultWarnings() []string {
 	return []string{
 		"No exact public rate limit for the Bundeshaushalt Digital API was found; robots.txt publishes Crawl-delay: 30 for crawling-like workflows.",
 		"Actual/Ist values are only available after accounting data exists; newer years can return 404 for quota=actual.",
-		"The old OpenAPI enum is stale and stops at 2021; live endpoint checks show newer target years are available.",
+		"The bundled OpenAPI enum stops at 2021; live endpoint checks show newer target years are available.",
 		"Budget values are nominal euro amounts; use statistical APIs for inflation, population, or macroeconomic context.",
 		"Use BMF attribution and preserve dataset/page URLs in final citations.",
 	}

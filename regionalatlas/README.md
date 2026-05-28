@@ -24,4 +24,4 @@ skills\regionalatlas\bin\regionalatlas.exe sample --indicator <indicator-code> -
 
 ## Main Improvement
 
-The old tool exposed only a raw dynamic-layer query wrapper. The CLI preserves that raw access and adds catalog discovery, field explanations, source metadata, safe samples, query building, dossiers, hard output caps, and three runtime implementations.
+The CLI exposes a raw dynamic-layer query wrapper and adds catalog discovery, field explanations, source metadata, safe samples, query building, dossiers, hard output caps, and three runtime implementations.

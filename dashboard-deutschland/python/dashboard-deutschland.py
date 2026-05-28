@@ -15,7 +15,7 @@ GEO_URL = BASE_URL + "/geojson/de-all.geo.json"
 DESTATIS_URL = "https://www.destatis.de/DE/Ueber-uns/Aufgaben/dashboards.html"
 BMWE_URL = "https://www.bundeswirtschaftsministerium.de/Redaktion/DE/Dossier/WirtschaftlicheEntwicklung/dashboard-deutschland.html"
 PYPI_URL = "https://pypi.org/project/de-dashboarddeutschland/"
-OPENAPI_REPO_URL = "https://github.com/AndreasFischer1985/dashboard-deutschland-api"
+OPENAPI_REPO_URL = "https://github.com/bundesAPI/dashboard-deutschland-api"
 DEFAULT_LIMIT = 10
 SAFE_LIMIT = 100
 
@@ -126,7 +126,7 @@ def run_doctor(argv):
             "Use dashboards list or indicator search before fetching indicator data.",
             "Fetch indicator data by explicit ID.",
             "Use small --limit values for chart points.",
-            "Back off on 429, 5xx, or CloudFront/S3 errors.",
+            "Back off on 429, 5xx, or gateway/object-storage errors.",
         ],
     }
     try:

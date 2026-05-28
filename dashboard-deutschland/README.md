@@ -24,4 +24,4 @@ skills\dashboard-deutschland\bin\dashboard-deutschland.exe indicator data --id <
 
 ## Main Improvement
 
-The old tool exposed raw endpoint wrappers. The CLI preserves those wrappers and adds dashboard discovery, indicator search, parsed tile metadata, chart-ready series extraction, source reporting, dossiers, endpoint diagnostics, and three runtime implementations.
+The CLI exposes raw endpoint wrappers and adds dashboard discovery, indicator search, parsed tile metadata, chart-ready series extraction, source reporting, dossiers, endpoint diagnostics, and three runtime implementations.

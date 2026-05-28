@@ -11,7 +11,7 @@ import urllib.request
 APP_NAME = "bundestag-lobbyregister"
 BASE_URL = "https://api.lobbyregister.bundestag.de/rest/v2"
 PUBLIC_URL = "https://www.lobbyregister.bundestag.de"
-LEGACY_V1_URL = "https://www.lobbyregister.bundestag.de/sucheDetailJson"
+RAW_SEARCH_URL = "https://www.lobbyregister.bundestag.de/sucheDetailJson"
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -52,7 +52,7 @@ def main(argv):
         elif argv[:2] == ["statements", "list"]:
             run_statements_list(argv[2:])
         elif argv[:2] == ["raw", "search"]:
-            run_v1_search(argv[2:])
+            run_raw_search(argv[2:])
         else:
             raise CLIError(2, "unknown_command", "unknown command path: " + " ".join(argv))
     except CLIError as exc:
@@ -298,13 +298,13 @@ def run_statements_list(argv):
     emit(payload)
 
 
-def run_v1_search(argv):
+def run_raw_search(argv):
     parsed = parse_args(argv)
     params = dict(parsed["params"])
     for key, value in parsed["flags"].items():
         if key not in {"include-raw", "timeout"}:
             params[key] = value
-    url = LEGACY_V1_URL + "?" + urllib.parse.urlencode(params)
+    url = RAW_SEARCH_URL + "?" + urllib.parse.urlencode(params)
     req = urllib.request.Request(url, headers={"Accept": "application/json"})
     with urllib.request.urlopen(req, timeout=int(parsed["flags"].get("timeout", "60"))) as resp:
         body = resp.read().decode("utf-8", "replace")

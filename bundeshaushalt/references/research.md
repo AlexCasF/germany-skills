@@ -26,7 +26,7 @@ The API is not a replacement for statistical APIs. Budget values are nominal eur
 - robots.txt: https://www.bundeshaushalt.de/robots.txt
 - BMF federal budget overview: https://www.bundesfinanzministerium.de/Web/DE/Themen/Oeffentliche_Finanzen/Bundeshaushalt/bundeshaushalt.html
 - BMF data portal usage notes: https://www.bundesfinanzministerium.de/Datenportal/Nutzungshinweise/nutzungshinweise.html
-- OpenAPI wrapper source: https://github.com/anetz89/bundeshaushalt-api
+- OpenAPI wrapper source: https://github.com/bundesAPI/bundeshaushalt-api
 
 ## OpenAPI Versus Live Endpoint
 

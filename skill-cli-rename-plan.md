@@ -15,3 +15,11 @@ Goal: make each skill's CLI name match its folder name across docs, binaries, Go
 3. Review each `<skill>/references/*.md` file for real person, party, company, organization, or overly specific example names; replace them with neutral placeholders or general wording.
 4. Remove confusing public mentions of old CLI version labels from Markdown and user-facing/code-comment text where they describe the CLI layout rather than real external API names.
 5. Recheck TypeScript package/bin metadata and rebuilt/generated output for any missed folder-name CLI normalization.
+
+## Second-Pass Neutrality Audit
+
+1. Re-scan every tracked text file for private contact data, real person names, party names, specific organizations, vendor names, and politically loaded wording.
+2. Replace real-world examples with neutral placeholders in repo-owned docs/source while preserving official endpoint names, legal attribution, and source URLs when they are required for citation.
+3. Treat API-owner-published OpenAPI files as immutable reference artifacts; scan findings in those files are documented exceptions, not cleanup targets.
+4. Rebuild generated TypeScript and Go binaries after source edits.
+5. Run a final scanner pass excluding binaries and `.git` metadata.

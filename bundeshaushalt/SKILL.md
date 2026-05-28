@@ -76,7 +76,7 @@ skills\bundeshaushalt\bin\bundeshaushalt.exe budget-data --param year=2025 --par
 
 ## API Caveats
 
-- The old OpenAPI file is stale: its year enum stops at 2021, while live endpoint tests found target data through 2026.
+- The bundled OpenAPI file has a year enum that stops at 2021, while live endpoint tests found target data through 2026.
 - The live endpoint requires at least `year` and `account`; missing required params return HTTP 400.
 - Some node responses include `related` categories such as `agency`, `function`, and `group`; the CLIs parse these.
 - Broad `search` can traverse many hierarchy nodes. Keep `--limit` low and adjust `--max-requests` only when needed.

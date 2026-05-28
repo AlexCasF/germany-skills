@@ -8,7 +8,7 @@ const USER_NOTES_URL = "https://www.bundeshaushalt.de/DE/Service/Benutzerhinweis
 const ROBOTS_URL = "https://www.bundeshaushalt.de/robots.txt";
 const BMF_BUDGET_URL = "https://www.bundesfinanzministerium.de/Web/DE/Themen/Oeffentliche_Finanzen/Bundeshaushalt/bundeshaushalt.html";
 const BMF_DATA_USE_URL = "https://www.bundesfinanzministerium.de/Datenportal/Nutzungshinweise/nutzungshinweise.html";
-const OPENAPI_WRAPPER_URL = "https://github.com/anetz89/bundeshaushalt-api";
+const OPENAPI_WRAPPER_URL = "https://github.com/bundesAPI/bundeshaushalt-api";
 const USER_AGENT = "germany-skills/bundeshaushalt-node";
 const KNOWN_YEARS = Array.from({ length: 15 }, (_, index) => 2012 + index);
 const EARLIEST_KNOWN_YEAR = 2012;
@@ -208,7 +208,7 @@ function runYearsList(_argv) {
         earliestKnownYear: EARLIEST_KNOWN_YEAR,
         latestTargetYear: LATEST_TARGET_YEAR,
         latestActualYear: LATEST_ACTUAL_YEAR,
-        note: "Known from live endpoint probes; the old OpenAPI enum stops at 2021.",
+        note: "Known from live endpoint probes; the bundled OpenAPI enum stops at 2021.",
     };
     payload.items = items;
     payload.sources = defaultSources();
@@ -527,7 +527,7 @@ function defaultWarnings() {
     return [
         "No exact public rate limit for the Bundeshaushalt Digital API was found; robots.txt publishes Crawl-delay: 30 for crawling-like workflows.",
         "Actual/Ist values are only available after accounting data exists; newer years can return 404 for quota=actual.",
-        "The old OpenAPI enum is stale and stops at 2021; live endpoint checks show newer target years are available.",
+        "The bundled OpenAPI enum stops at 2021; live endpoint checks show newer target years are available.",
         "Budget values are nominal euro amounts; use statistical APIs for inflation, population, or macroeconomic context.",
         "Use BMF attribution and preserve dataset/page URLs in final citations.",
     ];

@@ -21,7 +21,7 @@ USER_NOTES_URL = "https://www.bundeshaushalt.de/DE/Service/Benutzerhinweise/benu
 ROBOTS_URL = "https://www.bundeshaushalt.de/robots.txt"
 BMF_BUDGET_URL = "https://www.bundesfinanzministerium.de/Web/DE/Themen/Oeffentliche_Finanzen/Bundeshaushalt/bundeshaushalt.html"
 BMF_DATA_USE_URL = "https://www.bundesfinanzministerium.de/Datenportal/Nutzungshinweise/nutzungshinweise.html"
-OPENAPI_WRAPPER_URL = "https://github.com/anetz89/bundeshaushalt-api"
+OPENAPI_WRAPPER_URL = "https://github.com/bundesAPI/bundeshaushalt-api"
 USER_AGENT = "germany-skills/bundeshaushalt-python"
 
 KNOWN_YEARS = list(range(2012, 2027))
@@ -225,7 +225,7 @@ def run_years_list(argv: list[str]) -> None:
         "earliestKnownYear": EARLIEST_KNOWN_YEAR,
         "latestTargetYear": LATEST_TARGET_YEAR,
         "latestActualYear": LATEST_ACTUAL_YEAR,
-        "note": "Known from live endpoint probes; the old OpenAPI enum stops at 2021.",
+        "note": "Known from live endpoint probes; the bundled OpenAPI enum stops at 2021.",
     }
     payload["items"] = items
     payload["sources"] = default_sources()
@@ -561,7 +561,7 @@ def default_warnings() -> list[str]:
     return [
         "No exact public rate limit for the Bundeshaushalt Digital API was found; robots.txt publishes Crawl-delay: 30 for crawling-like workflows.",
         "Actual/Ist values are only available after accounting data exists; newer years can return 404 for quota=actual.",
-        "The old OpenAPI enum is stale and stops at 2021; live endpoint checks show newer target years are available.",
+        "The bundled OpenAPI enum stops at 2021; live endpoint checks show newer target years are available.",
         "Budget values are nominal euro amounts; use statistical APIs for inflation, population, or macroeconomic context.",
         "Use BMF attribution and preserve dataset/page URLs in final citations.",
     ]

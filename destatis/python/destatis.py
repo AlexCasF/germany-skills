@@ -18,7 +18,7 @@ if hasattr(sys.stdout, "reconfigure"):
 if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8")
 
-LEGACY_PATHS = {
+RAW_PATHS = {
     "catalogue statistics": "/catalogue/statistics",
     "catalogue tables": "/catalogue/tables",
     "catalogue variables": "/catalogue/variables",
@@ -305,7 +305,7 @@ def run_raw(argv):
     if len(argv) < 2:
         raise CLIError(2, "unknown_command", "expected command group and action")
     command = " ".join(argv[:2])
-    path = LEGACY_PATHS.get(command)
+    path = RAW_PATHS.get(command)
     if not path:
         raise CLIError(2, "unknown_command", "unknown command path: " + " ".join(argv))
     parsed = parse_args(argv[2:])

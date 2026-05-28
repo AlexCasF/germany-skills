@@ -12,7 +12,7 @@ APP_NAME = "rechtsinformationen-bund"
 BASE_URL = "https://testphase.rechtsinformationen.bund.de/v1"
 ROOT_URL = "https://testphase.rechtsinformationen.bund.de"
 
-LEGACY_COMMANDS = {
+RAW_COMMANDS = {
     "statistics": ("/statistics", "singleton"),
     "documents list": ("/document", "list"),
     "documents search": ("/document/lucene-search", "list"),
@@ -144,7 +144,7 @@ def run_doctor():
 
 
 def run_raw(command, argv):
-    path_template, kind = LEGACY_COMMANDS[command]
+    path_template, kind = RAW_COMMANDS[command]
     parsed = parse_args(argv)
     path = fill_path(path_template, parsed, command)
     params = raw_params(parsed)
@@ -279,7 +279,7 @@ def source_text(source):
 def resolve_raw(argv):
     for width in (3, 2, 1):
         key = " ".join(argv[:width])
-        if key in LEGACY_COMMANDS:
+        if key in RAW_COMMANDS:
             return key, argv[width:]
     raise CLIError(2, "unknown_command", "unknown command path: " + " ".join(argv))
 
