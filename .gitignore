@@ -1,6 +1,5 @@
 # Node / TypeScript
 node_modules/
-typescript/node_modules/
 
 # Python
 __pycache__/
@@ -13,23 +12,16 @@ __pycache__/
 *.test
 
 # Skill test artifacts
-abgeordnetenwatch/tests/
-bundeshaushalt/tests/
-bundesrat-live/tests/
-bundestag-live/tests/
-bundestag-lobbyregister/tests/
-dashboard-deutschland/tests/
-destatis/tests/
-deutschlandatlas/tests/
-dip-bundestag/tests/
-rechtsinformationen-bund/tests/
-regionalatlas/tests/
-tagesschau/tests/
+skills/*/tests/
 
 # Local runtime data
 tmp/
 .env
 .env.*
+
+# Local agent/project instructions
+AGENTS.md
+skill-cli-rename-plan.md
 
 # IDE / OS
 .DS_Store

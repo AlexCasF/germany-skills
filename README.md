@@ -1,104 +1,74 @@
 # Germany Skills
 
-Agent-friendly command-line tools and `SKILL.md` instructions for researching German public data.
+Minimal agent skills and CLIs for read-only research on German public data.
 
-This repository packages a set of read-only research skills around German parliamentary, legal, statistical, budget, transparency, regional, and news data sources. Each skill is designed for agents that can read files and run shell commands: the agent first reads the relevant `SKILL.md`, inspects the CLI help only when needed, and then runs narrow JSON-producing commands with source links.
+This repo is meant to be installed into an agent runtime, not loaded wholesale into model context. Each installer below discovers every folder under `skills/` and keeps only:
 
-The core idea is progressive disclosure. Instead of putting every OpenAPI schema into the model context at startup, each API family lives in its own folder with concise guidance, reference notes, and Go/Python/TypeScript CLI implementations.
+- `skills/<skill>/SKILL.md`
+- one runnable CLI flavor for that runtime
+- shared wrappers in `bin/`
 
-## Included Skills
+Skill-specific READMEs, references, tests, and other source variants are intentionally left out of the runtime install.
 
-| Skill folder | Main CLI | Data focus |
+## One-Line Installs
+
+Choose the runtime your agent can execute.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AlexCasF/germany-skills/main/scripts/install-python.sh | sh
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AlexCasF/germany-skills/main/scripts/install-go.sh | sh
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AlexCasF/germany-skills/main/scripts/install-node.sh | sh
+```
+
+Defaults:
+
+| Runtime | Installs To | Needs |
 | --- | --- | --- |
-| `abgeordnetenwatch` | `abgeordnetenwatch` | Politician profiles, mandates, side jobs, voting and transparency data from abgeordnetenwatch.de. |
-| `bundeshaushalt` | `bundeshaushalt` | German federal budget hierarchy, revenue and spending lines. |
-| `bundesrat-live` | `bundesrat-live` | Bundesrat public website data, dates, news, members, and plenary context. |
-| `bundestag-live` | `bundestag-live` | Bundestag live/public website feeds, agenda, members, and committee context. |
-| `bundestag-lobbyregister` | `bundestag-lobbyregister` | Bundestag Lobbyregister entries and interest-representation metadata. |
-| `dashboard-deutschland` | `dashboard-deutschland` | Dashboard Deutschland indicators and chart-oriented public metrics. |
-| `destatis` | `destatis` | Official German statistics from Destatis GENESIS-style endpoints. |
-| `deutschlandatlas` | `deutschlandatlas` | Deutschlandatlas regional indicators and map-service data. |
-| `dip-bundestag` | `dip-bundestag` | Official Bundestag DIP materials, printed papers, proceedings, activities, and plenary protocol text. |
-| `rechtsinformationen-bund` | `rechtsinformationen-bund` | Official German federal legal information trial API: legislation, case law, and legal documents. |
-| `regionalatlas` | `regionalatlas` | Regionalatlas Deutschland indicators across administrative regions. |
-| `tagesschau` | `tagesschau` | Tagesschau public news feeds, search, channels, and article expansion. |
+| Python | `~/.germany-skills/python` | `python3` or `python` |
+| Go | `~/.germany-skills/go` | `go` |
+| TS/Node.js | `~/.germany-skills/node` | `node` |
 
-## Repository Layout
-
-Each skill folder follows the same general shape:
-
-```text
-<skill>/
-  SKILL.md                 agent-facing usage guidance
-  README.md                human-facing tool notes, where available
-  references/              OpenAPI files, research notes, rate-limit notes
-  go/                   standalone Go CLI source
-  python/                  Python CLI implementation
-  typescript/              TypeScript/Node.js CLI implementation
-  bin/                     locally built Windows binaries, where available
-```
-
-## Quick Start
-
-Clone the repository:
+After install, add the runtime `bin` folder to `PATH`, for example:
 
 ```bash
-git clone https://github.com/AlexCasF/germany-skills.git
-cd germany-skills
+export PATH="$HOME/.germany-skills/python/bin:$PATH"
+dip-bundestag doctor
 ```
 
-Run a Go CLI directly from source:
+To install somewhere else:
 
 ```bash
-cd dip-bundestag/go && go run . doctor
+curl -fsSL https://raw.githubusercontent.com/AlexCasF/germany-skills/main/scripts/install-python.sh | GERMANY_SKILLS_HOME="$PWD/skills" sh
 ```
 
-Run the Python flavor:
+To pin a branch, tag, or commit archive:
 
 ```bash
-python dip-bundestag/python/dip-bundestag.py doctor
+curl -fsSL https://raw.githubusercontent.com/AlexCasF/germany-skills/main/scripts/install-node.sh | GERMANY_SKILLS_REF=main sh
 ```
 
-Build and run the TypeScript/Node.js flavor:
+## Agent Workflow
 
-```bash
-npm --prefix dip-bundestag/typescript ci && npm --prefix dip-bundestag/typescript run build && node dip-bundestag/typescript/dist/index.js doctor
-```
+1. Pick the likely data family.
+2. Read only `skills/<skill>/SKILL.md`.
+3. Run `<skill> --help`, then subcommand help only if needed.
+4. Prefer narrow JSON commands such as `doctor`, `search`, `source`, `text`, or `dossier`.
+5. Preserve source URLs, identifiers, timestamps, and warnings returned by the CLI.
 
-Run a prebuilt Windows binary where available:
+## Current Skill CLIs
 
-```powershell
-.\dip-bundestag\bin\dip-bundestag.exe doctor
-```
+The installers automatically include every future skill added under `skills/`. The current CLI names are:
 
-## For Agents
+`abgeordnetenwatch`, `bundeshaushalt`, `bundesrat-live`, `bundestag-live`, `bundestag-lobbyregister`, `dashboard-deutschland`, `destatis`, `deutschlandatlas`, `dip-bundestag`, `rechtsinformationen-bund`, `regionalatlas`, `tagesschau`.
 
-Start with [AGENTS.md](AGENTS.md). It explains how Codex, Claude Code, Hermes/OpenClaw/Pi/Picoclaw-style computer agents, and ADK-style agents can discover and use the skill folders without loading the whole repository into context.
-
-The safest default workflow is:
-
-1. Read the target skill's `SKILL.md`.
-2. Run `<cli> --help`.
-3. Run `<cli> <group> --help` only when needed.
-4. Prefer `doctor`, `search`, `source`, `text`, and `dossier` helpers before broad endpoint calls.
-5. Preserve returned source URLs in final answers.
-
-## API Keys And Fair Use
-
-Most data sources are unauthenticated public APIs. Some endpoints require credentials or have documented fair-use expectations. Check each skill's `references/rate-limits-and-terms.md` before high-volume use.
-
-For DIP Bundestag, set `DIP_API_KEY` when using `dip-bundestag`:
-
-```bash
-export DIP_API_KEY="your-key"
-```
-
-On PowerShell:
-
-```powershell
-$env:DIP_API_KEY = "your-key"
-```
+Some sources need credentials for full use. For example, set `DIP_API_KEY` before using authenticated DIP commands.
 
 ## License
 
-Code and original documentation in this repository are licensed under the Apache License 2.0. Reference OpenAPI files, public API metadata, and third-party source material may remain subject to their original publishers' terms; see the per-skill reference notes.
+Code and original documentation are Apache-2.0. API-owner reference files and public metadata remain subject to their original publishers' terms.
